@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>一位可可爱爱的编橙爱好者</title>
-  
-  
+  <icon>https://www.gravatar.com/avatar/560d60bc4bbfec4b10e3ea23f4d15430</icon>
+  <subtitle>欢迎来到爱的小屋</subtitle>
   <link href="https://github.com/a2914475618/a2914475618.githup.io.git/atom.xml" rel="self"/>
   
   <link href="https://github.com/a2914475618/a2914475618.githup.io.git/"/>
@@ -11,7 +11,7 @@
   
   <author>
     <name>Lu sir</name>
-    
+    <email>2914475618@qq.com</email>
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
