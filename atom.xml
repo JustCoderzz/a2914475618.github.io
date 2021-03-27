@@ -6,7 +6,7 @@
   <link href="https://github.com/a2914475618/a2914475618.githup.io.git/atom.xml" rel="self"/>
   
   <link href="https://github.com/a2914475618/a2914475618.githup.io.git/"/>
-  <updated>2021-03-24T05:56:49.202Z</updated>
+  <updated>2021-03-27T04:35:23.821Z</updated>
   <id>https://github.com/a2914475618/a2914475618.githup.io.git/</id>
   
   <author>
@@ -17,22 +17,47 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>来聆听我的故事吧</title>
+    <link href="https://github.com/a2914475618/a2914475618.githup.io.git/2021/03/27/postAbout-Me/"/>
+    <id>https://github.com/a2914475618/a2914475618.githup.io.git/2021/03/27/postAbout-Me/</id>
+    <published>2021-03-26T16:00:00.000Z</published>
+    <updated>2021-03-27T04:35:23.821Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="About-Me"><a href="#About-Me" class="headerlink" title="About Me"></a><strong>About Me</strong></h1><h2 id="Who-am-I"><a href="#Who-am-I" class="headerlink" title="Who am I ?"></a>Who am I ?</h2><ul><li><em>在下是一名有着有趣灵魂的大二学长，写博客的初衷也是觉得有趣，日后会在博客上分享一些心情随笔以及技术文档</em></li><li><em>我平常的爱好就是听听Music啦，打打Ball啦，当然我在Game上也是一个genius，有志同道合的朋友欢迎与我多多交流呀</em></li></ul><h2 id="Contact-Me："><a href="#Contact-Me：" class="headerlink" title="Contact Me："></a>Contact Me：</h2><p><em><a href="mailto:&#x32;&#x39;&#49;&#x34;&#52;&#x37;&#53;&#x36;&#49;&#56;&#x40;&#x71;&#x71;&#46;&#x63;&#x6f;&#109;">&#x32;&#x39;&#49;&#x34;&#52;&#x37;&#53;&#x36;&#49;&#56;&#x40;&#x71;&#x71;&#46;&#x63;&#x6f;&#109;</a>(非诚勿扰呀呀呀！！！)</em></p><h2 id="For-this-site："><a href="#For-this-site：" class="headerlink" title="For this site："></a>For this site：</h2><p><em>这是小生私人的博客小屋</em></p><h2 id="Special-version："><a href="#Special-version：" class="headerlink" title="Special version："></a>Special version：</h2><ul><li><em>第一篇博客还是略显生疏，如有叨扰，敬请原谅</em></li><li><em>以后一定会越来越好的呀</em></li><li><em>最后希望看到这个博客的童鞋温柔半两，从容一生</em></li></ul><h2 id="Wish："><a href="#Wish：" class="headerlink" title="Wish："></a>Wish：</h2><p><em>我还要一个人走很长很长的路。但我告诉自己，风来自很远的地方。去去也无妨。</em></p>]]></content>
+    
+    
+    <summary type="html">写一些自己的兴趣爱好,关于我自己的一些小故事，作为我的第一个博客</summary>
+    
+    
+    
+    <category term="关于我" scheme="https://github.com/a2914475618/a2914475618.githup.io.git/categories/%E5%85%B3%E4%BA%8E%E6%88%91/"/>
+    
+    
+    <category term="Me" scheme="https://github.com/a2914475618/a2914475618.githup.io.git/tags/Me/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Hello World</title>
     <link href="https://github.com/a2914475618/a2914475618.githup.io.git/2021/03/24/hello-world/"/>
     <id>https://github.com/a2914475618/a2914475618.githup.io.git/2021/03/24/hello-world/</id>
     <published>2021-03-24T05:56:49.202Z</published>
-    <updated>2021-03-24T05:56:49.202Z</updated>
+    <updated>2021-03-27T04:25:22.077Z</updated>
     
-    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
+    <content type="html"><![CDATA[<h1 id="你好呀，欢迎来到我的世界！"><a href="#你好呀，欢迎来到我的世界！" class="headerlink" title="你好呀，欢迎来到我的世界！"></a><em><strong>你好呀，欢迎来到我的世界！</strong></em></h1><blockquote><p> ​                                        <strong>生如夏花</strong></p><p> ​                                                             –泰戈尔《飞鸟集》</p><p> ​                    我听见回声，来自山谷和心间</p><p> ​                    以寂寞的镰刀收割空旷的灵魂</p><p> ​                    不断地重复决绝，又重复幸福</p><p> ​                            终有绿洲摇曳在沙漠</p><p> ​                                    我相信自己</p><p> ​                    生来如同璀璨的夏日之花</p><p> ​                            不凋不败，妖冶如火</p><p> ​                    承受心跳的负荷和呼吸的累赘</p><p> ​                                    乐此不疲</p><p> ​                    我听见音乐，来自月光和胴体</p><p> ​                    辅极端的诱饵捕获飘渺的唯美</p><p> ​                    一生充盈着激烈，又充盈着纯然</p><p> ​                            总有回忆贯穿于世间</p><p> ​                                    我相信自己</p><p> ​                        死时如同静美的秋日落叶</p><p> ​                        不盛不乱，姿态如烟</p><p> ​                    即便枯萎也保留丰肌清骨的傲然</p><p> ​                                        玄之又玄</p><p> ​                        我听见爱情，我相信爱情</p><p> ​                        爱情是一潭挣扎的蓝藻</p><p> ​                            如同一阵凄微的风</p><p> ​                            穿过我失血的静脉</p><p> ​                                驻守岁月的信念</p><p> ​                            我相信一切能够听见</p><p> ​                    甚至预见离散，遇见另一个自己</p><p> ​                            而有些瞬间无法把握</p><p> ​                    任凭东走西顾，逝去的必然不返</p><p> ​                                请看我头置簪花，</p><p> ​                            一路走来一路盛开</p><p> ​                                频频遗漏一些，</p><p> ​                            又深陷风霜雨雪的感动</p><p> ​                            般若波罗蜜，一声一声</p><p> ​                            生如夏花，死如秋叶</p><p> ​                                还在乎拥有什么</p></blockquote>]]></content>
     
     
       
       
-    <summary type="html">&lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot;&gt;documentation&lt;/a&gt; for</summary>
+    <summary type="html">&lt;h1 id=&quot;你好呀，欢迎来到我的世界！&quot;&gt;&lt;a href=&quot;#你好呀，欢迎来到我的世界！&quot; class=&quot;headerlink&quot; title=&quot;你好呀，欢迎来到我的世界！&quot;&gt;&lt;/a&gt;&lt;em&gt;&lt;strong&gt;你好呀，欢迎来到我的世界！&lt;/strong&gt;&lt;/em&gt;&lt;/h1&gt;&lt;bl</summary>
       
     
     
     
+    <category term="诗歌分享" scheme="https://github.com/a2914475618/a2914475618.githup.io.git/categories/%E8%AF%97%E6%AD%8C%E5%88%86%E4%BA%AB/"/>
+    
+    
+    <category term="飞鸟" scheme="https://github.com/a2914475618/a2914475618.githup.io.git/tags/%E9%A3%9E%E9%B8%9F/"/>
     
   </entry>
   
