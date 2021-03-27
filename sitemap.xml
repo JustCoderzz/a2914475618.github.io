@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://github.com/a2914475618/a2914475618.githup.io.git/about/index.html</loc>
+    
+    <lastmod>2021-03-27</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://github.com/a2914475618/a2914475618.githup.io.git/2021/03/27/EF6codefirst/</loc>
     
     <lastmod>2021-03-27</lastmod>
@@ -46,14 +53,14 @@
 
   
   <url>
-    <loc>https://github.com/a2914475618/a2914475618.githup.io.git/tags/Me/</loc>
+    <loc>https://github.com/a2914475618/a2914475618.githup.io.git/tags/%E9%A3%9E%E9%B8%9F/</loc>
     <lastmod>2021-03-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://github.com/a2914475618/a2914475618.githup.io.git/tags/%E9%A3%9E%E9%B8%9F/</loc>
+    <loc>https://github.com/a2914475618/a2914475618.githup.io.git/tags/Me/</loc>
     <lastmod>2021-03-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -69,14 +76,14 @@
 
   
   <url>
-    <loc>https://github.com/a2914475618/a2914475618.githup.io.git/categories/%E5%85%B3%E4%BA%8E%E6%88%91/</loc>
+    <loc>https://github.com/a2914475618/a2914475618.githup.io.git/categories/%E8%AF%97%E6%AD%8C%E5%88%86%E4%BA%AB/</loc>
     <lastmod>2021-03-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://github.com/a2914475618/a2914475618.githup.io.git/categories/%E8%AF%97%E6%AD%8C%E5%88%86%E4%BA%AB/</loc>
+    <loc>https://github.com/a2914475618/a2914475618.githup.io.git/categories/%E5%85%B3%E4%BA%8E%E6%88%91/</loc>
     <lastmod>2021-03-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
