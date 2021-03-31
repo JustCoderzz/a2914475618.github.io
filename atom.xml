@@ -6,7 +6,7 @@
   <link href="https://github.com/a2914475618/a2914475618.githup.io.git/atom.xml" rel="self"/>
   
   <link href="https://github.com/a2914475618/a2914475618.githup.io.git/"/>
-  <updated>2021-03-30T10:42:56.675Z</updated>
+  <updated>2021-03-31T07:11:21.769Z</updated>
   <id>https://github.com/a2914475618/a2914475618.githup.io.git/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>浅谈mvc</title>
+    <link href="https://github.com/a2914475618/a2914475618.githup.io.git/2021/03/30/post%E6%B5%85%E8%B0%88mvc/"/>
+    <id>https://github.com/a2914475618/a2914475618.githup.io.git/2021/03/30/post%E6%B5%85%E8%B0%88mvc/</id>
+    <published>2021-03-30T11:11:36.000Z</published>
+    <updated>2021-03-31T07:11:21.769Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="mvc学习记录（更新中）"><a href="#mvc学习记录（更新中）" class="headerlink" title="mvc学习记录（更新中）"></a>mvc学习记录（更新中）</h1><p>该笔记结构杂，不推荐观看</p><h2 id="MVC零碎记录"><a href="#MVC零碎记录" class="headerlink" title="MVC零碎记录"></a>MVC零碎记录</h2><ul><li><p>mvc本质上是一个类库程序，没有入口函数</p></li><li><p>global.asax与app_start合在一起用的，做到项目启动配置的文件</p></li><li><p>global里的application start 只在application开始（启动iis）的时候运行一次，所以如果改动了application_start（）里调用的内容，需要重启iis</p></li><li><p>packages.config指示项目加载哪些References里的Nugit的DLL程序集</p></li><li><p>web.config配置文件</p></li><li><p>一个controller可以有若干个Action</p></li><li><p>mvc靠约定主导的，默认去找控制器同名VIEW下的页面</p></li><li><p>controller继承基类controller</p></li><li><p>添加1.[httpGet]2.[httpPost] 标记</p></li><li><p>mvc的起点是global，</p></li><li><p>global调用了app_start的文件</p></li><li><p>路由里面也可以添加限制constrans 如@”\d+”要求id必须为数字</p></li><li><p>constrans覆盖了id optional</p></li><li><p>也可以在Action上面添加[Route(参数)]标签，类似于[httppost]，要使用route-attribute的话，要在route配置文件里里添加routes.MapMvcAttributeRoutes();</p></li><li><p>Action的返回值是ActionResult</p></li><li><p>mvc和core的对比：没有@page声明所以需要通过mvc框架来实现，controller到action到view</p></li><li><p>htmlhelper生成html标签：</p></li><li><p>@using(html.brginform()){</p></li><li><p>@html.label(“username”)//不推荐</p></li><li><p>@html.labelfor(m=&gt;m.username)//推荐使用LAMBDA表达式</p></li><li><p>}</p></li><li><p>ACTION里面的参数可以Int enum 等</p></li><li><p>最强的是参数为model，model绑定 ，默认将 前台用户输入的数据通过Model传到后台</p></li><li><p>要想在MVC中给标签加Style，在Htmlhelper后面加样式</p></li><li><p>@html。textbox（”name”,” “,new{style=”color:blue;”, @class=”red”}）</p></li><li><p>@html.dropdownlistfor(m=&gt;m.InviterSelected,new SelectList(Model.InviterOptions.id,”Id”,”Name”,2,new int []{1}),”——“,null)</p></li><li><p>//2为选中的ID，选中项，new的数组是DISABLE不显示的项</p></li><li><p>lambda表达式必须指定简单类型，不能用复杂类型</p></li><li><p>给视图指定MODEL的时候应写成@model记得是小写</p></li><li><p>用for的原因是有利于后台绑定，foreach绑定的NAME为item.属性，这样后台就没有办法知道你绑定是谁，如果只是呈现的话可以用foreach但是向后台传值的话用FOR</p></li><li><p>按HTTP协议，CHECKBOX没选中，就不往后台传值（而不是往后台传FALSE），mvc通过<input  type="hidden" value="fasle">获得true/false的值，勾选就可以false</p></li><li><p>站内的重定向用RedirectToAction(“Index”,”Home”)，站外的用Redirect</p></li><li><p>操作系统不是企业应用（鸿蒙操作系统）</p></li><li><p>企业应用：复杂，数据库，用户界面，业务逻辑</p></li></ul><h2 id="三层架构："><a href="#三层架构：" class="headerlink" title="三层架构："></a>三层架构：</h2><ul><li>数据层：DAL：完成数据的持久化</li><li>展示层：UI：和用户交互</li><li>业务层：BLL：进行业务</li><li>关系：</li><li>ui-&gt;bll-&gt;dal-&gt;database</li><li>注意：</li><li>只允许上层调用下层，下层不能调用上层</li><li>相邻层之间才能交互，不允许跨层交互</li><li>三层项目隔离，通过REFERENCES引用</li><li>引用是单向的</li><li>为什么需要分层？</li><li>微服务不好</li><li>方便项目组织维护</li><li>前后端分离</li><li>DTO（DATA TRANSFERE object）：数据运转对象，用于数据传递的对象,是一个实体 </li></ul><h2 id="特别声明："><a href="#特别声明：" class="headerlink" title="特别声明："></a>特别声明：</h2><p>里面的内容都是我学习中一些不曾了解的记录，方便我日后进行资料的搜集以及复习</p><p>未完待续。。。</p><p>更新时间：</p><p>2021/3/31/15：00</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;mvc学习记录（更新中）&quot;&gt;&lt;a href=&quot;#mvc学习记录（更新中）&quot; class=&quot;headerlink&quot; title=&quot;mvc学习记录（更新中）&quot;&gt;&lt;/a&gt;mvc学习记录（更新中）&lt;/h1&gt;&lt;p&gt;该笔记结构杂，不推荐观看&lt;/p&gt;
+&lt;h2 id=&quot;MVC零碎</summary>
+      
+    
+    
+    
+    <category term="技术文档" scheme="https://github.com/a2914475618/a2914475618.githup.io.git/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E6%A1%A3/"/>
+    
+    
+    <category term="笔记" scheme="https://github.com/a2914475618/a2914475618.githup.io.git/tags/%E7%AC%94%E8%AE%B0/"/>
+    
+  </entry>
   
   <entry>
     <title>Linq查询基础</title>
@@ -172,7 +197,7 @@
     <published>2021-03-26T16:00:00.000Z</published>
     <updated>2021-03-27T04:35:23.821Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="About-Me"><a href="#About-Me" class="headerlink" title="About Me"></a><strong>About Me</strong></h1><h2 id="Who-am-I"><a href="#Who-am-I" class="headerlink" title="Who am I ?"></a>Who am I ?</h2><ul><li><em>在下是一名有着有趣灵魂的大二学长，写博客的初衷也是觉得有趣，日后会在博客上分享一些心情随笔以及技术文档</em></li><li><em>我平常的爱好就是听听Music啦，打打Ball啦，当然我在Game上也是一个genius，有志同道合的朋友欢迎与我多多交流呀</em></li></ul><h2 id="Contact-Me："><a href="#Contact-Me：" class="headerlink" title="Contact Me："></a>Contact Me：</h2><p><em><a href="mailto:&#x32;&#57;&#49;&#52;&#x34;&#x37;&#53;&#x36;&#x31;&#56;&#x40;&#113;&#x71;&#x2e;&#x63;&#x6f;&#x6d;">&#x32;&#57;&#49;&#52;&#x34;&#x37;&#53;&#x36;&#x31;&#56;&#x40;&#113;&#x71;&#x2e;&#x63;&#x6f;&#x6d;</a>(非诚勿扰呀呀呀！！！)</em></p><h2 id="For-this-site："><a href="#For-this-site：" class="headerlink" title="For this site："></a>For this site：</h2><p><em>这是小生私人的博客小屋</em></p><h2 id="Special-version："><a href="#Special-version：" class="headerlink" title="Special version："></a>Special version：</h2><ul><li><em>第一篇博客还是略显生疏，如有叨扰，敬请原谅</em></li><li><em>以后一定会越来越好的呀</em></li><li><em>最后希望看到这个博客的童鞋温柔半两，从容一生</em></li></ul><h2 id="Wish："><a href="#Wish：" class="headerlink" title="Wish："></a>Wish：</h2><p><em>我还要一个人走很长很长的路。但我告诉自己，风来自很远的地方。去去也无妨。</em></p>]]></content>
+    <content type="html"><![CDATA[<h1 id="About-Me"><a href="#About-Me" class="headerlink" title="About Me"></a><strong>About Me</strong></h1><h2 id="Who-am-I"><a href="#Who-am-I" class="headerlink" title="Who am I ?"></a>Who am I ?</h2><ul><li><em>在下是一名有着有趣灵魂的大二学长，写博客的初衷也是觉得有趣，日后会在博客上分享一些心情随笔以及技术文档</em></li><li><em>我平常的爱好就是听听Music啦，打打Ball啦，当然我在Game上也是一个genius，有志同道合的朋友欢迎与我多多交流呀</em></li></ul><h2 id="Contact-Me："><a href="#Contact-Me：" class="headerlink" title="Contact Me："></a>Contact Me：</h2><p><em><a href="mailto:&#x32;&#57;&#x31;&#x34;&#52;&#x37;&#x35;&#54;&#x31;&#x38;&#x40;&#x71;&#x71;&#46;&#99;&#x6f;&#x6d;">&#x32;&#57;&#x31;&#x34;&#52;&#x37;&#x35;&#54;&#x31;&#x38;&#x40;&#x71;&#x71;&#46;&#99;&#x6f;&#x6d;</a>(非诚勿扰呀呀呀！！！)</em></p><h2 id="For-this-site："><a href="#For-this-site：" class="headerlink" title="For this site："></a>For this site：</h2><p><em>这是小生私人的博客小屋</em></p><h2 id="Special-version："><a href="#Special-version：" class="headerlink" title="Special version："></a>Special version：</h2><ul><li><em>第一篇博客还是略显生疏，如有叨扰，敬请原谅</em></li><li><em>以后一定会越来越好的呀</em></li><li><em>最后希望看到这个博客的童鞋温柔半两，从容一生</em></li></ul><h2 id="Wish："><a href="#Wish：" class="headerlink" title="Wish："></a>Wish：</h2><p><em>我还要一个人走很长很长的路。但我告诉自己，风来自很远的地方。去去也无妨。</em></p>]]></content>
     
     
     <summary type="html">写一些自己的兴趣爱好,关于我自己的一些小故事，作为我的第一个博客</summary>
