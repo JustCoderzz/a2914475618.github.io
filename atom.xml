@@ -6,7 +6,7 @@
   <link href="https://a2914475618.github.io/atom.xml" rel="self"/>
   
   <link href="https://a2914475618.github.io/"/>
-  <updated>2021-04-02T09:46:33.392Z</updated>
+  <updated>2021-04-03T06:34:13.369Z</updated>
   <id>https://a2914475618.github.io/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Linux初探</title>
+    <link href="https://a2914475618.github.io/2021/04/03/postLinux/"/>
+    <id>https://a2914475618.github.io/2021/04/03/postLinux/</id>
+    <published>2021-04-03T04:04:24.000Z</published>
+    <updated>2021-04-03T06:34:13.369Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Linux-更新中"><a href="#Linux-更新中" class="headerlink" title="Linux(更新中)"></a>Linux(更新中)</h1><p>2021/4/3学习了Linux的相关基础知识，本来准备在电脑上安装linux的的，但是感觉以目前的知识储备，还是应该先学好一些更加基础的部分，所以决定在以后，重新学习一下Linux的命令,Vim,Xshell。</p><h2 id="入门概述"><a href="#入门概述" class="headerlink" title="入门概述"></a>入门概述</h2><h3 id="我们为什么学Linux"><a href="#我们为什么学Linux" class="headerlink" title="我们为什么学Linux"></a>我们为什么学Linux</h3><ul><li>在服务器端，在开发领域linux屹立不倒</li><li>一些大的项目部署在服务器都是用的Linux</li><li>开源社区Linux屹立不倒</li><li>一位后端程序员必须掌握的技能</li></ul><h3 id="什么是Linux"><a href="#什么是Linux" class="headerlink" title="什么是Linux"></a>什么是Linux</h3><blockquote><p>Linux 是一套免费使用和自由传播的类 Unix 操作系统，是一个基于 POSIX（可移植操作系统接口） 和 UNIX 的多用户、多任务、支持多线程和多 CPU 的操作系统。</p><p>Linux 能运行主要的 UNIX 工具软件、应用程序和网络协议。它支持 32 位和 64 位硬件。Linux 继承了 Unix 以网络为核心的设计思想，是一个性能稳定的多用户网络操作系统。</p><p>Linux一切皆文件。</p></blockquote><h3 id="Linux发行版"><a href="#Linux发行版" class="headerlink" title="Linux发行版"></a>Linux发行版</h3><p>Linux 的发行版说简单点就是将 Linux 内核与应用软件做一个打包</p><p>![`IXXH_S8OSTCA_5TX6RV5NI.png](<a href="https://i.loli.net/2021/04/03/nN2i1y96Rme8d5Y.png">https://i.loli.net/2021/04/03/nN2i1y96Rme8d5Y.png</a>)</p><p>目前市面上较知名的发行版有：Ubuntu、RedHat、CentOS、Debian、Fedora、SuSE、OpenSUSE、Arch Linux、SolusOS 等。</p><h3 id="Linux和Windows"><a href="#Linux和Windows" class="headerlink" title="Linux和Windows"></a>Linux和Windows</h3><blockquote><p>![E__S~5@7_04X15V1G`WVE_6.png](<a href="https://i.loli.net/2021/04/03/VANgCYQIj4KlvsF.png">https://i.loli.net/2021/04/03/VANgCYQIj4KlvsF.png</a>)</p></blockquote><h2 id="未完待续…"><a href="#未完待续…" class="headerlink" title="未完待续…"></a>未完待续…</h2>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;Linux-更新中&quot;&gt;&lt;a href=&quot;#Linux-更新中&quot; class=&quot;headerlink&quot; title=&quot;Linux(更新中)&quot;&gt;&lt;/a&gt;Linux(更新中)&lt;/h1&gt;&lt;p&gt;2021/4/3学习了Linux的相关基础知识，本来准备在电脑上安装linux的</summary>
+      
+    
+    
+    
+    <category term="操作系统学习" scheme="https://a2914475618.github.io/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+    <category term="Linux" scheme="https://a2914475618.github.io/tags/Linux/"/>
+    
+  </entry>
   
   <entry>
     <title>Git基础</title>
@@ -223,7 +247,7 @@
     <published>2021-03-26T16:00:00.000Z</published>
     <updated>2021-04-02T09:46:33.389Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="About-Me"><a href="#About-Me" class="headerlink" title="About Me"></a><strong>About Me</strong></h1><h2 id="Who-am-I"><a href="#Who-am-I" class="headerlink" title="Who am I ?"></a>Who am I ?</h2><ul><li><em>在下是一名有着有趣灵魂的大二学长，写博客的初衷也是觉得有趣，日后会在博客上分享一些心情随笔以及技术文档</em></li><li><em>我平常的爱好就是听听Music啦，打打Ball啦，当然我在Game上也是一个genius，有志同道合的朋友欢迎与我多多交流呀</em></li></ul><h2 id="Contact-Me："><a href="#Contact-Me：" class="headerlink" title="Contact Me："></a>Contact Me：</h2><p><em><a href="mailto:&#x32;&#x39;&#49;&#52;&#52;&#x37;&#x35;&#x36;&#x31;&#x38;&#64;&#113;&#113;&#46;&#99;&#111;&#109;">&#x32;&#x39;&#49;&#52;&#52;&#x37;&#x35;&#x36;&#x31;&#x38;&#64;&#113;&#113;&#46;&#99;&#111;&#109;</a>(非诚勿扰呀呀呀！！！)</em></p><h2 id="For-this-site："><a href="#For-this-site：" class="headerlink" title="For this site："></a>For this site：</h2><p><em>这是小生私人的博客小屋</em></p><h2 id="Special-version："><a href="#Special-version：" class="headerlink" title="Special version："></a>Special version：</h2><ul><li><em>第一篇博客还是略显生疏，如有叨扰，敬请原谅</em></li><li><em>以后一定会越来越好的呀</em></li><li><em>最后希望看到这个博客的童鞋温柔半两，从容一生</em></li></ul><h2 id="Wish："><a href="#Wish：" class="headerlink" title="Wish："></a>Wish：</h2><p><em>我还要一个人走很长很长的路。但我告诉自己，风来自很远的地方。去去也无妨。</em></p>]]></content>
+    <content type="html"><![CDATA[<h1 id="About-Me"><a href="#About-Me" class="headerlink" title="About Me"></a><strong>About Me</strong></h1><h2 id="Who-am-I"><a href="#Who-am-I" class="headerlink" title="Who am I ?"></a>Who am I ?</h2><ul><li><em>在下是一名有着有趣灵魂的大二学长，写博客的初衷也是觉得有趣，日后会在博客上分享一些心情随笔以及技术文档</em></li><li><em>我平常的爱好就是听听Music啦，打打Ball啦，当然我在Game上也是一个genius，有志同道合的朋友欢迎与我多多交流呀</em></li></ul><h2 id="Contact-Me："><a href="#Contact-Me：" class="headerlink" title="Contact Me："></a>Contact Me：</h2><p><em><a href="mailto:&#x32;&#x39;&#49;&#x34;&#x34;&#55;&#53;&#54;&#49;&#x38;&#64;&#113;&#x71;&#46;&#99;&#x6f;&#109;">&#x32;&#x39;&#49;&#x34;&#x34;&#55;&#53;&#54;&#49;&#x38;&#64;&#113;&#x71;&#46;&#99;&#x6f;&#109;</a>(非诚勿扰呀呀呀！！！)</em></p><h2 id="For-this-site："><a href="#For-this-site：" class="headerlink" title="For this site："></a>For this site：</h2><p><em>这是小生私人的博客小屋</em></p><h2 id="Special-version："><a href="#Special-version：" class="headerlink" title="Special version："></a>Special version：</h2><ul><li><em>第一篇博客还是略显生疏，如有叨扰，敬请原谅</em></li><li><em>以后一定会越来越好的呀</em></li><li><em>最后希望看到这个博客的童鞋温柔半两，从容一生</em></li></ul><h2 id="Wish："><a href="#Wish：" class="headerlink" title="Wish："></a>Wish：</h2><p><em>我还要一个人走很长很长的路。但我告诉自己，风来自很远的地方。去去也无妨。</em></p>]]></content>
     
     
     <summary type="html">写一些自己的兴趣爱好,关于我自己的一些小故事，作为我的第一个博客</summary>
