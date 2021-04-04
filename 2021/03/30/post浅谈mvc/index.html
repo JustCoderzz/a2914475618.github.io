@@ -1,13 +1,13 @@
-<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>浅谈mvc | 一位可可爱爱的编橙爱好者</title><meta name="keywords" content="笔记"><meta name="author" content="Lu sir,2914475618@qq.com"><meta name="copyright" content="Lu sir"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="mvc学习记录（更新中）该笔记结构杂，不推荐观看 MVC零碎记录 mvc本质上是一个类库程序，没有入口函数  global.asax与app_start合在一起用的，做到项目启动配置的文件  global里的application start 只在application开始（启动iis）的时候运行一次，所以如果改动了application_start（）里调用的内容，需要重启iis  packag">
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>浅谈mvc | 一位可可爱爱的编橙爱好者</title><meta name="keywords" content="笔记"><meta name="author" content="Lu sir,2914475618@qq.com"><meta name="copyright" content="Lu sir"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="mvc学习记录（更新中）该笔记结构杂，不推荐观看 MVC零碎记录 Controller所有Controller都：  通常都放置在Controllers文件夹下（试了下，也可以放在其他地方，^_^） 继承自Controller基类：里面保存了Session&#x2F;Request&#x2F;Response等常用属性和Redirect()&#x2F;View()&#x2F;Json()等常用方法  Model贫血&#x2F;充血模式：通常使用贫">
 <meta property="og:type" content="article">
 <meta property="og:title" content="浅谈mvc">
 <meta property="og:url" content="https://a2914475618.github.io/2021/03/30/post%E6%B5%85%E8%B0%88mvc/index.html">
 <meta property="og:site_name" content="一位可可爱爱的编橙爱好者">
-<meta property="og:description" content="mvc学习记录（更新中）该笔记结构杂，不推荐观看 MVC零碎记录 mvc本质上是一个类库程序，没有入口函数  global.asax与app_start合在一起用的，做到项目启动配置的文件  global里的application start 只在application开始（启动iis）的时候运行一次，所以如果改动了application_start（）里调用的内容，需要重启iis  packag">
+<meta property="og:description" content="mvc学习记录（更新中）该笔记结构杂，不推荐观看 MVC零碎记录 Controller所有Controller都：  通常都放置在Controllers文件夹下（试了下，也可以放在其他地方，^_^） 继承自Controller基类：里面保存了Session&#x2F;Request&#x2F;Response等常用属性和Redirect()&#x2F;View()&#x2F;Json()等常用方法  Model贫血&#x2F;充血模式：通常使用贫">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://i.loli.net/2021/03/31/BHriL8utWZgMSny.jpg">
 <meta property="article:published_time" content="2021-03-30T11:11:36.000Z">
-<meta property="article:modified_time" content="2021-04-02T09:46:33.394Z">
+<meta property="article:modified_time" content="2021-04-04T08:55:57.562Z">
 <meta property="article:author" content="Lu sir">
 <meta property="article:tag" content="笔记">
 <meta name="twitter:card" content="summary">
@@ -57,7 +57,7 @@
   isHome: false,
   isHighlightShrink: false,
   isToc: true,
-  postUpdate: '2021-04-02 17:46:33'
+  postUpdate: '2021-04-04 16:55:57'
 }</script><noscript><style type="text/css">
   #nav {
     opacity: 1
@@ -140,78 +140,63 @@
         }
       }
     })(window)</script><link rel="stylesheet" href="css/footer.css"><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="一位可可爱爱的编橙爱好者" type="application/atom+xml">
-</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/img/Touxiang.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">11</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fas fa-comments"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2021/03/31/PFc5QZxWTow7VIf.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">一位可可爱爱的编橙爱好者</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fas fa-comments"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">浅谈mvc</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-03-30T11:11:36.000Z" title="发表于 2021-03-30 19:11:36">2021-03-30</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-04-02T09:46:33.394Z" title="更新于 2021-04-02 17:46:33">2021-04-02</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E6%A1%A3/">技术文档</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">775</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>2分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="浅谈mvc"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="mvc学习记录（更新中）"><a href="#mvc学习记录（更新中）" class="headerlink" title="mvc学习记录（更新中）"></a>mvc学习记录（更新中）</h1><p>该笔记结构杂，不推荐观看</p>
-<h2 id="MVC零碎记录"><a href="#MVC零碎记录" class="headerlink" title="MVC零碎记录"></a>MVC零碎记录</h2><ul>
-<li><p>mvc本质上是一个类库程序，没有入口函数</p>
-</li>
-<li><p>global.asax与app_start合在一起用的，做到项目启动配置的文件</p>
-</li>
-<li><p>global里的application start 只在application开始（启动iis）的时候运行一次，所以如果改动了application_start（）里调用的内容，需要重启iis</p>
-</li>
-<li><p>packages.config指示项目加载哪些References里的Nugit的DLL程序集</p>
-</li>
-<li><p>web.config配置文件</p>
-</li>
-<li><p>一个controller可以有若干个Action</p>
-</li>
-<li><p>mvc靠约定主导的，默认去找控制器同名VIEW下的页面</p>
-</li>
-<li><p>controller继承基类controller</p>
-</li>
-<li><p>添加1.[httpGet]2.[httpPost] 标记</p>
-</li>
-<li><p>mvc的起点是global，</p>
-</li>
-<li><p>global调用了app_start的文件</p>
-</li>
-<li><p>路由里面也可以添加限制constrans 如@”\d+”要求id必须为数字</p>
-</li>
-<li><p>constrans覆盖了id optional</p>
-</li>
-<li><p>也可以在Action上面添加[Route(参数)]标签，类似于[httppost]，要使用route-attribute的话，要在route配置文件里里添加routes.MapMvcAttributeRoutes();</p>
-</li>
-<li><p>Action的返回值是ActionResult</p>
-</li>
-<li><p>mvc和core的对比：没有@page声明所以需要通过mvc框架来实现，controller到action到view</p>
-</li>
-<li><p>htmlhelper生成html标签：</p>
-</li>
-<li><p>@using(html.brginform()){</p>
-</li>
-<li><p>@html.label(“username”)//不推荐</p>
-</li>
-<li><p>@html.labelfor(m=&gt;m.username)//推荐使用LAMBDA表达式</p>
-</li>
-<li><p>}</p>
-</li>
-<li><p>ACTION里面的参数可以Int enum 等</p>
-</li>
-<li><p>最强的是参数为model，model绑定 ，默认将 前台用户输入的数据通过Model传到后台</p>
-</li>
-<li><p>要想在MVC中给标签加Style，在Htmlhelper后面加样式</p>
-</li>
-<li><p>@html。textbox（”name”,” “,new{style=”color:blue;”, @class=”red”}）</p>
-</li>
-<li><p>@html.dropdownlistfor(m=&gt;m.InviterSelected,new SelectList(Model.InviterOptions.id,”Id”,”Name”,2,new int []{1}),”——“,null)</p>
-</li>
-<li><p>//2为选中的ID，选中项，new的数组是DISABLE不显示的项</p>
-</li>
-<li><p>lambda表达式必须指定简单类型，不能用复杂类型</p>
-</li>
-<li><p>给视图指定MODEL的时候应写成@model记得是小写</p>
-</li>
-<li><p>用for的原因是有利于后台绑定，foreach绑定的NAME为item.属性，这样后台就没有办法知道你绑定是谁，如果只是呈现的话可以用foreach但是向后台传值的话用FOR</p>
-</li>
-<li><p>按HTTP协议，CHECKBOX没选中，就不往后台传值（而不是往后台传FALSE），mvc通过<input  type="hidden" value="fasle">获得true/false的值，勾选就可以false</p>
-</li>
-<li><p>站内的重定向用RedirectToAction(“Index”,”Home”)，站外的用Redirect</p>
-</li>
-<li><p>操作系统不是企业应用（鸿蒙操作系统）</p>
-</li>
-<li><p>企业应用：复杂，数据库，用户界面，业务逻辑</p>
-</li>
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/img/Touxiang.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">12</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">12</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fas fa-comments"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2021/03/31/PFc5QZxWTow7VIf.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">一位可可爱爱的编橙爱好者</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fas fa-comments"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">浅谈mvc</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-03-30T11:11:36.000Z" title="发表于 2021-03-30 19:11:36">2021-03-30</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-04-04T08:55:57.562Z" title="更新于 2021-04-04 16:55:57">2021-04-04</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E6%A1%A3/">技术文档</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>14分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="浅谈mvc"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="mvc学习记录（更新中）"><a href="#mvc学习记录（更新中）" class="headerlink" title="mvc学习记录（更新中）"></a>mvc学习记录（更新中）</h1><p>该笔记结构杂，不推荐观看</p>
+<h2 id="MVC零碎记录"><a href="#MVC零碎记录" class="headerlink" title="MVC零碎记录"></a>MVC零碎记录</h2><p><img src="https://i.loli.net/2021/04/04/gURc6IX3Fo2qb8a.png" alt="image.png"></p>
+<h3 id="Controller"><a href="#Controller" class="headerlink" title="Controller"></a>Controller</h3><p>所有Controller都：</p>
+<ul>
+<li>通常都放置在Controllers文件夹下<em>（试了下，也可以放在其他地方，^_^）</em></li>
+<li>继承自Controller基类：里面保存了Session/Request/Response等常用属性和Redirect()/View()/Json()等常用方法</li>
 </ul>
-<h2 id="三层架构："><a href="#三层架构：" class="headerlink" title="三层架构："></a>三层架构：</h2><ul>
+<h3 id="Model"><a href="#Model" class="headerlink" title="Model"></a>Model</h3><p>贫血/充血模式：通常使用<a target="_blank" rel="noopener" href="http://17bang.ren/Article/618">贫血模式</a>，Model就是一个DTO，业务逻辑由额外的entity完成</p>
+<p>由controller传到view：</p>
+<ul>
+<li>通过View()的参数</li>
+<li>View中使用@mode引用，使用@Model取值</li>
+</ul>
+<p>ASP.NET MVC自动绑定，通过Action()参数传递</p>
+<h3 id="View"><a href="#View" class="headerlink" title="View"></a>View</h3><p>.cshtml文件，同：<a target="_blank" rel="noopener" href="http://17bang.ren/Article/431">ASP.NET Core：Layout和section</a>，除了：</p>
+<p>没有@page指令</p>
+<p>MVC中.cshtml文件中<strong>不</strong>能有@page声明，所以被称之为View；View不能 直接处理HTTP请求=&gt; 通过MVC框架呈现</p>
+<p>在RazorPage Application里有@page =&gt; 可以作为Page，被称之为“页面”（Page）</p>
+<h3 id="其他记录"><a href="#其他记录" class="headerlink" title="其他记录"></a>其他记录</h3><ul>
+<li>mvc本质上是一个类库程序，没有入口函数</li>
+<li>global.asax与app_start合在一起用的，做到项目启动配置的文件</li>
+<li>global里的application start 只在application开始（启动iis）的时候运行一次，所以如果改动了application_start（）里调用的内容，需要重启iis</li>
+<li>packages.config指示项目加载哪些References里的Nugit的DLL程序集</li>
+<li>web.config配置文件</li>
+<li>一个controller可以有若干个Action</li>
+<li>mvc靠约定主导的，默认去找控制器同名VIEW下的页面</li>
+<li>controller继承基类controller</li>
+<li>添加1.[httpGet]2.[httpPost] 标记</li>
+<li>mvc的起点是global，</li>
+<li>global调用了app_start的文件</li>
+<li>路由里面也可以添加限制constrans 如@”\d+”要求id必须为数字</li>
+<li>constrans覆盖了id optional</li>
+<li>也可以在Action上面添加[Route(参数)]标签，类似于[httppost]，要使用route-attribute的话，要在route配置文件里里添加routes.MapMvcAttributeRoutes();</li>
+<li>Action的返回值是ActionResult</li>
+<li>mvc和core的对比：没有@page声明所以需要通过mvc框架来实现，controller到action到view</li>
+<li>htmlhelper生成html标签：</li>
+<li>@using(html.brginform()){</li>
+<li>@html.label(“username”)//不推荐</li>
+<li>@html.labelfor(m=&gt;m.username)//推荐使用LAMBDA表达式</li>
+<li>}</li>
+<li>ACTION里面的参数可以Int enum 等</li>
+<li>最强的是参数为model，model绑定 ，默认将 前台用户输入的数据通过Model传到后台</li>
+<li>要想在MVC中给标签加Style，在Htmlhelper后面加样式</li>
+<li>@html。textbox（”name”,” “,new{style=”color:blue;”, @class=”red”}）</li>
+<li>@html.dropdownlistfor(m=&gt;m.InviterSelected,new SelectList(Model.InviterOptions.id,”Id”,”Name”,2,new int []{1}),”——“,null)</li>
+<li>//2为选中的ID，选中项，new的数组是DISABLE不显示的项</li>
+<li>lambda表达式必须指定简单类型，不能用复杂类型</li>
+<li>给视图指定MODEL的时候应写成@model记得是小写</li>
+<li>用for的原因是有利于后台绑定，foreach绑定的NAME为item.属性，这样后台就没有办法知道你绑定是谁，如果只是呈现的话可以用foreach但是向后台传值的话用FOR</li>
+<li>按HTTP协议，CHECKBOX没选中，就不往后台传值（而不是往后台传FALSE），mvc通过<input  type="hidden" value="fasle">获得true/false的值，勾选就可以false</li>
+<li>站内的重定向用RedirectToAction(“Index”,”Home”)，站外的用Redirect</li>
+<li>操作系统不是企业应用（鸿蒙操作系统）</li>
+<li>企业应用：复杂，数据库，用户界面，业务逻辑</li>
+</ul>
+<h2 id="三层架构："><a href="#三层架构：" class="headerlink" title="三层架构："></a>三层架构：</h2><p><img src="https://i.loli.net/2021/04/04/Sm3uOYs9JfUyglx.png" alt="image.png"></p>
+<p><img src="https://i.loli.net/2021/04/04/xvDGjUiaYcmVrXo.png" alt="image.png"></p>
+<ul>
 <li>数据层：DAL：完成数据的持久化</li>
 <li>展示层：UI：和用户交互</li>
 <li>业务层：BLL：进行业务</li>
@@ -227,12 +212,190 @@
 <li>方便项目组织维护</li>
 <li>前后端分离</li>
 <li>DTO（DATA TRANSFERE object）：数据运转对象，用于数据传递的对象,是一个实体 </li>
+<li>Entity就是需要被持久化放到数据库里的类</li>
 </ul>
+<p>相关资料链接：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/yisuowushinian/archive/2013/01/16/2863201.html">https://www.cnblogs.com/yisuowushinian/archive/2013/01/16/2863201.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/hoyong/articles/6480667.html">https://www.cnblogs.com/hoyong/articles/6480667.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/zzqvq/p/5816091.html">https://www.cnblogs.com/zzqvq/p/5816091.html</a></p>
+<h2 id="相关资料搜集"><a href="#相关资料搜集" class="headerlink" title="相关资料搜集"></a>相关资料搜集</h2><ul>
+<li><p>C#中的ref关键词是引用传递，传的是地址，作为参数的类型时，方法中对a进行了修改，则会对原数据造成影响，类似于指针传地址</p>
+</li>
+<li><p>C#中对接口的理解：</p>
+<p>1.C#中对于接口的定义使用关键字interface</p>
+<p>2.接口中的方法都没有方法体。必须在实现它的类中实现方法体</p>
+<p>3.接口没有构造函数，也没有字段</p>
+<p>4.接口及接口中的方法必须定义为public</p>
+<p>5.接口名一般习惯上使用大写的I+自定义名命名</p>
+<p>6.接口可以继承接口，如下面代码中的IB接口，继承了IA接口<br>7.使用接口的话扩充性好</p>
+</li>
+</ul>
+<h3 id="IQueryable："><a href="#IQueryable：" class="headerlink" title="IQueryable："></a>IQueryable：</h3><p>1.如果说接口的含义就是定义了类型的某种“能力”，那么执行LINQ操作所需的能力就是由接口IQueryable来定义的，所以实现IQueryable接口的类就可以执行LINQ操作</p>
+<p>2.IQueryable同时也继承了IEnumerable，所以实现IQueryable的类型也必定是一个可枚举类型</p>
+<p>3.IQueryable只定义了执行LINQ所需的“能力”，像where，select这些方法则是由Queryable实现的，Queryable是一个静态类，内部基本都是IQueryable接口的扩展方法，这些扩展方法利用了IQueryable接口提供的“能力”来实现LINQ功能</p>
+<p>4.AsEnumerable将一个序列向上转换为一个IEnumerable, 强制将Enumerable类下面的查询操作符绑定到后续的子查询当中。<br>AsQueryable将一个序列向下转换为一个IQueryable, 它生成了一个本地查询的IQueryable包装。</p>
+<p>5.AsQueryable是在数据库中查询再返回数据，AsEnumerable是从数据库读取全部数据再在程序中查询，其效果和ToList相同。 总结一下就是用AsQueryable性能会更加优点，但是当需要所有的数据的时候用AsEnumerable更加合适。</p>
+<p>5.扩展方法：</p>
+<ul>
+<li>Aggregate，为集合的元素应用一个累加器，你可以指定累加器的实现。</li>
+<li>All，判断是否集合中所有元素都满足给定的条件。</li>
+<li>Any，判断是否集合中存在一个元素满足给定条件或者是否存在元素。</li>
+<li>Append，在集合的尾部添加元素。</li>
+<li>AsQueryable，将一个IEnumerable转化为IQueryable<em>（对应的实现类型为EnumerableQuery）</em>。</li>
+<li>Average，计算一个数值集合的平均值。</li>
+<li>Cast，将集合中的元素转化为指定的类型。</li>
+<li>Concat，连接两个集合。</li>
+<li>Contains，判断集合是否包含指定的元素。</li>
+<li>Count，计算集合中元素的数量。</li>
+<li>DefaultIfEmpty，获取集合，但如果集合是空的话返回包含一个默认元素的集合。</li>
+<li>Distinct，返回元素均为唯一的集合。</li>
+<li>ElementAt，获取指定索引（Index）处的元素。</li>
+<li>ElementAtOrDefault，获取指定索引（Index）处的元素，若元素为空则返回默认值。</li>
+<li>Except，获取排除指定元素后的集合。</li>
+<li>First，获取集合中的第一个元素。</li>
+<li>FirstOrDefault，获取集合中的第一个元素，若为空则返回默认值。</li>
+<li>GroupBy，使用指定的条件对集合进行分组，使用指定方式构建新元素并返回新的集合。</li>
+<li>GroupJoin，分组与关联两个存在“主外键”关系的集合。</li>
+<li>Intersect，对比指定集合获取交叉项，可指定交叉项的对比方法。</li>
+<li>Join，使用匹配的键值关联指定的集合。</li>
+<li>Last，获取集合中的最后一个元素</li>
+<li>LastOrDefault，获取集合中的最后一个元素，若为空则返回默认值。</li>
+<li>LongCount，以Int64来返回集合中元素的数量。</li>
+<li>Max，获取指定属性值为最大的元素。</li>
+<li>Min，获取指定属性值为最小的元素。</li>
+<li>OfType，使用指定的类型过滤集合中的元素。</li>
+<li>OrderBy，对集合进行升序排序，可以指定排序的属性。</li>
+<li>OrderByDescending，对集合进行降序排序，可以指定排序的属性。</li>
+<li>Prepend，在集合的头部添加元素。</li>
+<li>Reverse，翻转集合顺序。</li>
+<li>Select，将集合中的每个元素转为你指定的新的格式。</li>
+<li>SelectMany，<em>若集合中的元素存在子集合，则可通过该方法将这些属性“选择”出来并生成一个新的集合。</em></li>
+<li>SequenceEqual，判断是否与指定的集合相同。</li>
+<li>Single，获取集合中唯一一个元素，若集合元素为空或超过一个将抛出异常。</li>
+<li>SingleOrDefault，获取结合中唯一一个元素，若集合元素为空或超过一个则获取默认值。</li>
+<li>Skip，跳过指定数量的元素，并返回剩余元素的集合。</li>
+<li>SkipLast，从尾部开始跳过指定数量元素，并返回剩余元素集合。</li>
+<li>SkipWhile，跳过指定条件的元素，并返回剩余元素集合。</li>
+<li>Sum，计算集合中指定属性值得总和。</li>
+<li>Take，从头部开始获取指定个数的元素。</li>
+<li>TakeLast，从尾部开始获取指定个数的元素。</li>
+<li>TakeWhile，获取满足指定条件的元素的集合。</li>
+<li>ThenBy，以升序对集合进行二次排序。</li>
+<li>ThenByDescending，以降序对集合进行二次排序。</li>
+<li>Union，合并两个集合。</li>
+<li>Where，指定的条件过滤集合。</li>
+<li>Zip，使用指定的方式结合两个集合。</li>
+</ul>
+<p>关于IQUERYABLE的资料：</p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/47776558">https://zhuanlan.zhihu.com/p/47776558</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/codefighting/article/details/7048966%EF%BC%88LINQ%E8%AF%AD%E5%8F%A5%E4%B8%AD%E7%9A%84.AsEnumerable()">https://blog.csdn.net/codefighting/article/details/7048966（LINQ语句中的.AsEnumerable()</a> 和 .AsQueryable()的区别）</p>
+<h3 id="SqlHelper通用类："><a href="#SqlHelper通用类：" class="headerlink" title="SqlHelper通用类："></a>SqlHelper通用类：</h3><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 数据库访问通用类</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">SqlHelper</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="built_in">string</span> connectionString;</span><br><span class="line"></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> 设定数据库访问字符串</span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">string</span> ConnectionString</span><br><span class="line">        &#123;</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">set</span> &#123; connectionString = <span class="keyword">value</span>; &#125;</span><br><span class="line">        &#125;</span><br><span class="line">     </span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> 构造函数</span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;connectionString&quot;&gt;</span>数据库访问字符串<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">SqlHelper</span>(<span class="params"><span class="built_in">string</span> connectionString</span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            <span class="keyword">this</span>.connectionString = connectionString;</span><br><span class="line">        &#125;</span><br><span class="line">     </span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> 执行一个查询，并返回查询结果</span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;sql&quot;&gt;</span>要执行的sql语句<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;commandType&quot;&gt;</span>要执行的查询语句的类型，如存储过程或者sql文本命令<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;returns&gt;</span>返回查询结果集<span class="doctag">&lt;/returns&gt;</span></span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> DataTable <span class="title">ExecuteDataTable</span>(<span class="params"><span class="built_in">string</span> sql,CommandType commandType</span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            <span class="keyword">return</span> ExecuteDataTable(sql, commandType, <span class="literal">null</span>);</span><br><span class="line">        &#125;</span><br><span class="line">     </span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> 执行一个查询，并返回结果集</span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;sql&quot;&gt;</span>要执行的sql文本命令<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;returns&gt;</span>返回查询的结果集<span class="doctag">&lt;/returns&gt;</span></span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> DataTable <span class="title">ExecuteDataTable</span>(<span class="params"><span class="built_in">string</span> sql</span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            <span class="keyword">return</span> ExecuteDataTable(sql, CommandType.Text, <span class="literal">null</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<pre><code>    /// &lt;summary&gt;
+    /// 执行一个查询，并返回查询结果
+    /// &lt;/summary&gt;
+    /// &lt;param name=&quot;sql&quot;&gt;要执行的sql语句&lt;/param&gt;
+    /// &lt;param name=&quot;commandtype&quot;&gt;要执行查询语句的类型，如存储过程或者sql文本命令&lt;/param&gt;
+    /// &lt;param name=&quot;parameters&quot;&gt;Transact-SQL语句或者存储过程参数数组&lt;/param&gt;
+    /// &lt;returns&gt;&lt;/returns&gt;
+    public DataTable ExecuteDataTable(string sql, CommandType commandtype, SqlParameter[] parameters)
+    &#123;
+        DataTable data = new DataTable(); //实例化datatable，用于装载查询结果集
+        using (SqlConnection con = new SqlConnection(connectionString))
+        &#123;
+            using (SqlCommand cmd = new SqlCommand(sql, con))
+            &#123;
+                cmd.CommandType = commandtype;//设置command的commandType为指定的Commandtype
+                //如果同时传入了参数，则添加这些参数
+                if (parameters != null)
+                &#123;
+                    foreach (SqlParameter parameter in parameters)
+                    &#123;
+                        cmd.Parameters.Add(parameter);
+                    &#125;
+                &#125;
+ 
+                //通过包含查询sql的sqlcommand实例来实例化sqldataadapter
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                adapter.Fill(data);//填充datatable
+ 
+            &#125;
+        &#125;
+        return data;
+    &#125;
+ 
+    /// &lt;summary&gt;
+    /// 返回一个SqlDataReader对象的实例
+    /// &lt;/summary&gt;
+    /// &lt;param name=&quot;sql&quot;&gt;要执行的SQl查询命令&lt;/param&gt;
+    /// &lt;returns&gt;&lt;/returns&gt;
+    public SqlDataReader ExecuteReader(string sql)
+    &#123;
+        return ExecuteReader(sql, CommandType.Text, null);
+    &#125;
+ 
+    /// &lt;summary&gt;
+    /// 
+    /// &lt;/summary&gt;
+    /// &lt;param name=&quot;sql&quot;&gt;要执行的sql语句&lt;/param&gt;
+    /// &lt;param name=&quot;commandType&quot;&gt;要执行查询语句的类型，如存储过程或者SQl文本命令&lt;/param&gt;
+    /// &lt;returns&gt;&lt;/returns&gt;
+    public SqlDataReader ExecuteReader(string sql,CommandType commandType)
+    &#123;
+        return ExecuteReader(sql, commandType, null);
+    &#125;
+ 
+    /// &lt;summary&gt;
+    /// 返回一个sqldatareader对象的实例
+    /// &lt;/summary&gt;
+    /// &lt;param name=&quot;sql&quot;&gt;&lt;/param&gt;
+    /// &lt;param name=&quot;commandType&quot;&gt;&lt;/param&gt;
+    /// &lt;param name=&quot;parameters&quot;&gt;&lt;/param&gt;
+    /// &lt;returns&gt;&lt;/returns&gt;
+    public SqlDataReader ExecuteReader(string sql, CommandType commandType, SqlParameter[] parameters)
+    &#123;
+        SqlConnection con = new SqlConnection(connectionString);
+        SqlCommand cmd = new SqlCommand(sql, con);
+ 
+        if (parameters != null)
+        &#123;
+            foreach (SqlParameter parameter in parameters)
+            &#123;
+                cmd.Parameters.Add(parameters);
+            &#125;
+        &#125;
+        con.Open();
+        //CommandBehavior.CloseConnection参数指示关闭reader对象时关闭与其关联的Connection对象
+        return cmd.ExecuteReader(CommandBehavior.CloseConnection);
+    &#125;
+ 
+    /// &lt;summary&gt;
+    /// 执行一个查询，返回结果集的首行首列。忽略其他行，其他列
+    /// &lt;/summary&gt;
+    /// &lt;param name=&quot;sql&quot;&gt;要执行的SQl命令&lt;/param&gt;
+    /// &lt;returns&gt;&lt;/returns&gt;
+    public Object ExecuteScalar(string sql)
+    &#123;
+        return ExecuteScalar(sql, CommandType.Text, null);
+    &#125;
+ 
+    /// &lt;summary&gt;
+    /// 
+    /// &lt;/summary&gt;
+    /// &lt;param name=&quot;sql&quot;&gt;&lt;/param&gt;
+    /// &lt;param name=&quot;commandType&quot;&gt;&lt;/param&gt;
+    /// &lt;returns&gt;&lt;/returns&gt;
+    public Object ExecuteScalar(string sql, CommandType commandType)
+    &#123;
+        return ExecuteScalar(sql, commandType, null);
+    &#125;
+</code></pre>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> </span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;sql&quot;&gt;</span><span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;commandType&quot;&gt;</span>参数类型<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;parameters&quot;&gt;</span><span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;returns&gt;</span><span class="doctag">&lt;/returns&gt;</span></span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">ExecuteScalar</span>(<span class="params"><span class="built_in">string</span> sql,CommandType commandType, SqlParameter[] parameters</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        Object result=<span class="literal">null</span>;</span><br><span class="line">        SqlConnection con=<span class="keyword">new</span> SqlConnection(connectionString);</span><br><span class="line">        SqlCommand cmd=<span class="keyword">new</span> SqlCommand(sql,con);</span><br><span class="line">        cmd.CommandType= commandType;</span><br><span class="line">        <span class="keyword">if</span>(parameters!=<span class="literal">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">foreach</span> (SqlParameter parapmeter <span class="keyword">in</span> parameters)</span><br><span class="line">            &#123;</span><br><span class="line">                cmd.Parameters.Add(parapmeter);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">        con.Open();</span><br><span class="line">        result=cmd.ExecuteScalar();</span><br><span class="line">        con.Close();</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 对数据库进行增删改的操作</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;sql&quot;&gt;</span>要执行的sql命令<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;returns&gt;</span><span class="doctag">&lt;/returns&gt;</span></span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="built_in">int</span> <span class="title">ExecuteNonQuery</span>(<span class="params"><span class="built_in">string</span> sql</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="keyword">return</span> ExecuteNonQuery(sql, CommandType.Text, <span class="literal">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 数据库进行增删改的操作</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;sql&quot;&gt;</span>对数据库进行操作的sql命令<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;commandType&quot;&gt;</span>要执行查询语句的类型，如存储过程或者sql文本命令<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;returns&gt;</span><span class="doctag">&lt;/returns&gt;</span></span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="built_in">int</span> <span class="title">ExecuteNonQuery</span>(<span class="params"><span class="built_in">string</span> sql, CommandType commandType</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="keyword">return</span> ExecuteNonQuery(sql, commandType, <span class="literal">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 对数据库进行增删改的操作</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;sql&quot;&gt;</span>要执行的sql语句<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;commandType&quot;&gt;</span>要执行的查询语句类型，如存储过程或者sql文本命令<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;parameters&quot;&gt;</span>Transact-SQL语句或者存储过程的参数数组<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;returns&gt;</span><span class="doctag">&lt;/returns&gt;</span></span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="built_in">int</span> <span class="title">ExecuteNonQuery</span>(<span class="params"><span class="built_in">string</span> sql, CommandType commandType, SqlParameter[] parameters</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="built_in">int</span> count = <span class="number">0</span>;</span><br><span class="line">        SqlConnection con = <span class="keyword">new</span> SqlConnection(connectionString);</span><br><span class="line">        SqlCommand cmd = <span class="keyword">new</span> SqlCommand(sql, con);</span><br><span class="line">        cmd.CommandType = commandType;</span><br><span class="line">        <span class="keyword">if</span> (parameters != <span class="literal">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">foreach</span>(SqlParameter parameter <span class="keyword">in</span> parameters)</span><br><span class="line">            &#123;</span><br><span class="line">                cmd.Parameters.Add(parameter);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">        con.Open();</span><br><span class="line">        count = cmd.ExecuteNonQuery();</span><br><span class="line">        con.Close();</span><br><span class="line">        <span class="keyword">return</span> count;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 返回当前连接的数据库中所有用户创建的数据库</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;returns&gt;</span><span class="doctag">&lt;/returns&gt;</span></span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> DataTable <span class="title">GetTables</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        DataTable table = <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">using</span> (SqlConnection con = <span class="keyword">new</span> SqlConnection(connectionString))</span><br><span class="line">        &#123;</span><br><span class="line">            con.Open();</span><br><span class="line">            table = con.GetSchema(<span class="string">&quot;Tables&quot;</span>);</span><br><span class="line"> </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> table;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="特别声明："><a href="#特别声明：" class="headerlink" title="特别声明："></a>特别声明：</h2><p>里面的内容都是我学习中一些不曾了解的记录，方便我日后进行资料的搜集以及复习</p>
 <p>未完待续。。。</p>
 <p>更新时间：</p>
 <p>2021/3/31/15：00</p>
-</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:2914475618@qq.com">Lu sir</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://a2914475618.github.io/2021/03/30/post%E6%B5%85%E8%B0%88mvc/">https://a2914475618.github.io/2021/03/30/post%E6%B5%85%E8%B0%88mvc/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://a2914475618.github.io" target="_blank">一位可可爱爱的编橙爱好者</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E7%AC%94%E8%AE%B0/">笔记</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2021/03/31/BHriL8utWZgMSny.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/03/31/postgit%E5%9F%BA%E7%A1%80/"><img class="prev-cover" src="https://i.loli.net/2021/04/02/2xndQs8guWhbqm1.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Git基础</div></div></a></div><div class="next-post pull-right"><a href="/2021/03/30/postLinq%E6%9F%A5%E8%AF%A2%E5%9F%BA%E7%A1%80/"><img class="next-cover" src="https://i.loli.net/2021/03/30/3iQLvO8aElWd9Fk.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Linq查询基础</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="/img/Touxiang.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Lu sir</div><div class="author-info__description">如风的少年</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">11</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">欢迎来到爱的小屋，爱你们哟</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#mvc%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95%EF%BC%88%E6%9B%B4%E6%96%B0%E4%B8%AD%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">mvc学习记录（更新中）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#MVC%E9%9B%B6%E7%A2%8E%E8%AE%B0%E5%BD%95"><span class="toc-number">1.1.</span> <span class="toc-text">MVC零碎记录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E5%B1%82%E6%9E%B6%E6%9E%84%EF%BC%9A"><span class="toc-number">1.2.</span> <span class="toc-text">三层架构：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%B9%E5%88%AB%E5%A3%B0%E6%98%8E%EF%BC%9A"><span class="toc-number">1.3.</span> <span class="toc-text">特别声明：</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/04/03/postLinux/" title="Linux初探"><img src="https://i.loli.net/2021/04/03/wOKyCMQoSUIBYhr.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux初探"/></a><div class="content"><a class="title" href="/2021/04/03/postLinux/" title="Linux初探">Linux初探</a><time datetime="2021-04-03T04:04:24.000Z" title="发表于 2021-04-03 12:04:24">2021-04-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/03/31/postgit%E5%9F%BA%E7%A1%80/" title="Git基础"><img src="https://i.loli.net/2021/04/02/2xndQs8guWhbqm1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Git基础"/></a><div class="content"><a class="title" href="/2021/03/31/postgit%E5%9F%BA%E7%A1%80/" title="Git基础">Git基础</a><time datetime="2021-03-31T07:24:29.000Z" title="发表于 2021-03-31 15:24:29">2021-03-31</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/03/30/post%E6%B5%85%E8%B0%88mvc/" title="浅谈mvc"><img src="https://i.loli.net/2021/03/31/BHriL8utWZgMSny.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="浅谈mvc"/></a><div class="content"><a class="title" href="/2021/03/30/post%E6%B5%85%E8%B0%88mvc/" title="浅谈mvc">浅谈mvc</a><time datetime="2021-03-30T11:11:36.000Z" title="发表于 2021-03-30 19:11:36">2021-03-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/03/30/postLinq%E6%9F%A5%E8%AF%A2%E5%9F%BA%E7%A1%80/" title="Linq查询基础"><img src="https://i.loli.net/2021/03/30/3iQLvO8aElWd9Fk.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linq查询基础"/></a><div class="content"><a class="title" href="/2021/03/30/postLinq%E6%9F%A5%E8%AF%A2%E5%9F%BA%E7%A1%80/" title="Linq查询基础">Linq查询基础</a><time datetime="2021-03-30T08:26:18.000Z" title="发表于 2021-03-30 16:26:18">2021-03-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/03/30/post%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%B1%82%E5%80%BC%E5%88%9D%E6%8E%A2/" title="表达式求值初探"><img src="https://i.loli.net/2021/03/30/zZAiDluBbLpChGW.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="表达式求值初探"/></a><div class="content"><a class="title" href="/2021/03/30/post%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%B1%82%E5%80%BC%E5%88%9D%E6%8E%A2/" title="表达式求值初探">表达式求值初探</a><time datetime="2021-03-30T06:04:09.000Z" title="发表于 2021-03-30 14:04:09">2021-03-30</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By Lu sir</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">我的肩上是风，风上是闪烁的星群</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script>var preloader = {
+<p>2021/4/4/16：30</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:2914475618@qq.com">Lu sir</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://a2914475618.github.io/2021/03/30/post%E6%B5%85%E8%B0%88mvc/">https://a2914475618.github.io/2021/03/30/post%E6%B5%85%E8%B0%88mvc/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://a2914475618.github.io" target="_blank">一位可可爱爱的编橙爱好者</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E7%AC%94%E8%AE%B0/">笔记</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2021/03/31/BHriL8utWZgMSny.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/03/31/postgit%E5%9F%BA%E7%A1%80/"><img class="prev-cover" src="https://i.loli.net/2021/04/02/2xndQs8guWhbqm1.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Git基础</div></div></a></div><div class="next-post pull-right"><a href="/2021/03/30/postLinq%E6%9F%A5%E8%AF%A2%E5%9F%BA%E7%A1%80/"><img class="next-cover" src="https://i.loli.net/2021/03/30/3iQLvO8aElWd9Fk.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Linq查询基础</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="/img/Touxiang.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Lu sir</div><div class="author-info__description">如风的少年</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">12</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">12</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">欢迎来到爱的小屋，爱你们哟</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#mvc%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95%EF%BC%88%E6%9B%B4%E6%96%B0%E4%B8%AD%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">mvc学习记录（更新中）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#MVC%E9%9B%B6%E7%A2%8E%E8%AE%B0%E5%BD%95"><span class="toc-number">1.1.</span> <span class="toc-text">MVC零碎记录</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Controller"><span class="toc-number">1.1.1.</span> <span class="toc-text">Controller</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Model"><span class="toc-number">1.1.2.</span> <span class="toc-text">Model</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#View"><span class="toc-number">1.1.3.</span> <span class="toc-text">View</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E8%AE%B0%E5%BD%95"><span class="toc-number">1.1.4.</span> <span class="toc-text">其他记录</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E5%B1%82%E6%9E%B6%E6%9E%84%EF%BC%9A"><span class="toc-number">1.2.</span> <span class="toc-text">三层架构：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E8%B5%84%E6%96%99%E6%90%9C%E9%9B%86"><span class="toc-number">1.3.</span> <span class="toc-text">相关资料搜集</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#IQueryable%EF%BC%9A"><span class="toc-number">1.3.1.</span> <span class="toc-text">IQueryable：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SqlHelper%E9%80%9A%E7%94%A8%E7%B1%BB%EF%BC%9A"><span class="toc-number">1.3.2.</span> <span class="toc-text">SqlHelper通用类：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%B9%E5%88%AB%E5%A3%B0%E6%98%8E%EF%BC%9A"><span class="toc-number">1.4.</span> <span class="toc-text">特别声明：</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/04/03/post%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%B0%8F%E5%A6%99%E6%8B%9B/" title="数据结构小妙招"><img src="https://i.loli.net/2021/04/04/JSFz4hIetPnsYaL.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="数据结构小妙招"/></a><div class="content"><a class="title" href="/2021/04/03/post%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%B0%8F%E5%A6%99%E6%8B%9B/" title="数据结构小妙招">数据结构小妙招</a><time datetime="2021-04-03T09:24:02.000Z" title="发表于 2021-04-03 17:24:02">2021-04-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/03/postLinux/" title="Linux初探"><img src="https://i.loli.net/2021/04/03/wOKyCMQoSUIBYhr.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux初探"/></a><div class="content"><a class="title" href="/2021/04/03/postLinux/" title="Linux初探">Linux初探</a><time datetime="2021-04-03T04:04:24.000Z" title="发表于 2021-04-03 12:04:24">2021-04-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/03/31/postgit%E5%9F%BA%E7%A1%80/" title="Git基础"><img src="https://i.loli.net/2021/04/02/2xndQs8guWhbqm1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Git基础"/></a><div class="content"><a class="title" href="/2021/03/31/postgit%E5%9F%BA%E7%A1%80/" title="Git基础">Git基础</a><time datetime="2021-03-31T07:24:29.000Z" title="发表于 2021-03-31 15:24:29">2021-03-31</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/03/30/post%E6%B5%85%E8%B0%88mvc/" title="浅谈mvc"><img src="https://i.loli.net/2021/03/31/BHriL8utWZgMSny.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="浅谈mvc"/></a><div class="content"><a class="title" href="/2021/03/30/post%E6%B5%85%E8%B0%88mvc/" title="浅谈mvc">浅谈mvc</a><time datetime="2021-03-30T11:11:36.000Z" title="发表于 2021-03-30 19:11:36">2021-03-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/03/30/postLinq%E6%9F%A5%E8%AF%A2%E5%9F%BA%E7%A1%80/" title="Linq查询基础"><img src="https://i.loli.net/2021/03/30/3iQLvO8aElWd9Fk.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linq查询基础"/></a><div class="content"><a class="title" href="/2021/03/30/postLinq%E6%9F%A5%E8%AF%A2%E5%9F%BA%E7%A1%80/" title="Linq查询基础">Linq查询基础</a><time datetime="2021-03-30T08:26:18.000Z" title="发表于 2021-03-30 16:26:18">2021-03-30</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By Lu sir</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">我的肩上是风，风上是闪烁的星群</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script>var preloader = {
   endLoading: () => {
     document.body.style.overflow = 'auto';
     document.getElementById('loading-box').classList.add("loaded")

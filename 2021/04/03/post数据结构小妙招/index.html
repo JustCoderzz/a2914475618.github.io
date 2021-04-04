@@ -1,0 +1,256 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>数据结构小妙招 | 一位可可爱爱的编橙爱好者</title><meta name="keywords" content="数据结构技巧"><meta name="author" content="Lu sir,2914475618@qq.com"><meta name="copyright" content="Lu sir"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="数据结构中的小妙招（更新中）前言：本节用于收藏我数据结构中的一些易错，难的题目，欢迎收看 判断出栈序列的合法性 出栈序列中的每个数后面的比它小的数，是按递减排列的。  简化规则描述： 1、假设入栈顺序为1234。 1）若出栈序列为4123，显然不满足上述要求，因为对于4，它后面比它小的数字序列为123，而123是一个递加系列即不是递减排列，所以不是合法出栈序列。     2）若出栈系列为3142，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构小妙招">
+<meta property="og:url" content="https://a2914475618.github.io/2021/04/03/post%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%B0%8F%E5%A6%99%E6%8B%9B/index.html">
+<meta property="og:site_name" content="一位可可爱爱的编橙爱好者">
+<meta property="og:description" content="数据结构中的小妙招（更新中）前言：本节用于收藏我数据结构中的一些易错，难的题目，欢迎收看 判断出栈序列的合法性 出栈序列中的每个数后面的比它小的数，是按递减排列的。  简化规则描述： 1、假设入栈顺序为1234。 1）若出栈序列为4123，显然不满足上述要求，因为对于4，它后面比它小的数字序列为123，而123是一个递加系列即不是递减排列，所以不是合法出栈序列。     2）若出栈系列为3142，">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2021/04/04/JSFz4hIetPnsYaL.jpg">
+<meta property="article:published_time" content="2021-04-03T09:24:02.000Z">
+<meta property="article:modified_time" content="2021-04-04T09:47:31.817Z">
+<meta property="article:author" content="Lu sir">
+<meta property="article:tag" content="数据结构技巧">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/04/04/JSFz4hIetPnsYaL.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://a2914475618.github.io/2021/04/03/post%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%B0%8F%E5%A6%99%E6%8B%9B/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-04-04 17:47:31'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><link rel="stylesheet" href="css/footer.css"><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="一位可可爱爱的编橙爱好者" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/img/Touxiang.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">12</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">12</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fas fa-comments"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2021/04/04/iLbjDJUHtI3Q6TW.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">一位可可爱爱的编橙爱好者</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fas fa-comments"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">数据结构小妙招</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-04-03T09:24:02.000Z" title="发表于 2021-04-03 17:24:02">2021-04-03</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-04-04T09:47:31.817Z" title="更新于 2021-04-04 17:47:31">2021-04-04</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%AE%97%E6%B3%95%E9%97%AE%E9%A2%98-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">算法问题 数据结构</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">882</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>2分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="数据结构小妙招"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="数据结构中的小妙招（更新中）"><a href="#数据结构中的小妙招（更新中）" class="headerlink" title="数据结构中的小妙招（更新中）"></a>数据结构中的小妙招（更新中）</h1><p>前言：本节用于收藏我数据结构中的一些易错，难的题目，欢迎收看</p>
+<h2 id="判断出栈序列的合法性"><a href="#判断出栈序列的合法性" class="headerlink" title="判断出栈序列的合法性"></a>判断出栈序列的合法性</h2><ul>
+<li>出栈序列中的每个数后面的比它小的数，是按递减排列的。</li>
+</ul>
+<p>简化规则描述：</p>
+<p>1、假设入栈顺序为1234。</p>
+<p>1）若出栈序列为4123，显然不满足上述要求，因为对于4，它后面比它小的数字序列为123，而123是一个递加系列即不是递减排列，所以不是合法出栈序列。    </p>
+<p>2）若出栈系列为3142，也不合法，因为3后面比它小的1和2不是递减排列的。    </p>
+<p>3）若出栈系列为1234，则合法，因为对于每一个数字它后面没有比它小的数字。   </p>
+<p>2、假设入栈顺序为123456789abcdef。    </p>
+<p>1）若出栈系列为67d51f94e2ba83c，因为对于d，它后面比它小的19或123或ac等等都不是递减的，所以不合法。    </p>
+<p>2）若出栈系列为379a8b65c4ed21f，可以证明是合法的出栈顺序。因为对于每一个数字它后面没有比它小的数字而且是按递减排列的。 </p>
+<p>3、证明：</p>
+<p>假设入栈顺序为1234……n，可知在栈中的元素从栈顶到栈底一定是按严格递减排列的,而且每个数i进栈之前,比i小的数一定已经进栈了。</p>
+<p>所以比i小的数要不然已经出栈,要不然在栈中，如果还在栈中则一定在i的下面，按严格递减排列,如此可见如果比i小的数还在栈中则一定在i之后输出,所以输出序列中在i后面的比i小的数一定按严格递减排列.否则出栈系列不合法。</p>
+<p><a target="_blank" rel="noopener" href="https://iknow-pic.cdn.bcebos.com/6a63f6246b600c331b414b12174c510fd9f9a134"><img src="https://iknow-pic.cdn.bcebos.com/6a63f6246b600c331b414b12174c510fd9f9a134?x-bce-process=image/resize,m_lfit,w_600,h_800,limit_1/quality,q_85/format,f_jpg" alt="img"></a></p>
+<p>1．进栈（PUSH）算法</p>
+<p>①若TOP≥n时，则给出溢出信息，作出错处理（进栈前首先检查栈是否已满，满则溢出；不满则作②）；</p>
+<p>②置TOP=TOP+1（栈指针加1，指向进栈地址）；</p>
+<p>③S(TOP)=X，结束（X为新进栈的元素）；</p>
+<p>2．退栈（POP）算法</p>
+<p>①若TOP≤0，则给出下溢信息，作出错处理(退栈前先检查是否已为空栈， 空则下溢；不空则作②)；</p>
+<p>②X=S(TOP)，（退栈后的元素赋给X）：</p>
+<p>③TOP=TOP-1，结束（栈指针减1，指向栈顶）。</p>
+<h2 id="相关真题收集"><a href="#相关真题收集" class="headerlink" title="相关真题收集"></a>相关真题收集</h2><p>1.最大容量为n的循环队列采用教材例题所示的存储结构，队尾指针是rear，队头是front，则队空的条件是（ A）。</p>
+<ul>
+<li> A</li>
+</ul>
+<p>  (rear+1)%n==front</p>
+<ul>
+<li> B</li>
+</ul>
+<p>  rear==front</p>
+<ul>
+<li> C</li>
+</ul>
+<p>  rear+1==front</p>
+<ul>
+<li> D<a href="javascript:void(0);">(rear-l)%n==front</a></li>
+</ul>
+<p>解题方法：只要判断rear=front=0的选项即可</p>
+<p>2.循环队列存储在数组A[0..m]中，则入队时的操作为（D ）。</p>
+<ul>
+<li> A</li>
+</ul>
+<p>  rear=rear+1</p>
+<ul>
+<li> B</li>
+</ul>
+<p>  rear=(rear+1)%(m-1)</p>
+<ul>
+<li> C</li>
+</ul>
+<p>  rear=(rear+1)%m</p>
+<ul>
+<li> D<a href="javascript:void(0);">rear=(rear+1)%(m+1)</a></li>
+</ul>
+<p>3.设栈S和队列Q的初始状态为空，元素e1、e2、e3、e4、e5和e6依次进入栈S，一个元素出栈后即进入Q，若6个元素出队的序列是e2、e4、e3、e6、e5和e1，则栈S的容量至少应该是（B ）。</p>
+<ul>
+<li><p>A   2</p>
+</li>
+<li><p>B   3</p>
+</li>
+<li><p>C   4</p>
+</li>
+<li><p> D    <a href="javascript:void(0);">6</a></p>
+</li>
+</ul>
+<p>解题方法：   出队先出e2表示e1，e2进栈后出e2(这时栈的容量最大为2)，接着出e4，e3表示e3，e4进栈后出e4，e3(这时栈的容量最大为3)，再出e6，e5表示e5，e6进栈后出e6，e5(这时栈的容量最大为3)，最后出e1，所以答案应该是 3</p>
+<h2 id="更新中…"><a href="#更新中…" class="headerlink" title="更新中…"></a>更新中…</h2></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:2914475618@qq.com">Lu sir</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://a2914475618.github.io/2021/04/03/post%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%B0%8F%E5%A6%99%E6%8B%9B/">https://a2914475618.github.io/2021/04/03/post%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%B0%8F%E5%A6%99%E6%8B%9B/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://a2914475618.github.io" target="_blank">一位可可爱爱的编橙爱好者</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E6%8A%80%E5%B7%A7/">数据结构技巧</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2021/04/04/JSFz4hIetPnsYaL.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2021/04/03/postLinux/"><img class="next-cover" src="https://i.loli.net/2021/04/03/wOKyCMQoSUIBYhr.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Linux初探</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="/img/Touxiang.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Lu sir</div><div class="author-info__description">如风的少年</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">12</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">12</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">欢迎来到爱的小屋，爱你们哟</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%AD%E7%9A%84%E5%B0%8F%E5%A6%99%E6%8B%9B%EF%BC%88%E6%9B%B4%E6%96%B0%E4%B8%AD%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">数据结构中的小妙招（更新中）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A4%E6%96%AD%E5%87%BA%E6%A0%88%E5%BA%8F%E5%88%97%E7%9A%84%E5%90%88%E6%B3%95%E6%80%A7"><span class="toc-number">1.1.</span> <span class="toc-text">判断出栈序列的合法性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E7%9C%9F%E9%A2%98%E6%94%B6%E9%9B%86"><span class="toc-number">1.2.</span> <span class="toc-text">相关真题收集</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0%E4%B8%AD%E2%80%A6"><span class="toc-number">1.3.</span> <span class="toc-text">更新中…</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/04/03/post%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%B0%8F%E5%A6%99%E6%8B%9B/" title="数据结构小妙招"><img src="https://i.loli.net/2021/04/04/JSFz4hIetPnsYaL.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="数据结构小妙招"/></a><div class="content"><a class="title" href="/2021/04/03/post%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%B0%8F%E5%A6%99%E6%8B%9B/" title="数据结构小妙招">数据结构小妙招</a><time datetime="2021-04-03T09:24:02.000Z" title="发表于 2021-04-03 17:24:02">2021-04-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/03/postLinux/" title="Linux初探"><img src="https://i.loli.net/2021/04/03/wOKyCMQoSUIBYhr.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux初探"/></a><div class="content"><a class="title" href="/2021/04/03/postLinux/" title="Linux初探">Linux初探</a><time datetime="2021-04-03T04:04:24.000Z" title="发表于 2021-04-03 12:04:24">2021-04-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/03/31/postgit%E5%9F%BA%E7%A1%80/" title="Git基础"><img src="https://i.loli.net/2021/04/02/2xndQs8guWhbqm1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Git基础"/></a><div class="content"><a class="title" href="/2021/03/31/postgit%E5%9F%BA%E7%A1%80/" title="Git基础">Git基础</a><time datetime="2021-03-31T07:24:29.000Z" title="发表于 2021-03-31 15:24:29">2021-03-31</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/03/30/post%E6%B5%85%E8%B0%88mvc/" title="浅谈mvc"><img src="https://i.loli.net/2021/03/31/BHriL8utWZgMSny.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="浅谈mvc"/></a><div class="content"><a class="title" href="/2021/03/30/post%E6%B5%85%E8%B0%88mvc/" title="浅谈mvc">浅谈mvc</a><time datetime="2021-03-30T11:11:36.000Z" title="发表于 2021-03-30 19:11:36">2021-03-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/03/30/postLinq%E6%9F%A5%E8%AF%A2%E5%9F%BA%E7%A1%80/" title="Linq查询基础"><img src="https://i.loli.net/2021/03/30/3iQLvO8aElWd9Fk.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linq查询基础"/></a><div class="content"><a class="title" href="/2021/03/30/postLinq%E6%9F%A5%E8%AF%A2%E5%9F%BA%E7%A1%80/" title="Linq查询基础">Linq查询基础</a><time datetime="2021-03-30T08:26:18.000Z" title="发表于 2021-03-30 16:26:18">2021-03-30</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By Lu sir</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">我的肩上是风，风上是闪烁的星群</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'pc3JDCREMGoF3S3e4YzeC6kX-gzGzoHsz',
+      appKey: '01uhcP5vYPOKkVzxt5chIypp',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'en',
+      recordIP: false,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: false,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script src="js/jquery.min.js"></script><script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/gh/xiabo2/CDN@latest/fishes.js"></script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-heart.min.js" async="async" mobile="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/haruto.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body></html>
