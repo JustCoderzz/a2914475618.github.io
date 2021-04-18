@@ -1,0 +1,303 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>session与cookie | 一位可可爱爱的编橙爱好者</title><meta name="keywords" content="session与cookie"><meta name="author" content="Lu sir,2914475618@qq.com"><meta name="copyright" content="Lu sir"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Session与Cookie（更新中） 前言：会话（Session）跟踪是Web程序中常用的技术，用来跟踪用户的整个会话。常用的会话跟踪技术是Cookie与Session。Cookie通过在客户端记录信息确定用户身份，Session通过在服务器端记录信息确定用户身份。 相关推荐：https:&#x2F;&#x2F;www.cnblogs.com&#x2F;moyand&#x2F;p&#x2F;9047978.html  Cookie机制在程序中，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="session与cookie">
+<meta property="og:url" content="https://a2914475618.github.io/2021/04/18/postsession%E4%B8%8Ecookie/index.html">
+<meta property="og:site_name" content="一位可可爱爱的编橙爱好者">
+<meta property="og:description" content="Session与Cookie（更新中） 前言：会话（Session）跟踪是Web程序中常用的技术，用来跟踪用户的整个会话。常用的会话跟踪技术是Cookie与Session。Cookie通过在客户端记录信息确定用户身份，Session通过在服务器端记录信息确定用户身份。 相关推荐：https:&#x2F;&#x2F;www.cnblogs.com&#x2F;moyand&#x2F;p&#x2F;9047978.html  Cookie机制在程序中，">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2021/04/18/XlfoGcrhOIQC26y.png">
+<meta property="article:published_time" content="2021-04-18T08:32:36.000Z">
+<meta property="article:modified_time" content="2021-04-18T09:44:53.665Z">
+<meta property="article:author" content="Lu sir">
+<meta property="article:tag" content="session与cookie">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/04/18/XlfoGcrhOIQC26y.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://a2914475618.github.io/2021/04/18/postsession%E4%B8%8Ecookie/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-04-18 17:44:53'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><link rel="stylesheet" href="css/footer.css"><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="一位可可爱爱的编橙爱好者" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/img/Touxiang.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">21</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">21</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fas fa-comments"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2021/04/18/XlfoGcrhOIQC26y.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">一位可可爱爱的编橙爱好者</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fas fa-comments"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">session与cookie</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-04-18T08:32:36.000Z" title="发表于 2021-04-18 16:32:36">2021-04-18</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-04-18T09:44:53.665Z" title="更新于 2021-04-18 17:44:53">2021-04-18</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E6%A1%A3/">技术文档</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>12分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="session与cookie"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="Session与Cookie（更新中）"><a href="#Session与Cookie（更新中）" class="headerlink" title="Session与Cookie（更新中）"></a>Session与Cookie（更新中）</h1><blockquote>
+<p>前言：<strong>会话（Session）</strong>跟踪是Web程序中常用的技术，用来<strong>跟踪用户的整个会话</strong>。常用的会话跟踪技术是Cookie与Session。<strong>Cookie通过在客户端记录信息确定用户身份</strong>，<strong>Session通过在服务器端记录信息确定用户身份</strong>。</p>
+<p>相关推荐：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/moyand/p/9047978.html">https://www.cnblogs.com/moyand/p/9047978.html</a></p>
+</blockquote>
+<h2 id="Cookie机制"><a href="#Cookie机制" class="headerlink" title="Cookie机制"></a>Cookie机制</h2><p>在程序中，会话跟踪是很重要的事情。一个用户的所有请求操作都应该属于同一个会话。<strong>HTTP协议是无状态的协议。一旦数据交换完毕，客户端与服务器端的连接就会关闭，再次交换数据需要建立新的连接。这就意味着服务器无法从连接上跟踪会话</strong>。即用户A购买了一件商品放入购物车内，当再次购买商品时服务器已经无法判断该购买行为是属于用户A的会话还是用户B的会话了。要跟踪该会话，必须引入一种机制。Cookie就是这样的一种机制。它可以弥补HTTP协议无状态的不足。</p>
+<h3 id="什么是cookie"><a href="#什么是cookie" class="headerlink" title="什么是cookie"></a>什么是cookie</h3><blockquote>
+<p><strong>给客户端们颁发一个通行证，每人一个，无论谁访问都必须携带自己通行证。这样服务器就能从通行证上确认客户身份了。这就是Cookie的工作原理</strong></p>
+</blockquote>
+<blockquote>
+<p>Cookie实际上是一小段的文本信息。客户端请求服务器，如果服务器需要记录该用户状态，就使用response向客户端浏览器颁发一个Cookie。客户端浏览器会把Cookie保存起来。当浏览器再请求该网站时，浏览器把请求的网址连同该Cookie一同提交给服务器。服务器检查该Cookie，以此来辨认用户状态。服务器还可以根据需要修改Cookie的内容。</p>
+</blockquote>
+<ul>
+<li><p>查看某个网站颁发的cookie用javascript:alert(document.cookie)</p>
+</li>
+<li><p>Cookie对象使用key-value属性对的形式保存用户状态，一个Cookie对象保存一个属性对，一个request或者response同时使用多个Cookie</p>
+</li>
+</ul>
+<h3 id="Cookie的不可跨域名性"><a href="#Cookie的不可跨域名性" class="headerlink" title="Cookie的不可跨域名性"></a>Cookie的不可跨域名性</h3><ul>
+<li>　Cookie在客户端是由浏览器来管理的。浏览器能够保证Google只会操作Google的Cookie而不会操作Baidu的Cookie，从而保证用户的隐私安全。浏览器判断一个网站是否能操作另一个网站Cookie的依据是域名。Google与Baidu的域名不一样，因此Google不能操作Baidu的Cookie。</li>
+</ul>
+<h3 id="保存中文需要编码"><a href="#保存中文需要编码" class="headerlink" title="保存中文需要编码"></a>保存中文需要编码</h3><p>　中文与英文字符不同，<strong>中文属于Unicode字符，在内存中占4个字符，而英文属于ASCII字符，内存中只占2个字节</strong>。Cookie中使用Unicode字符时需要对Unicode字符进行编码，否则会乱码。</p>
+<h3 id="Cookie的局限"><a href="#Cookie的局限" class="headerlink" title="Cookie的局限"></a>Cookie的局限</h3><ol>
+<li>不宜存放大量数据，以免加重流量负担</li>
+<li>不宜存放敏感数据，以免泄露（应用：验证码）</li>
+</ol>
+<h3 id="操作cookie的一些方法"><a href="#操作cookie的一些方法" class="headerlink" title="操作cookie的一些方法"></a>操作cookie的一些方法</h3><ul>
+<li>直接new HttpCookie()生成对象，不需要CookieBuilder</li>
+<li>在HttpCookie属性中直接设置Expire/Domain等，不需要CookieOptions</li>
+<li>直接调用Request.Cookies和Response.Cookies的Add()方法添加</li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//首先有一个cookie，名字为user</span></span><br><span class="line">HttpCookie cookie = <span class="keyword">new</span> HttpCookie(<span class="string">&quot;user&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//在cookie中添加若干（2个）键值对</span></span><br><span class="line">cookie.Values.Add(<span class="string">&quot;id&quot;</span>, <span class="string">&quot;98&quot;</span>);</span><br><span class="line">cookie.Values.Add(<span class="string">&quot;pwd&quot;</span>, <span class="string">&quot;1234&quot;</span>);</span><br><span class="line"></span><br><span class="line">cookie.Expires = DateTime.Now.AddDays(<span class="number">14</span>);</span><br><span class="line">Response.Cookies.Add(cookie);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> HttpCookie cookie = <span class="keyword">new</span> HttpCookie(<span class="string">&quot;Info&quot;</span>);<span class="comment">//定义cookie对象以及名为Info的项</span></span><br><span class="line"><span class="number">2</span> DateTime dt = DateTime.Now;<span class="comment">//定义时间对象</span></span><br><span class="line"><span class="number">3</span> TimeSpan ts=<span class="keyword">new</span> TimeSpan(<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>);<span class="comment">//cookie有效作用时间，具体查msdn</span></span><br><span class="line"><span class="number">4</span> cookie.Expires = dt.Add(ts);<span class="comment">//添加作用时间</span></span><br><span class="line"><span class="number">5</span> cookie.Values.Add(<span class="string">&quot;user&quot;</span>,<span class="string">&quot;cxbkkk&quot;</span>);<span class="comment">//增加属性</span></span><br><span class="line"><span class="number">6</span> cookie.Values.Add(<span class="string">&quot;userid&quot;</span>,<span class="string">&quot;1203&quot;</span>);</span><br><span class="line"><span class="number">7</span> Response.AppendCookie(cookie);<span class="comment">//确定写入cookie中         读取cookie</span></span><br><span class="line"><span class="number">1</span> <span class="keyword">if</span>(Request.Cookies[<span class="string">&quot;Info&quot;</span>]!=<span class="literal">null</span>)</span><br><span class="line"><span class="number">2</span> &#123;</span><br><span class="line"><span class="number">3</span>      <span class="built_in">string</span> temp=Convert.ToString(Request.Cookies[<span class="string">&quot;Info&quot;</span>].Values[<span class="string">&quot;user&quot;</span>])+<span class="string">&quot;   &quot;</span>+Convert.ToString(Request.Cookies[<span class="string">&quot;Info&quot;</span>].Values[<span class="string">&quot;userid&quot;</span>]);</span><br><span class="line"><span class="number">4</span>      <span class="comment">//读全部就用Request.Cookies[&quot;Info&quot;].Value)</span></span><br><span class="line"><span class="number">5</span>      <span class="keyword">if</span>(temp==<span class="string">&quot;&quot;</span>)</span><br><span class="line"><span class="number">6</span>      &#123;</span><br><span class="line"><span class="number">7</span>          Response.Write(<span class="string">&quot;空&quot;</span>);</span><br><span class="line"><span class="number">8</span>      &#125;</span><br><span class="line"><span class="number">9</span>      <span class="keyword">else</span></span><br><span class="line"><span class="number">10</span>          Response.Write(temp);</span><br><span class="line"><span class="number">11</span> &#125;</span><br><span class="line"><span class="number">12</span> <span class="keyword">else</span></span><br><span class="line"><span class="number">13</span> &#123;</span><br><span class="line"><span class="number">14</span>      Response.Write(<span class="string">&quot;error&quot;</span>);</span><br><span class="line"><span class="number">15</span> &#125;         修改cookie</span><br><span class="line"><span class="number">1</span> Response.Cookies[<span class="string">&quot;Info&quot;</span>][<span class="string">&quot;user&quot;</span>] = <span class="string">&quot;2&quot;</span>;</span><br><span class="line"><span class="number">2</span> Response.Cookies[<span class="string">&quot;Info&quot;</span>].Expires = DateTime.Now.AddDays(<span class="number">1</span>);         删除cookie下的属性</span><br><span class="line"><span class="number">1</span> HttpCookie acookie=Request.Cookies[<span class="string">&quot;Info&quot;</span>];</span><br><span class="line"><span class="number">2</span> acookie.Values.Remove(<span class="string">&quot;userid&quot;</span>);</span><br><span class="line"><span class="number">3</span> acookie.Expires = DateTime.Now.AddDays(<span class="number">1</span>);</span><br><span class="line"><span class="number">4</span> Response.Cookies.Add(acookie);         删除所有cookie，就是设置过期时间为现在就行了</span><br><span class="line"><span class="number">1</span> <span class="built_in">int</span> limit=Request.Cookies.Count - <span class="number">1</span>;</span><br><span class="line"><span class="number">2</span> <span class="keyword">for</span>(<span class="built_in">int</span> i=<span class="number">0</span>;i&lt;limit;i++)</span><br><span class="line"><span class="number">3</span> &#123;</span><br><span class="line"><span class="number">4</span>      acookie = Request.Cookies(i)</span><br><span class="line"><span class="number">5</span>      acookie.Expires = DateTime.Now.AddDays(<span class="number">-1</span>)</span><br><span class="line"><span class="number">6</span>      Response.Cookies.Add(acookie)</span><br><span class="line"><span class="number">7</span> &#125;        </span><br></pre></td></tr></table></figure>
+
+<h2 id="session机制"><a href="#session机制" class="headerlink" title="session机制"></a>session机制</h2><blockquote>
+<p>除了使用Cookie，Web应用程序中还经常使用Session来记录客户端状态。<strong>Session是服务器端使用的一种记录客户端状态的机制</strong>，使用上比Cookie简单一些，相应的也<strong>增加了服务器的存储压力</strong>。</p>
+</blockquote>
+<h3 id="什么是session"><a href="#什么是session" class="headerlink" title="什么是session"></a>什么是session</h3><blockquote>
+<p>Session是另一种记录客户状态的机制，不同的是Cookie保存在客户端浏览器中，而Session保存在服务器上。客户端浏览器访问服务器的时候，服务器把客户端信息以某种形式记录在服务器上。这就是Session。客户端浏览器再次访问时只需要从该Session中查找该客户的状态就可以了</p>
+</blockquote>
+<ul>
+<li><p>　<strong>Cookie机制是通过检查客户身上的“通行证”来确定客户身份的话，那么Session机制就是通过检查服务器上的“客户明细表”来确认客户身份。Session相当于程序在服务器上建立的一份客户档案，客户来访的时候只需要查询客户档案表就可以了</strong></p>
+</li>
+<li><p><strong>Session机制决定了当前客户只会获取到自己的Session，而不会获取到别人的Session。各客户的Session也彼此独立，互不可见</strong>。</p>
+</li>
+</ul>
+<h3 id="为什么需要Session"><a href="#为什么需要Session" class="headerlink" title="为什么需要Session"></a>为什么需要Session</h3><p>ASP.NET页面是”无状态”的，这意味着每次向服务器发送一个请求，服务器都会生成一个该页面的实例。但有时候，我们希望在不同的页面之间共享信息，比如购物车、用户登录等，于是，ASP.NET为我们提供了一个服务端的Session机制。</p>
+<h3 id="Session是如何工作的"><a href="#Session是如何工作的" class="headerlink" title="Session是如何工作的"></a>Session是如何工作的</h3><p>服务端的Session机制是基于客户端的，也就是说服务端的Session会保存每个客户端的信息到服务端内存中。具体过程是这样的：<br>→客户端向服务端发出请求<br>→服务端响应客户端，并针对该客户端创建Session和唯一的Session ID<br>→把Session ID作为key， Session内容作为value，以键值对形式存储到Session State Provider中<br>→客户端带着专属的Session ID再次向服务端请求<br>→服务端的Session机制根据客户端的Session ID，从Session State Provider中取出内容返回给客户端</p>
+<p>优点：<br>● 跨页面维持用户状态、信息<br>● 使用方便，并且能存储任何类型<br>● 能保存每个客户端的信息<br>● 安全的、透明的</p>
+<p>缺点：<br>● 因为Session是保存在服务端的内存中的，随着客户端请求的增多，很有可能影响到性能<br>● 在Web.conig中，sessionState节点的mode属性，如果设置为”StateServer”或”SQLServer”,就必须为存储到Session中的对象打上[Serializable]。这样在存储、读取Session的时候，不断地序列化和反序列化，也会影响到性能</p>
+<h3 id="在MVC里使用"><a href="#在MVC里使用" class="headerlink" title="在MVC里使用"></a>在MVC里使用</h3><ol>
+<li><p>开箱即用：MVC默认支持session，不需要显式的enable</p>
+</li>
+<li><p>Controller中自带Session属性</p>
+</li>
+<li><p>在web.config中system.web节点下</p>
+<p>配置过期时间、存储位置等，以下是默认配置：过期20分钟，存储在IIS进程</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">sessionState</span> <span class="attr">timeout</span>=<span class="string">&quot;20&quot;</span> <span class="attr">mode</span>=<span class="string">&quot;InProc&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>使用索引器直接取值/赋值，可以直接存放对象。</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Session[<span class="string">&quot;user&quot;</span>] = <span class="keyword">new</span> UserModel &#123; Name = <span class="string">&quot;飞哥&quot;</span> &#125;;</span><br></pre></td></tr></table></figure>
+
+<p>如果需要序列化，由开发人员自行处理：可以和RazorPage中讲述一样，使用JsonConvert；也可以使用其他方式，</p>
+<p>比如添加Serializable特性：</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">Serializable</span>]</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">UserModel</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="session的存储方式"><a href="#session的存储方式" class="headerlink" title="session的存储方式"></a>session的存储方式</h3><h4 id="Session的Mode"><a href="#Session的Mode" class="headerlink" title="Session的Mode"></a>Session的Mode</h4><p>在Web.config中，sessionState节点有一个mode属性，它的属性值代表了Session的Mode。包括：<br>● InProc<br>● StateServer<br>● SQLServer<br>● Custom<br>● Off</p>
+<p>每一种Mode的设置，会影响到Session机制采用哪种Session State Provider。</p>
+<h5 id="Off"><a href="#Off" class="headerlink" title="Off"></a>Off</h5><p>如果我们想让Session失效：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;system.web&gt;</span><br><span class="line">    &lt;sessionState mode&#x3D;&quot;off&quot; &#x2F;&gt;</span><br><span class="line">&lt;&#x2F;sytem.web&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="InProc"><a href="#InProc" class="headerlink" title="InProc"></a>InProc</h5><p>这也是ASP.NET Session机制所选用的默认Mode，在该模式下，只保存当前应用程序域的数据。如果重启服务器，Session保存的数据会全部丢失。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;system.web&gt;</span><br><span class="line">    &lt;sessionState mode&#x3D;&quot;InProc&quot; timeout&#x3D;&quot;30&quot; &#x2F;&gt;</span><br><span class="line">&lt;&#x2F;system.web&gt;</span><br></pre></td></tr></table></figure>
+
+<p>表示Session的有效期是30分钟。对于一些小网站或者数据量不大的时候，选用这个模式是比较好的。</p>
+<p>优点：<br>● 由于是把Session数据保存在内存中的，所以，获取数据非常快<br>● 没有序列化和反序列化的要求</p>
+<p>缺点：<br>● 如果应用程序域被丢弃、重启，Session数据会丢失<br>● 数据量大的时候，消耗过多的内存，影响性能</p>
+<h5 id="StateServer"><a href="#StateServer" class="headerlink" title="StateServer"></a>StateServer</h5><p>选用此选项，意味着把Session的工作交给了当前应用程序域之外的asp.net_state.exe服务，这是一个独立于IIS之外的Windows服务。如果想启动该服务，可以通过打开“控制面板–管理工具–服务”，找到ASP.NET State Service这个服务，将其设为自动启动。</p>
+<p>即使重启ASP.NET进程，Session依然有效，这是StateServer模式的优点。此模式的缺点是涉及过多的序列化和反序列化。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;system.web&gt;</span><br><span class="line">    &lt;sessionState mode&#x3D;&quot;StateServer&quot; stateConnectionSting&#x3D;&quot;tcpip&#x3D;127.0.0.1:42424&quot; stateNetworkTimeout&#x3D;&quot;40&quot; &#x2F;&gt;</span><br><span class="line">&lt;&#x2F;sytem.web&gt;</span><br></pre></td></tr></table></figure>
+
+<p>● 127.0.0.1 表示默认选用本机<br>● 42424 表示默认端口<br>● stateNetworkTimeout用来设置服务器响应、等待客户端请求的时间，默认是10秒，这里设置为40秒</p>
+<p>如果想修改StateServer的默认设置，可以在asp.net_state.exe对应的注册表中修改。</p>
+<h5 id="SQLServer"><a href="#SQLServer" class="headerlink" title="SQLServer"></a>SQLServer</h5><p>选用此模式，Session数据被序列化，并被保存到SQL Server数据库中。为了让Sql Server配合此模式，需要做如下：<br>→查看版本位置，比如在：C:\Windows\Microsoft.NET\Framework\v4.0.30319<br>→输入如下命令<br><a target="_blank" rel="noopener" href="https://images0.cnblogs.com/blog/417212/201409/021122403609031.png"><img src="https://images0.cnblogs.com/blog/417212/201409/021122410162133.png" alt="1"></a></p>
+<p>-ssadd 表示在SQL Server中添加session state<br>-sstype p 表示Persisted<br>-S 表示服务器名<br>-U 表示SQL Server用户名<br>-P 表示SQL Server密码<br>→如果一切顺利，出现如下提示<br><a target="_blank" rel="noopener" href="https://images0.cnblogs.com/blog/417212/201409/021122412979346.png"><img src="https://images0.cnblogs.com/blog/417212/201409/021122419388218.png" alt="2"></a><br>→数据库中多了ASPState数据库，Session数据将被保存到此数据库的相关表中<br><a target="_blank" rel="noopener" href="https://images0.cnblogs.com/blog/417212/201409/021122421721446.png"><img src="https://images0.cnblogs.com/blog/417212/201409/021122425633861.png" alt="3"></a> </p>
+<p>优点：<br>● 在重启IIS后，Session数据不会受影响<br>● 最安全的Session处理方式</p>
+<p>缺点：<br>● 处理相对缓慢<br>● 过多的序列化和反序列化</p>
+<h5 id="□Custom"><a href="#□Custom" class="headerlink" title="□Custom"></a>□Custom</h5><p>自定义Session机制，通过继承SessionStateStoreProviderBase类，实现ISessionIDManager接口，等等。 </p>
+<p> Session的Event</p>
+<p>Session的事件有2个：Session_Start和Session_End。可以在global.asax全局文件中对这2个事件做处理。</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Session_Start</span>(<span class="params"><span class="built_in">object</span> sender, EventArgs e</span>) </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//TODO</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Session_End</span>(<span class="params"><span class="built_in">object</span> sender, EventArgs e</span>) </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// TODO</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="session与cookie的区别"><a href="#session与cookie的区别" class="headerlink" title="session与cookie的区别"></a>session与cookie的区别</h2><blockquote>
+<p>**<br>1、cookie数据存放在客户的浏览器上，session数据放在服务器上.**</p>
+<p>​    简单的说，当你登录一个网站的时候，如果web服务器端使用的是session,那么所有的数据都保存在服务器上面，</p>
+<p>客户端每次请求服务器的时候会发送 当前会话的session_id，服务器根据当前session_id判断相应的用户数据标志，以确定用户是否登录，或具有某种权限。</p>
+<p>由于数据是存储在服务器 上面，所以你不能伪造，但是如果你能够获取某个登录用户的session_id，用特殊的浏览器伪造该用户的请求也是能够成功的。</p>
+<p>session_id是服务器和客户端链接时候随机分配的，一般来说是不会有重复，但如果有大量的并发请求，也不是没有重复的可能性。</p>
+<p>Session是由应用服务器维持的一个服务器端的存储空间，用户在连接服务器时，会由服务器生成一个唯一的SessionID,用该SessionID 为标识符来存取服务器端的Session存储空间。而SessionID这一数据则是保存到客户端，用Cookie保存的，用户提交页面时，会将这一 SessionID提交到服务器端，来存取Session数据。这一过程，是不用开发人员干预的。所以一旦客户端禁用Cookie，那么Session也会失效。</p>
+<p><strong>2、cookie不是很安全，别人可以分析存放在本地的COOKIE并进行COOKIE欺骗考虑到安全应当使用session。</strong></p>
+<p><strong>3、设置cookie时间可以使cookie过期。但是使用session-destory（），我们将会销毁会话。</strong></p>
+<p><strong>4、session会在一定时间内保存在服务器上。当访问增多，会比较占用你服务器的性能考虑到减轻服务器性能方面，应当使用cookie。</strong></p>
+<p><strong>5、单个cookie保存的数据不能超过4K，很多浏览器都限制一个站点最多保存20个cookie。(Session对象没有对存储的数据量的限制，其中可以保存更为复杂的数据类型)</strong></p>
+<p>  注意:</p>
+<p>   session很容易失效,用户体验很差;</p>
+<p>   虽然cookie不安全,但是可以加密 ;</p>
+<p>   cookie也分为永久和暂时存在的;</p>
+<p>   浏览器 有禁止cookie功能 ,但一般用户都不会设置;</p>
+<p>   一定要设置失效时间,要不然浏览器关闭就消失了;</p>
+<p>   例如:</p>
+<p>​      记住密码功能就是使用永久cookie写在客户端电脑，下次登录时，自动将cookie信息附加发送给服务端。</p>
+<p>​      application是全局性信息，是所有用户共享的信息，如可以记录有多少用户现在登录过本网站，并把该信息展示个所有用户。</p>
+<p> <strong>两者最大的区别在于生存周期，一个是IE启动到IE关闭.(浏览器页面一关 ,session就消失了)，一个是预先设置的生存周期，或永久的保存于本地的文件。(cookie)</strong></p>
+<p>Session信息是存放在server端，但session id是存放在client cookie的，当然php的session存放方法是多样化的，这样就算禁用cookie一样可以跟踪</p>
+<p>Cookie是完全保持在客户端的如：IE firefox 当客户端禁止cookie时将不能再使用</p>
+</blockquote>
+<h2 id="特别声明"><a href="#特别声明" class="headerlink" title="特别声明"></a>特别声明</h2><p>此页为我学习中的资料整理，欢迎转载。。。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:2914475618@qq.com">Lu sir</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://a2914475618.github.io/2021/04/18/postsession%E4%B8%8Ecookie/">https://a2914475618.github.io/2021/04/18/postsession%E4%B8%8Ecookie/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://a2914475618.github.io" target="_blank">一位可可爱爱的编橙爱好者</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/session%E4%B8%8Ecookie/">session与cookie</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2021/04/18/XlfoGcrhOIQC26y.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2021/04/16/postADO-NET/"><img class="next-cover" src="https://i.loli.net/2021/04/16/HUM7XZAthIfRLpm.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">ADO.NET</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="/img/Touxiang.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Lu sir</div><div class="author-info__description">如风的少年</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">21</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">21</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">欢迎来到爱的小屋，爱你们哟</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Session%E4%B8%8ECookie%EF%BC%88%E6%9B%B4%E6%96%B0%E4%B8%AD%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">Session与Cookie（更新中）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Cookie%E6%9C%BA%E5%88%B6"><span class="toc-number">1.1.</span> <span class="toc-text">Cookie机制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFcookie"><span class="toc-number">1.1.1.</span> <span class="toc-text">什么是cookie</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Cookie%E7%9A%84%E4%B8%8D%E5%8F%AF%E8%B7%A8%E5%9F%9F%E5%90%8D%E6%80%A7"><span class="toc-number">1.1.2.</span> <span class="toc-text">Cookie的不可跨域名性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%9D%E5%AD%98%E4%B8%AD%E6%96%87%E9%9C%80%E8%A6%81%E7%BC%96%E7%A0%81"><span class="toc-number">1.1.3.</span> <span class="toc-text">保存中文需要编码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Cookie%E7%9A%84%E5%B1%80%E9%99%90"><span class="toc-number">1.1.4.</span> <span class="toc-text">Cookie的局限</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%93%8D%E4%BD%9Ccookie%E7%9A%84%E4%B8%80%E4%BA%9B%E6%96%B9%E6%B3%95"><span class="toc-number">1.1.5.</span> <span class="toc-text">操作cookie的一些方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#session%E6%9C%BA%E5%88%B6"><span class="toc-number">1.2.</span> <span class="toc-text">session机制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFsession"><span class="toc-number">1.2.1.</span> <span class="toc-text">什么是session</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81Session"><span class="toc-number">1.2.2.</span> <span class="toc-text">为什么需要Session</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Session%E6%98%AF%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C%E7%9A%84"><span class="toc-number">1.2.3.</span> <span class="toc-text">Session是如何工作的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8MVC%E9%87%8C%E4%BD%BF%E7%94%A8"><span class="toc-number">1.2.4.</span> <span class="toc-text">在MVC里使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#session%E7%9A%84%E5%AD%98%E5%82%A8%E6%96%B9%E5%BC%8F"><span class="toc-number">1.2.5.</span> <span class="toc-text">session的存储方式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Session%E7%9A%84Mode"><span class="toc-number">1.2.5.1.</span> <span class="toc-text">Session的Mode</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Off"><span class="toc-number">1.2.5.1.1.</span> <span class="toc-text">Off</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#InProc"><span class="toc-number">1.2.5.1.2.</span> <span class="toc-text">InProc</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#StateServer"><span class="toc-number">1.2.5.1.3.</span> <span class="toc-text">StateServer</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#SQLServer"><span class="toc-number">1.2.5.1.4.</span> <span class="toc-text">SQLServer</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E2%96%A1Custom"><span class="toc-number">1.2.5.1.5.</span> <span class="toc-text">□Custom</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#session%E4%B8%8Ecookie%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">1.3.</span> <span class="toc-text">session与cookie的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%B9%E5%88%AB%E5%A3%B0%E6%98%8E"><span class="toc-number">1.4.</span> <span class="toc-text">特别声明</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/04/18/postsession%E4%B8%8Ecookie/" title="session与cookie"><img src="https://i.loli.net/2021/04/18/XlfoGcrhOIQC26y.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="session与cookie"/></a><div class="content"><a class="title" href="/2021/04/18/postsession%E4%B8%8Ecookie/" title="session与cookie">session与cookie</a><time datetime="2021-04-18T08:32:36.000Z" title="发表于 2021-04-18 16:32:36">2021-04-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/16/postADO-NET/" title="ADO.NET"><img src="https://i.loli.net/2021/04/16/HUM7XZAthIfRLpm.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="ADO.NET"/></a><div class="content"><a class="title" href="/2021/04/16/postADO-NET/" title="ADO.NET">ADO.NET</a><time datetime="2021-04-16T12:13:18.000Z" title="发表于 2021-04-16 20:13:18">2021-04-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/16/post%E6%AF%8F%E6%97%A5%E8%81%8A%E7%82%B9%E7%AE%97%E6%B3%95/" title="每周聊聊算法题"><img src="https://i.loli.net/2021/04/16/ZPav9HrmnYtsLGR.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="每周聊聊算法题"/></a><div class="content"><a class="title" href="/2021/04/16/post%E6%AF%8F%E6%97%A5%E8%81%8A%E7%82%B9%E7%AE%97%E6%B3%95/" title="每周聊聊算法题">每周聊聊算法题</a><time datetime="2021-04-16T11:57:20.000Z" title="发表于 2021-04-16 19:57:20">2021-04-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/16/post%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/" title="依赖注入"><img src="https://i.loli.net/2021/04/16/Ed3nr6D2M7NwYlI.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="依赖注入"/></a><div class="content"><a class="title" href="/2021/04/16/post%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/" title="依赖注入">依赖注入</a><time datetime="2021-04-16T11:00:00.000Z" title="发表于 2021-04-16 19:00:00">2021-04-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/16/post%E4%BC%81%E4%B8%9A%E6%9E%B6%E6%9E%84%E4%B9%8B%E4%B8%89%E5%B1%82%E6%9E%B6%E6%9E%84/" title="企业架构之三层架构"><img src="https://i.loli.net/2021/04/16/Kp6bAgJjafNGelw.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="企业架构之三层架构"/></a><div class="content"><a class="title" href="/2021/04/16/post%E4%BC%81%E4%B8%9A%E6%9E%B6%E6%9E%84%E4%B9%8B%E4%B8%89%E5%B1%82%E6%9E%B6%E6%9E%84/" title="企业架构之三层架构">企业架构之三层架构</a><time datetime="2021-04-16T08:16:30.000Z" title="发表于 2021-04-16 16:16:30">2021-04-16</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By Lu sir</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">我的肩上是风，风上是闪烁的星群</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'pc3JDCREMGoF3S3e4YzeC6kX-gzGzoHsz',
+      appKey: '01uhcP5vYPOKkVzxt5chIypp',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'en',
+      recordIP: false,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: false,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script src="js/jquery.min.js"></script><script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/gh/xiabo2/CDN@latest/fishes.js"></script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-heart.min.js" async="async" mobile="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/haruto.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body></html>
