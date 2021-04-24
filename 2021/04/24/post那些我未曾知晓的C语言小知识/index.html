@@ -1,0 +1,463 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>那些我未曾知晓的C语言小知识 | 一位可可爱爱的编橙爱好者</title><meta name="keywords" content="C语言"><meta name="author" content="Lu sir,2914475618@qq.com"><meta name="copyright" content="Lu sir"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="C语言宝典(更新中)1.文件操作在C语言中，操作文件之前必须先打开文件；所谓“打开文件”，就是让程序和文件建立连接的过程。 打开文件之后，程序可以得到文件的相关信息，例如大小、类型、权限、创建者、更新时间等。在后续读写文件的过程中，程序还可以记录当前读写到了哪个位置，下次可以在此基础上继续操作。  标准输入文件 stdin（表示键盘）、标准输出文件 stdout（表示显示器）、标准错误文件 std">
+<meta property="og:type" content="article">
+<meta property="og:title" content="那些我未曾知晓的C语言小知识">
+<meta property="og:url" content="https://a2914475618.github.io/2021/04/24/post%E9%82%A3%E4%BA%9B%E6%88%91%E6%9C%AA%E6%9B%BE%E7%9F%A5%E6%99%93%E7%9A%84C%E8%AF%AD%E8%A8%80%E5%B0%8F%E7%9F%A5%E8%AF%86/index.html">
+<meta property="og:site_name" content="一位可可爱爱的编橙爱好者">
+<meta property="og:description" content="C语言宝典(更新中)1.文件操作在C语言中，操作文件之前必须先打开文件；所谓“打开文件”，就是让程序和文件建立连接的过程。 打开文件之后，程序可以得到文件的相关信息，例如大小、类型、权限、创建者、更新时间等。在后续读写文件的过程中，程序还可以记录当前读写到了哪个位置，下次可以在此基础上继续操作。  标准输入文件 stdin（表示键盘）、标准输出文件 stdout（表示显示器）、标准错误文件 std">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2021/04/24/UehH2l4jq3TMInQ.png">
+<meta property="article:published_time" content="2021-04-24T08:25:36.000Z">
+<meta property="article:modified_time" content="2021-04-24T11:33:20.070Z">
+<meta property="article:author" content="Lu sir">
+<meta property="article:tag" content="C语言">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/04/24/UehH2l4jq3TMInQ.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://a2914475618.github.io/2021/04/24/post%E9%82%A3%E4%BA%9B%E6%88%91%E6%9C%AA%E6%9B%BE%E7%9F%A5%E6%99%93%E7%9A%84C%E8%AF%AD%E8%A8%80%E5%B0%8F%E7%9F%A5%E8%AF%86/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-04-24 19:33:20'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><link rel="stylesheet" href="css/footer.css"><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="一位可可爱爱的编橙爱好者" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/img/Touxiang.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">25</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">25</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fas fa-comments"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2021/04/24/UehH2l4jq3TMInQ.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">一位可可爱爱的编橙爱好者</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fas fa-comments"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">那些我未曾知晓的C语言小知识</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-04-24T08:25:36.000Z" title="发表于 2021-04-24 16:25:36">2021-04-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-04-24T11:33:20.070Z" title="更新于 2021-04-24 19:33:20">2021-04-24</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/C%E8%AF%AD%E8%A8%80/">C语言</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">5.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>18分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="那些我未曾知晓的C语言小知识"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="C语言宝典-更新中"><a href="#C语言宝典-更新中" class="headerlink" title="C语言宝典(更新中)"></a>C语言宝典(更新中)</h1><h2 id="1-文件操作"><a href="#1-文件操作" class="headerlink" title="1.文件操作"></a>1.文件操作</h2><p>在C语言中，操作文件之前必须先打开文件；所谓“打开文件”，就是让程序和文件建立连接的过程。</p>
+<p>打开文件之后，程序可以得到文件的相关信息，例如大小、类型、权限、创建者、更新时间等。在后续读写文件的过程中，程序还可以记录当前读写到了哪个位置，下次可以在此基础上继续操作。</p>
+<blockquote>
+<p>标准输入文件 stdin（表示键盘）、标准输出文件 stdout（表示显示器）、标准错误文件 stderr（表示显示器）是由系统打开的，可直接使用。</p>
+</blockquote>
+<p>使用 &lt;stdio.h&gt; 头文件中的 fopen() 函数即可打开文件，它的用法为：</p>
+<p>FILE *fopen(char *filename, char *mode);</p>
+<p><code>filename</code>为文件名（包括文件路径），<code>mode</code>为打开方式，它们都是字符串。</p>
+<h3 id="fopen-函数的返回值"><a href="#fopen-函数的返回值" class="headerlink" title="fopen() 函数的返回值"></a>fopen() 函数的返回值</h3><p>fopen() 会获取文件信息，包括文件名、文件状态、当前读写位置等，并将这些信息保存到一个 FILE 类型的结构体变量中，然后将该变量的地址返回。</p>
+<p>FILE 是 &lt;stdio.h&gt; 头文件中的一个结构体，它专门用来保存文件信息。我们不用关心 FILE 的具体结构，只需要知道它的用法就行。</p>
+<p>如果希望接收 fopen() 的返回值，就需要定义一个 FILE 类型的<a target="_blank" rel="noopener" href="http://c.biancheng.net/c/80/">指针</a>。例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FILE *fp &#x3D; fopen(&quot;demo.txt&quot;, &quot;r&quot;);</span><br></pre></td></tr></table></figure>
+
+<p>表示以“只读”方式打开当前目录下的 demo.txt 文件，并使 fp 指向该文件，这样就可以通过 fp 来操作 demo.txt 了。fp 通常被称为文件指针。</p>
+<p>再来看一个例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FILE *fp &#x3D; fopen(&quot;D:\\demo.txt&quot;,&quot;rb+&quot;);</span><br></pre></td></tr></table></figure>
+
+<p>表示以二进制方式打开 D 盘下的 demo.txt 文件，允许读和写。</p>
+<h3 id="判断文件是否打开成功"><a href="#判断文件是否打开成功" class="headerlink" title="判断文件是否打开成功"></a>判断文件是否打开成功</h3><p>打开文件出错时，fopen() 将返回一个空指针，也就是 NULL，我们可以利用这一点来判断文件是否打开成功，请看下面的代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FILE *fp;if( (fp&#x3D;fopen(&quot;D:\\demo.txt&quot;,&quot;rb&quot;) &#x3D;&#x3D; NULL )&#123;    printf(&quot;Fail to open file!\n&quot;);    exit(0);  &#x2F;&#x2F;退出程序（结束程序）&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们通过判断 fopen() 的返回值是否和 NULL 相等来判断是否打开失败：如果 fopen() 的返回值为 NULL，那么 fp 的值也为 NULL，此时 if 的判断条件成立，表示文件打开失败。</p>
+<p>以上代码是文件操作的规范写法，读者在打开文件时一定要判断文件是否打开成功，因为一旦打开失败，后续操作就都没法进行了，往往以“结束程序”告终。</p>
+<h3 id="fopen-函数的打开方式"><a href="#fopen-函数的打开方式" class="headerlink" title="fopen() 函数的打开方式"></a>fopen() 函数的打开方式</h3><p>不同的操作需要不同的文件权限。例如，只想读取文件中的数据的话，“只读”权限就够了；既想读取又想写入数据的话，“读写”权限就是必须的了。</p>
+<p>另外，文件也有不同的类型，按照数据的存储方式可以分为二进制文件和文本文件，它们的操作细节是不同的。</p>
+<p>在调用 fopen() 函数时，这些信息都必须提供，称为“文件打开方式”。最基本的文件打开方式有以下几种：</p>
+<table>
+<thead>
+<tr>
+<th>控制读写权限的字符串（必须指明）</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>打开方式</td>
+<td>说明</td>
+</tr>
+<tr>
+<td>“r”</td>
+<td>以“只读”方式打开文件。只允许读取，不允许写入。文件必须存在，否则打开失败。</td>
+</tr>
+<tr>
+<td>“w”</td>
+<td>以“写入”方式打开文件。如果文件不存在，那么创建一个新文件；如果文件存在，那么清空文件内容（相当于删除原文件，再创建一个新文件）。</td>
+</tr>
+<tr>
+<td>“a”</td>
+<td>以“追加”方式打开文件。如果文件不存在，那么创建一个新文件；如果文件存在，那么将写入的数据追加到文件的末尾（文件原有的内容保留）。</td>
+</tr>
+<tr>
+<td>“r+”</td>
+<td>以“读写”方式打开文件。既可以读取也可以写入，也就是随意更新文件。文件必须存在，否则打开失败。</td>
+</tr>
+<tr>
+<td>“w+”</td>
+<td>以“写入/更新”方式打开文件，相当于<code>w</code>和<code>r+</code>叠加的效果。既可以读取也可以写入，也就是随意更新文件。如果文件不存在，那么创建一个新文件；如果文件存在，那么清空文件内容（相当于删除原文件，再创建一个新文件）。</td>
+</tr>
+<tr>
+<td>“a+”</td>
+<td>以“追加/更新”方式打开文件，相当于a和r+叠加的效果。既可以读取也可以写入，也就是随意更新文件。如果文件不存在，那么创建一个新文件；如果文件存在，那么将写入的数据追加到文件的末尾（文件原有的内容保留）。</td>
+</tr>
+<tr>
+<td>控制读写方式的字符串（可以不写）</td>
+<td></td>
+</tr>
+<tr>
+<td>打开方式</td>
+<td>说明</td>
+</tr>
+<tr>
+<td>“t”</td>
+<td>文本文件。如果不写，默认为<code>&quot;t&quot;</code>。</td>
+</tr>
+<tr>
+<td>“b”</td>
+<td>二进制文件。</td>
+</tr>
+</tbody></table>
+<p>调用 fopen() 函数时必须指明读写权限，但是可以不指明读写方式（此时默认为<code>&quot;t&quot;</code>）。</p>
+<p>读写权限和读写方式可以组合使用，但是必须将读写方式放在读写权限的中间或者尾部（换句话说，不能将读写方式放在读写权限的开头）。例如：</p>
+<ul>
+<li>将读写方式放在读写权限的末尾：”rb”、”wt”、”ab”、”r+b”、”w+t”、”a+t”</li>
+<li>将读写方式放在读写权限的中间：”rb+”、”wt+”、”ab+”</li>
+</ul>
+<p>整体来说，文件打开方式由 r、w、a、t、b、+ 六个字符拼成，各字符的含义是：</p>
+<ul>
+<li>r(read)：读</li>
+<li>w(write)：写</li>
+<li>a(append)：追加</li>
+<li>t(text)：文本文件</li>
+<li>b(binary)：二进制文件</li>
+<li>+：读和写</li>
+</ul>
+<h3 id="关闭文件"><a href="#关闭文件" class="headerlink" title="关闭文件"></a>关闭文件</h3><p>文件一旦使用完毕，应该用 fclose() 函数把文件关闭，以释放相关资源，避免数据丢失。fclose() 的用法为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int fclose(FILE *fp);</span><br></pre></td></tr></table></figure>
+
+<p>fp 为文件指针。例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fclose(fp);</span><br></pre></td></tr></table></figure>
+
+<p>文件正常关闭时，fclose() 的返回值为0，如果返回非零值则表示有错误发生。</p>
+<p>在C语言中，读写文件比较灵活，既可以每次读写一个字符，也可以读写一个字符串，甚至是任意字节的数据（数据块）。本节介绍以字符形式读写文件。</p>
+<p>以字符形式读写文件时，每次可以从文件中读取一个字符，或者向文件中写入一个字符。主要使用两个函数，分别是 fgetc() 和 fputc()。</p>
+<h3 id="字符读取函数-fgetc"><a href="#字符读取函数-fgetc" class="headerlink" title="字符读取函数 fgetc"></a>字符读取函数 fgetc</h3><p>fgetc 是 file get char 的缩写，意思是从指定的文件中读取一个字符。fgetc() 的用法为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int fgetc (FILE *fp);</span><br></pre></td></tr></table></figure>
+
+<p>fp 为文件<a target="_blank" rel="noopener" href="http://c.biancheng.net/c/80/">指针</a>。fgetc() 读取成功时返回读取到的字符，读取到文件末尾或读取失败时返回<code>EOF</code>。</p>
+<p>EOF 是 end of file 的缩写，表示文件末尾，是在 stdio.h 中定义的宏，它的值是一个负数，往往是 -1。fgetc() 的返回值类型之所以为 int，就是为了容纳这个负数（char不能是负数）。</p>
+<blockquote>
+<p>EOF 不绝对是 -1，也可以是其他负数，这要看编译器的实现。</p>
+</blockquote>
+<p>fgetc() 的用法举例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">char ch;FILE *fp &#x3D; fopen(&quot;D:\\demo.txt&quot;, &quot;r+&quot;);ch &#x3D; fgetc(fp);</span><br></pre></td></tr></table></figure>
+
+<p>表示从<code>D:\\demo.txt</code>文件中读取一个字符，并保存到变量 ch 中。</p>
+<p>在文件内部有一个位置指针，用来指向当前读写到的位置，也就是读写到第几个字节。在文件打开时，该指针总是指向文件的第一个字节。使用 fgetc() 函数后，该指针会向后移动一个字节，所以可以连续多次使用 fgetc() 读取多个字符。</p>
+<p>注意：这个文件内部的位置指针与C语言中的指针不是一回事。位置指针仅仅是一个标志，表示文件读写到的位置，也就是读写到第几个字节，它不表示地址。文件每读写一次，位置指针就会移动一次，它不需要你在程序中定义和赋值，而是由系统自动设置，对用户是隐藏的。</p>
+<p>【示例】在屏幕上显示 D:\demo.txt 文件的内容。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;stdio.h&gt;int main()&#123;    FILE *fp;    char ch;       &#x2F;&#x2F;如果文件不存在，给出提示并退出    if( (fp&#x3D;fopen(&quot;D:\\demo.txt&quot;,&quot;rt&quot;)) &#x3D;&#x3D; NULL )&#123;        puts(&quot;Fail to open file!&quot;);        exit(0);    &#125;    &#x2F;&#x2F;每次读取一个字节，直到读取完毕    while( (ch&#x3D;fgetc(fp)) !&#x3D; EOF )&#123;        putchar(ch);    &#125;    putchar(&#39;\n&#39;);  &#x2F;&#x2F;输出换行符    fclose(fp);    return 0;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在D盘下创建 demo.txt 文件，输入任意内容并保存，运行程序，就会看到刚才输入的内容全部都显示在屏幕上。</p>
+<p>该程序的功能是从文件中逐个读取字符，在屏幕上显示，直到读取完毕。</p>
+<p>程序第 13 行是关键，<a target="_blank" rel="noopener" href="http://c.biancheng.net/view/180.html">while 循环</a>的条件为<code>(ch=fgetc(fp)) != EOF</code>。fget() 每次从位置指针所在的位置读取一个字符，并保存到变量 ch，位置指针向后移动一个字节。当文件指针移动到文件末尾时，fget() 就无法读取字符了，于是返回 EOF，表示文件读取结束了。</p>
+<h4 id="对-EOF-的说明"><a href="#对-EOF-的说明" class="headerlink" title="对 EOF 的说明"></a>对 EOF 的说明</h4><p>EOF 本来表示文件末尾，意味着读取结束，但是很多函数在读取出错时也返回 EOF，那么当返回 EOF 时，到底是文件读取完毕了还是读取出错了？我们可以借助 stdio.h 中的两个函数来判断，分别是 feof() 和 ferror()。</p>
+<p>feof() 函数用来判断文件内部指针是否指向了文件末尾，它的原型是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int feof ( FILE * fp );</span><br></pre></td></tr></table></figure>
+
+<p>当指向文件末尾时返回非零值，否则返回零值。</p>
+<p>ferror() 函数用来判断文件操作是否出错，它的原型是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int ferror ( FILE *fp );</span><br></pre></td></tr></table></figure>
+
+<p>出错时返回非零值，否则返回零值。</p>
+<p>需要说明的是，文件出错是非常少见的情况，上面的示例基本能够保证将文件内的数据读取完毕。如果追求完美，也可以加上判断并给出提示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;stdio.h&gt;int main()&#123;    FILE *fp;    char ch;      &#x2F;&#x2F;如果文件不存在，给出提示并退出    if( (fp&#x3D;fopen(&quot;D:\\demo.txt&quot;,&quot;rt&quot;)) &#x3D;&#x3D; NULL )&#123;        puts(&quot;Fail to open file!&quot;);        exit(0);    &#125;    &#x2F;&#x2F;每次读取一个字节，直到读取完毕    while( (ch&#x3D;fgetc(fp)) !&#x3D; EOF )&#123;        putchar(ch);    &#125;    putchar(&#39;\n&#39;);  &#x2F;&#x2F;输出换行符    if(ferror(fp))&#123;        puts(&quot;读取出错&quot;);    &#125;else&#123;        puts(&quot;读取成功&quot;);    &#125;    fclose(fp);    return 0;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样，不管是出错还是正常读取，都能够做到心中有数。</p>
+<h3 id="字符写入函数-fputc"><a href="#字符写入函数-fputc" class="headerlink" title="字符写入函数 fputc"></a>字符写入函数 fputc</h3><p>fputc 是 file output char 的所以，意思是向指定的文件中写入一个字符。fputc() 的用法为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int fputc ( int ch, FILE *fp );</span><br></pre></td></tr></table></figure>
+
+<p>ch 为要写入的字符，fp 为文件指针。fputc() 写入成功时返回写入的字符，失败时返回 EOF，返回值类型为 int 也是为了容纳这个负数。例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fputc(&#39;a&#39;, fp);</span><br></pre></td></tr></table></figure>
+
+<p>或者：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">char ch &#x3D; &#39;a&#39;;</span><br><span class="line">fputc(ch, fp);</span><br></pre></td></tr></table></figure>
+
+<p>表示把字符 ‘a’ 写入fp所指向的文件中。</p>
+<h4 id="两点说明"><a href="#两点说明" class="headerlink" title="两点说明"></a>两点说明</h4><ol>
+<li><p>被写入的文件可以用写、读写、追加方式打开，用写或读写方式打开一个已存在的文件时将清除原有的文件内容，并将写入的字符放在文件开头。如需保留原有文件内容，并把写入的字符放在文件末尾，就必须以追加方式打开文件。不管以何种方式打开，被写入的文件若不存在时则创建该文件。</p>
+</li>
+<li><p>每写入一个字符，文件内部位置指针向后移动一个字节。</p>
+</li>
+</ol>
+<p>【示例】从键盘输入一行字符，写入文件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;stdio.h&gt;int main()&#123;    FILE *fp;    char ch;    &#x2F;&#x2F;判断文件是否成功打开    if( (fp&#x3D;fopen(&quot;D:\\demo.txt&quot;,&quot;wt+&quot;)) &#x3D;&#x3D; NULL )&#123;        puts(&quot;Fail to open file!&quot;);        exit(0);    &#125;    printf(&quot;Input a string:\n&quot;);    &#x2F;&#x2F;每次从键盘读取一个字符并写入文件    while ( (ch&#x3D;getchar()) !&#x3D; &#39;\n&#39; )&#123;        fputc(ch,fp);    &#125;    fclose(fp);    return 0;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行程序，输入一行字符并按回车键结束，打开D盘下的 demo.txt 文件，就可以看到刚才输入的内容。</p>
+<p>程序每次从键盘读取一个字符并写入文件，直到按下回车键，while 条件不成立，结束读取</p>
+<h2 id="2-scanf控制格式"><a href="#2-scanf控制格式" class="headerlink" title="2.scanf控制格式"></a>2.scanf控制格式</h2><h3 id="scanf的"><a href="#scanf的" class="headerlink" title="scanf的["></a>scanf的[</h3><p>scanf函数中，有一个不常被人注意的，就是[了。它用来扫描特定的字符集。如果它以^开头，表示扫描除了字符集以外的所有字符，否则就是前面我们看到的，只扫描读取指定字符。</p>
+<p>scanf读取空字符<br>我们都知道，scanf在读取内容的时候，会跳过空字符，比如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> s[<span class="number">128</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line"><span class="built_in">scanf</span>(<span class="string">&quot;%s&quot;</span>,s);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%s\n&quot;</span>,s);</span><br></pre></td></tr></table></figure>
+
+<p>假设输入为：</p>
+<p>假设输入为：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bianchengzhuji</span><br></pre></td></tr></table></figure>
+
+<p>那么输出将会是：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bianchengzhuji</span><br></pre></td></tr></table></figure>
+
+
+<p>注意，前面的空字符并没有读入到字符串s中，而是被跳过了。</p>
+<p>注意，前面的空字符并没有读入到字符串s中，而是被跳过了。</p>
+<p>那如果要读取空字符怎么办？很简单：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">scanf</span>(<span class="string">&quot;%[^\n]&quot;</span>,s);</span><br></pre></td></tr></table></figure>
+
+
+<p>这里的意思就是说，除了换行符，其他字符都读入，也就是说前面的空字符也会被读取，就达到了我们的目的了。</p>
+<h3 id="忽略开头的换行符"><a href="#忽略开头的换行符" class="headerlink" title="忽略开头的换行符"></a>忽略开头的换行符</h3><p>如果我们一开始就按回车，你会发现，s什么都没有读入，如何忽略开始的换行呢？像下面这样就可以了：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> a[<span class="number">10</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%*[\n]%[^\n]&quot;</span>,a);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%s\n&quot;</span>,a);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>输入输出示例：</p>
+<p>输入输出示例：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入:[回车][回车]abc</span><br><span class="line">输出:abc</span><br></pre></td></tr></table></figure>
+
+
+<p>输入时，按下两次回车，再输入其他字符，则最终会读取其他字符，而忽略开头的回车换行。我们知道，在scanf中，*是跳过相应的字符项，比如，跳过开头的两个数字：</p>
+<p>输入时，按下两次回车，再输入其他字符，则最终会读取其他字符，而忽略开头的回车换行。我们知道，在scanf中，*是跳过相应的字符项，比如，跳过开头的两个数字：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> third = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%*d %*d %d&quot;</span>,&amp;third);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>,third);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>输入：</p>
+<p>输入：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">111</span> <span class="number">222</span> <span class="number">333</span></span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">333</span></span><br></pre></td></tr></table></figure>
+
+<p>scanf会跳过前面的111和222，则会读取333，这个功能在读取文件获取特定列内容的时候很有用。同理，在前面的例子中%*[\n]即表示跳过换行，</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[^\n]</span><br></pre></td></tr></table></figure>
+
+<p>则读取任意字符，直到遇到换行。</p>
+<h3 id="丢弃特定字符"><a href="#丢弃特定字符" class="headerlink" title="丢弃特定字符"></a>丢弃特定字符</h3><p>最开始的例子中，如果开头是字母，即便想读取数字，也读取不到，那么如何跳过开头的字母呢？仿照刚刚讲的：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> a[<span class="number">128</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%*[a-zA-Z]%[0-9]&quot;</span>,a);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%s\n&quot;</span>,a);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>这样，开头的字母就会被丢弃。</p>
+<p>这样，开头的字母就会被丢弃。</p>
+<p>读取指定长度的任意字符</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> s[<span class="number">8</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line"><span class="built_in">scanf</span>(<span class="string">&quot;%7s&quot;</span>,s);</span><br></pre></td></tr></table></figure>
+
+
+<p>输入：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">abcdefghij</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">abcdefg</span><br></pre></td></tr></table></figure>
+
+<p>这样可以避免缓冲区溢出。</p>
+<p>scanf读取内容会跳过开头的空白字符，遇到换行符或者不是目标字符时结束读取。当然，你不是没有办法，今天所分享的就是办法。当然了，很多时候，你可能会选择使用fgets，getchar之类的函数，无妨。</p>
+<h2 id="3-C语言中条件编译相关指令"><a href="#3-C语言中条件编译相关指令" class="headerlink" title="3.C语言中条件编译相关指令"></a>3.C语言中条件编译相关指令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#define       定义一个预处理宏</span><br><span class="line">#undef       取消宏的定义</span><br><span class="line"></span><br><span class="line">#if          编译预处理中的条件命令，相当于C语法中的if语句</span><br><span class="line">#ifdef        判断某个宏是否被定义，若已定义，执行随后的语句</span><br><span class="line">#ifndef       与#ifdef相反，判断某个宏是否未被定义</span><br><span class="line">#elif         若#if, #ifdef, #ifndef或前面的#elif条件不满足，则执行#elif之后的语句，相当于C语法中的#else-if</span><br><span class="line">#else        与#if, #ifdef, #ifndef对应, 若这些条件不满足，则执行#else之后的语句，相当于C语法中的else</span><br><span class="line">#endif       #if, #ifdef, #ifndef这些条件命令的结束标志.</span><br><span class="line">defined     　与#if, #elif配合使用，判断某个宏是否被定义</span><br></pre></td></tr></table></figure>
+
+<h3 id="条件编译"><a href="#条件编译" class="headerlink" title="条件编译"></a>条件编译</h3><p>条件编译是根据实际定义宏（某类条件）进行代码静态编译的手段。可根据表达式的值或某个特定宏是否被定义来确定编译条件。</p>
+<p>最常见的条件编译是防止重复包含头文件的宏，形式跟下面代码类似：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> <span class="meta">#<span class="meta-keyword">ifndef</span> ABCD_H</span></span><br><span class="line"><span class="number">2</span> <span class="meta">#<span class="meta-keyword">define</span> ABCD_H</span></span><br><span class="line"><span class="number">3</span> </span><br><span class="line"><span class="number">4</span> <span class="comment">// ... some declaration codes</span></span><br><span class="line"><span class="number">5</span> </span><br><span class="line"><span class="number">6</span> <span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">// #ifndef ABCD_H</span></span></span><br></pre></td></tr></table></figure>
+
+<p>在实现文件中通常有如下类似的定义：c</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"> <span class="number">1</span> <span class="meta">#<span class="meta-keyword">ifdef</span> _DEBUG</span></span><br><span class="line"> <span class="number">2</span> </span><br><span class="line"> <span class="number">3</span> <span class="comment">// ... do some operations</span></span><br><span class="line"> <span class="number">4</span> </span><br><span class="line"> <span class="number">5</span> <span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"> <span class="number">6</span> </span><br><span class="line"> <span class="number">7</span> <span class="meta">#<span class="meta-keyword">ifdef</span> _WIN32</span></span><br><span class="line"> <span class="number">8</span> </span><br><span class="line"> <span class="number">9</span> <span class="comment">// ... use  Win32 API</span></span><br><span class="line"><span class="number">10</span> </span><br><span class="line"><span class="number">11</span> <span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+
+<h3 id="预编译指令应用举例"><a href="#预编译指令应用举例" class="headerlink" title="预编译指令应用举例"></a>预编译指令应用举例</h3><h4 id="1-define、-undef"><a href="#1-define、-undef" class="headerlink" title="1. #define、#undef"></a>1. #define、#undef</h4><p>#define命令定义一个宏:<br>#define MACRO_NAME[(args)] [tokens[(opt)]]<br>之后出现的MACRO_NAME将被替代为所定义的标记(tokens)。宏可带参数，而后面的标记也是可选的。</p>
+<p>宏定义，按照是否带参数通常分为对象宏、函数宏两种。<br>对象宏: 不带参数的宏被称为”对象宏(objectlike macro)”。对象宏多用于定义常量、通用标识。例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 常量定义</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAX_LENGTH 100</span></span><br><span class="line"><span class="comment">// 通用标识，日志输出宏</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SLog printf</span></span><br><span class="line"><span class="comment">// 预编译宏</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> _DEBUG</span></span><br></pre></td></tr></table></figure>
+
+<p>函数宏：带参数的宏。利用宏可以提高代码的运行效率: 子程序的调用需要压栈出栈, 这一过程如果过于频繁会耗费掉大量的CPU运算资源。 所以一些代码量小但运行频繁的代码如果采用带参数宏来实现会提高代码的运行效率。但多数c++程序不推荐使用函数宏，调试上有一定难度，可考虑使用c++的inline代替之。例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 最小值函数</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MIN(a,b) ((a)&gt;(b)? (a):(b))</span></span><br><span class="line"><span class="comment">// 安全释放内存函数</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SAFE_DELETE(p) &#123;<span class="meta-keyword">if</span>(NULL!=p)&#123;delete p; p = NULL;&#125;&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>#undef可以取消宏定义，与#define对应。</p>
+<h4 id="2-defined"><a href="#2-defined" class="headerlink" title="2. defined"></a>2. defined</h4><p>defined用来测试某个宏是否被定义。defined(name): 若宏被定义，则返回1，否则返回0。<br>它与#if、#elif、#else结合使用来判断宏是否被定义，乍一看好像它显得多余, 因为已经有了#ifdef和#ifndef。defined可用于在一条判断语句中声明多个判别条件；#ifdef和#ifndef则仅支持判断一个宏是否定义。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">if</span> defined(VAX) &amp;&amp; defined(UNIX) &amp;&amp; !defined(DEBUG) </span></span><br></pre></td></tr></table></figure>
+
+<p>和#if、#elif、#else不同，#ifdef、#ifndef、defined测试的宏可以是对象宏，也可以是函数宏。</p>
+<h4 id="3-ifdef、-ifndef、-else、-endif"><a href="#3-ifdef、-ifndef、-else、-endif" class="headerlink" title="3. #ifdef、#ifndef、#else、#endif"></a>3. #ifdef、#ifndef、#else、#endif</h4><p>条件编译中相对常用的预编译指令。模式如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> ABC</span></span><br><span class="line"><span class="comment">// ... codes while definded ABC</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">elif</span> (CODE_VERSION &gt; 2)</span></span><br><span class="line"><span class="comment">// ... codes while CODE_VERSION &gt; 2</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span></span></span><br><span class="line"><span class="comment">// ... remained cases</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">// #ifdef ABC </span></span></span><br></pre></td></tr></table></figure>
+
+<p>#ifdef用于判断某个宏是否定义，和#ifndef功能正好相反，二者仅支持判断单个宏是否已经定义，上面例子中二者可以互换。如果不需要多条件预编译的话，上面例子中的#elif和#else均可以不写。</p>
+<h4 id="4-if、-elif、-else、-endif"><a href="#4-if、-elif、-else、-endif" class="headerlink" title="4. #if、#elif、#else、#endif"></a>4. #if、#elif、#else、#endif</h4><p>#if可支持同时判断多个宏的存在，与常量表达式配合使用。常用格式如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">if</span> 常量表达式1</span></span><br><span class="line"><span class="comment">// ... some codes</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">elif</span> 常量表达式2</span></span><br><span class="line"><span class="comment">// ... other codes</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">elif</span> 常量表达式3</span></span><br><span class="line"><span class="comment">// ...</span></span><br><span class="line">...</span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span></span></span><br><span class="line"><span class="comment">// ... statement</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+
+<p>常量表达式可以是包含宏、算术运算、逻辑运算等等的合法C常量表达式，如果常量表达式为一个未定义的宏, 那么它的值被视为0。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">if</span> MACRO_NON_DEFINED <span class="comment">// 等价于</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> 0</span></span><br></pre></td></tr></table></figure>
+
+<p>在判断某个宏是否被定义时，应当避免使用#if，因为该宏的值可能就是被定义为0。而应当使用#ifdef或#ifndef。<br>注意: #if、#elif之后的宏只能是对象宏。如果宏未定义，或者该宏是函数宏，则编译器可能会有对应宏未定义的警告。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>本文主要介绍c语言中有关预编译的指令。撰写本文的目的在于理清相关概念调用，在后续预编译使用时可以找到最合适的指令及格式。比如同时满足多个宏定义的预编译、多分支预编译、#elif和#else指令的配合等。</p>
+<p>一、if条件编译，选择编译</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">(<span class="number">1</span>)    </span><br><span class="line"></span><br><span class="line">  <span class="meta">#<span class="meta-keyword">if</span> ()</span></span><br><span class="line"></span><br><span class="line">​    <span class="comment">//*******</span></span><br><span class="line"></span><br><span class="line">  <span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"></span><br><span class="line">(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">  <span class="meta">#<span class="meta-keyword">if</span> ()</span></span><br><span class="line"></span><br><span class="line">​    <span class="comment">//******</span></span><br><span class="line"></span><br><span class="line">  <span class="meta">#<span class="meta-keyword">else</span></span></span><br><span class="line"></span><br><span class="line">​    <span class="comment">//******</span></span><br><span class="line"></span><br><span class="line">  <span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"></span><br><span class="line">(<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line">  <span class="meta">#<span class="meta-keyword">if</span> ()</span></span><br><span class="line"></span><br><span class="line">​    <span class="comment">//******</span></span><br><span class="line"></span><br><span class="line">  <span class="meta">#<span class="meta-keyword">elif</span> ()</span></span><br><span class="line"></span><br><span class="line">​    <span class="comment">//******</span></span><br><span class="line"></span><br><span class="line">  <span class="meta">#<span class="meta-keyword">elif</span> ()</span></span><br><span class="line"></span><br><span class="line">​    <span class="comment">//******</span></span><br><span class="line"></span><br><span class="line">  <span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+
+<p>二、注意此处不能加“（）”不然会把括号也视为宏定义的字符串</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> DBG</span></span><br></pre></td></tr></table></figure>
+
+<p>三、</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> A C（0、1...）</span></span><br></pre></td></tr></table></figure>
+
+<p>四、注意此处不能加“（）”不然会把括号也视为宏定义的字符串</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> DBG</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#undefine DBG</span></span><br></pre></td></tr></table></figure>
+
+<p>五、注意此处不能加“()”不然会把括号也视为宏定义的字符串</p>
+<p>（1）  </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">  <span class="meta">#<span class="meta-keyword">ifdef</span> DBG</span></span><br><span class="line"></span><br><span class="line">​    <span class="meta">#<span class="meta-keyword">define</span> UNDBG</span></span><br><span class="line"></span><br><span class="line">​    <span class="meta">#<span class="meta-keyword">define</span> UNDBG1</span></span><br><span class="line"></span><br><span class="line">  <span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+
+<p>（2）</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">  <span class="meta">#ifundef DBG</span></span><br><span class="line"></span><br><span class="line">​    <span class="meta">#<span class="meta-keyword">define</span> UNDBG</span></span><br><span class="line"></span><br><span class="line">​    <span class="meta">#<span class="meta-keyword">define</span> UNDBG</span></span><br><span class="line"></span><br><span class="line">  <span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"> </span><br></pre></td></tr></table></figure>
+
+<p>六、符合条件“&amp;&amp; 和 ||”复合条件下必须加上“（）”标准形式如： # if (define (DBG)) || (define (DBG1))</p>
+<p>   (1)</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">   <span class="meta"># <span class="meta-keyword">if</span> <span class="meta-keyword">define</span> DBG || <span class="meta-keyword">define</span> DBG1 || <span class="meta-keyword">define</span> DBG2</span></span><br><span class="line"></span><br><span class="line">​      <span class="comment">//******</span></span><br><span class="line"></span><br><span class="line">​    <span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+
+<p>(2)</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">    <span class="meta">#<span class="meta-keyword">if</span> !<span class="meta-keyword">define</span> DBG || !<span class="meta-keyword">define</span> DBG2</span></span><br><span class="line"></span><br><span class="line">​      <span class="comment">//******</span></span><br><span class="line"></span><br><span class="line">​    <span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:2914475618@qq.com">Lu sir</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://a2914475618.github.io/2021/04/24/post%E9%82%A3%E4%BA%9B%E6%88%91%E6%9C%AA%E6%9B%BE%E7%9F%A5%E6%99%93%E7%9A%84C%E8%AF%AD%E8%A8%80%E5%B0%8F%E7%9F%A5%E8%AF%86/">https://a2914475618.github.io/2021/04/24/post%E9%82%A3%E4%BA%9B%E6%88%91%E6%9C%AA%E6%9B%BE%E7%9F%A5%E6%99%93%E7%9A%84C%E8%AF%AD%E8%A8%80%E5%B0%8F%E7%9F%A5%E8%AF%86/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://a2914475618.github.io" target="_blank">一位可可爱爱的编橙爱好者</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/C%E8%AF%AD%E8%A8%80/">C语言</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2021/04/24/UehH2l4jq3TMInQ.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/04/24/post%E5%93%88%E5%A4%AB%E6%9B%BC%E6%A0%91%E5%8E%8B%E7%BC%A9%E6%B3%95/"><img class="prev-cover" src="https://i.loli.net/2021/04/24/j8TPEmaYDg6qV2W.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">哈夫曼树压缩法</div></div></a></div><div class="next-post pull-right"><a href="/2021/04/23/postVue/"><img class="next-cover" src="https://i.loli.net/2021/04/23/nEqVNglJsoxWpAe.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Vue入门</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="/img/Touxiang.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Lu sir</div><div class="author-info__description">如风的少年</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">25</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">25</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">欢迎来到爱的小屋，爱你们哟</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#C%E8%AF%AD%E8%A8%80%E5%AE%9D%E5%85%B8-%E6%9B%B4%E6%96%B0%E4%B8%AD"><span class="toc-number">1.</span> <span class="toc-text">C语言宝典(更新中)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C"><span class="toc-number">1.1.</span> <span class="toc-text">1.文件操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#fopen-%E5%87%BD%E6%95%B0%E7%9A%84%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="toc-number">1.1.1.</span> <span class="toc-text">fopen() 函数的返回值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A4%E6%96%AD%E6%96%87%E4%BB%B6%E6%98%AF%E5%90%A6%E6%89%93%E5%BC%80%E6%88%90%E5%8A%9F"><span class="toc-number">1.1.2.</span> <span class="toc-text">判断文件是否打开成功</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fopen-%E5%87%BD%E6%95%B0%E7%9A%84%E6%89%93%E5%BC%80%E6%96%B9%E5%BC%8F"><span class="toc-number">1.1.3.</span> <span class="toc-text">fopen() 函数的打开方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E9%97%AD%E6%96%87%E4%BB%B6"><span class="toc-number">1.1.4.</span> <span class="toc-text">关闭文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E8%AF%BB%E5%8F%96%E5%87%BD%E6%95%B0-fgetc"><span class="toc-number">1.1.5.</span> <span class="toc-text">字符读取函数 fgetc</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AF%B9-EOF-%E7%9A%84%E8%AF%B4%E6%98%8E"><span class="toc-number">1.1.5.1.</span> <span class="toc-text">对 EOF 的说明</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E5%86%99%E5%85%A5%E5%87%BD%E6%95%B0-fputc"><span class="toc-number">1.1.6.</span> <span class="toc-text">字符写入函数 fputc</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%A4%E7%82%B9%E8%AF%B4%E6%98%8E"><span class="toc-number">1.1.6.1.</span> <span class="toc-text">两点说明</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-scanf%E6%8E%A7%E5%88%B6%E6%A0%BC%E5%BC%8F"><span class="toc-number">1.2.</span> <span class="toc-text">2.scanf控制格式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#scanf%E7%9A%84"><span class="toc-number">1.2.1.</span> <span class="toc-text">scanf的[</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BF%BD%E7%95%A5%E5%BC%80%E5%A4%B4%E7%9A%84%E6%8D%A2%E8%A1%8C%E7%AC%A6"><span class="toc-number">1.2.2.</span> <span class="toc-text">忽略开头的换行符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%A2%E5%BC%83%E7%89%B9%E5%AE%9A%E5%AD%97%E7%AC%A6"><span class="toc-number">1.2.3.</span> <span class="toc-text">丢弃特定字符</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-C%E8%AF%AD%E8%A8%80%E4%B8%AD%E6%9D%A1%E4%BB%B6%E7%BC%96%E8%AF%91%E7%9B%B8%E5%85%B3%E6%8C%87%E4%BB%A4"><span class="toc-number">1.3.</span> <span class="toc-text">3.C语言中条件编译相关指令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9D%A1%E4%BB%B6%E7%BC%96%E8%AF%91"><span class="toc-number">1.3.1.</span> <span class="toc-text">条件编译</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%84%E7%BC%96%E8%AF%91%E6%8C%87%E4%BB%A4%E5%BA%94%E7%94%A8%E4%B8%BE%E4%BE%8B"><span class="toc-number">1.3.2.</span> <span class="toc-text">预编译指令应用举例</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-define%E3%80%81-undef"><span class="toc-number">1.3.2.1.</span> <span class="toc-text">1. #define、#undef</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-defined"><span class="toc-number">1.3.2.2.</span> <span class="toc-text">2. defined</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-ifdef%E3%80%81-ifndef%E3%80%81-else%E3%80%81-endif"><span class="toc-number">1.3.2.3.</span> <span class="toc-text">3. #ifdef、#ifndef、#else、#endif</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-if%E3%80%81-elif%E3%80%81-else%E3%80%81-endif"><span class="toc-number">1.3.2.4.</span> <span class="toc-text">4. #if、#elif、#else、#endif</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">1.3.3.</span> <span class="toc-text">总结</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/04/24/post%E5%93%88%E5%A4%AB%E6%9B%BC%E6%A0%91%E5%8E%8B%E7%BC%A9%E6%B3%95/" title="哈夫曼树压缩法"><img src="https://i.loli.net/2021/04/24/j8TPEmaYDg6qV2W.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="哈夫曼树压缩法"/></a><div class="content"><a class="title" href="/2021/04/24/post%E5%93%88%E5%A4%AB%E6%9B%BC%E6%A0%91%E5%8E%8B%E7%BC%A9%E6%B3%95/" title="哈夫曼树压缩法">哈夫曼树压缩法</a><time datetime="2021-04-24T11:34:16.000Z" title="发表于 2021-04-24 19:34:16">2021-04-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/24/post%E9%82%A3%E4%BA%9B%E6%88%91%E6%9C%AA%E6%9B%BE%E7%9F%A5%E6%99%93%E7%9A%84C%E8%AF%AD%E8%A8%80%E5%B0%8F%E7%9F%A5%E8%AF%86/" title="那些我未曾知晓的C语言小知识"><img src="https://i.loli.net/2021/04/24/UehH2l4jq3TMInQ.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="那些我未曾知晓的C语言小知识"/></a><div class="content"><a class="title" href="/2021/04/24/post%E9%82%A3%E4%BA%9B%E6%88%91%E6%9C%AA%E6%9B%BE%E7%9F%A5%E6%99%93%E7%9A%84C%E8%AF%AD%E8%A8%80%E5%B0%8F%E7%9F%A5%E8%AF%86/" title="那些我未曾知晓的C语言小知识">那些我未曾知晓的C语言小知识</a><time datetime="2021-04-24T08:25:36.000Z" title="发表于 2021-04-24 16:25:36">2021-04-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/23/postVue/" title="Vue入门"><img src="https://i.loli.net/2021/04/23/nEqVNglJsoxWpAe.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Vue入门"/></a><div class="content"><a class="title" href="/2021/04/23/postVue/" title="Vue入门">Vue入门</a><time datetime="2021-04-23T07:47:42.000Z" title="发表于 2021-04-23 15:47:42">2021-04-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/23/postC-%E5%8F%8D%E5%B0%84%E8%AF%A6%E8%A7%A3/" title="C#反射详解"><img src="https://i.loli.net/2021/04/23/f29zFIsge3SDxlM.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="C#反射详解"/></a><div class="content"><a class="title" href="/2021/04/23/postC-%E5%8F%8D%E5%B0%84%E8%AF%A6%E8%A7%A3/" title="C#反射详解">C#反射详解</a><time datetime="2021-04-23T04:55:07.000Z" title="发表于 2021-04-23 12:55:07">2021-04-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/18/postsession%E4%B8%8Ecookie/" title="session与cookie"><img src="https://i.loli.net/2021/04/18/XlfoGcrhOIQC26y.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="session与cookie"/></a><div class="content"><a class="title" href="/2021/04/18/postsession%E4%B8%8Ecookie/" title="session与cookie">session与cookie</a><time datetime="2021-04-18T08:32:36.000Z" title="发表于 2021-04-18 16:32:36">2021-04-18</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By Lu sir</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">我的肩上是风，风上是闪烁的星群</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'pc3JDCREMGoF3S3e4YzeC6kX-gzGzoHsz',
+      appKey: '01uhcP5vYPOKkVzxt5chIypp',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'en',
+      recordIP: false,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: false,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script src="js/jquery.min.js"></script><script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/gh/xiabo2/CDN@latest/fishes.js"></script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-heart.min.js" async="async" mobile="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/haruto.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body></html>
