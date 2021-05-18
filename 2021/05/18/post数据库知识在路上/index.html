@@ -1,0 +1,225 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>数据库知识在路上 | 一位可可爱爱的编橙爱好者</title><meta name="keywords" content="数据库"><meta name="author" content="Lu sir,2914475618@qq.com"><meta name="copyright" content="Lu sir"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="数据库学习（新）存储过程1.存储过程的概念存储过程 (Stored Procedure) 是在大型数据库系统中 , 一组为了完成特定功能的 SQL 语句集 , 存储在数据库中 , 经过第一次编译后再次调用不需要再次编译 , 用户通过指定存储过程的名字并给出参数 (如果该存储过程带有参数) 来执行它 , 存储过程是数据库中的一个重要对象 ; 存储过程中可以包含 逻辑控制语句 和 数据操纵语句 , 它">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据库知识在路上">
+<meta property="og:url" content="https://a2914475618.github.io/2021/05/18/post%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9F%A5%E8%AF%86%E5%9C%A8%E8%B7%AF%E4%B8%8A/index.html">
+<meta property="og:site_name" content="一位可可爱爱的编橙爱好者">
+<meta property="og:description" content="数据库学习（新）存储过程1.存储过程的概念存储过程 (Stored Procedure) 是在大型数据库系统中 , 一组为了完成特定功能的 SQL 语句集 , 存储在数据库中 , 经过第一次编译后再次调用不需要再次编译 , 用户通过指定存储过程的名字并给出参数 (如果该存储过程带有参数) 来执行它 , 存储过程是数据库中的一个重要对象 ; 存储过程中可以包含 逻辑控制语句 和 数据操纵语句 , 它">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/v2-01b80c7a20a123a293f26e8826c2cd44_r.jpg">
+<meta property="article:published_time" content="2021-05-18T12:36:51.000Z">
+<meta property="article:modified_time" content="2021-05-18T13:00:13.154Z">
+<meta property="article:author" content="Lu sir">
+<meta property="article:tag" content="数据库">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/v2-01b80c7a20a123a293f26e8826c2cd44_r.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://a2914475618.github.io/2021/05/18/post%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9F%A5%E8%AF%86%E5%9C%A8%E8%B7%AF%E4%B8%8A/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-05-18 21:00:13'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><link rel="stylesheet" href="css/footer.css"><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="一位可可爱爱的编橙爱好者" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/img/Touxiang.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">27</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">27</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fas fa-comments"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/v2-01b80c7a20a123a293f26e8826c2cd44_r.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">一位可可爱爱的编橙爱好者</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fas fa-comments"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">数据库知识在路上</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-05-18T12:36:51.000Z" title="发表于 2021-05-18 20:36:51">2021-05-18</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-05-18T13:00:13.154Z" title="更新于 2021-05-18 21:00:13">2021-05-18</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E6%A1%A3/">技术文档</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>4分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="数据库知识在路上"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="数据库学习（新）"><a href="#数据库学习（新）" class="headerlink" title="数据库学习（新）"></a>数据库学习（新）</h1><h2 id="存储过程"><a href="#存储过程" class="headerlink" title="存储过程"></a>存储过程</h2><h3 id="1-存储过程的概念"><a href="#1-存储过程的概念" class="headerlink" title="1.存储过程的概念"></a>1.存储过程的概念</h3><p>存储过程 (Stored Procedure) 是在大型数据库系统中 , 一组为了完成特定功能的 SQL 语句集 , 存储在数据库中 , 经过第一次编译后再次调用不需要再次编译 , 用户通过指定存储过程的名字并给出参数 (如果该存储过程带有参数) 来执行它 , 存储过程是数据库中的一个重要对象 ; 存储过程中可以包含 逻辑控制语句 和 数据操纵语句 , 它可以接受参数 , 输出参数 , 返回单个或多个结果集以及返回值 ;</p>
+<h3 id="2-存储过程的优缺点"><a href="#2-存储过程的优缺点" class="headerlink" title="2.存储过程的优缺点"></a>2.存储过程的优缺点</h3><h4 id="优点"><a href="#优点" class="headerlink" title="优点 :"></a>优点 :</h4><ol>
+<li>由于应用程序随着时间推移会不断更改 , 增删功能 , SQL 语句会变得更复杂 , 存储过程为封装此类代码提供了一个替换位置 </li>
+<li>由于存储过程在创建时即在数据库服务器上进行了编译并存储在数据库中 , 所以存储过程运行要比单个的 SQL 语句块要快 </li>
+<li>由于在调用时只需用提供存储过程名和必要的参数信息 , 所以在一定程度上也可以减少网络流量 , 简单网络负担 ;</li>
+<li>可维护性高 , 更新存储过程通常比更改 , 测试以及重新部署程序集需要较少的时间和精力 ;</li>
+<li>代码精简一致 , 一个存储过程可以用于应用程序代码的不同位置 ;</li>
+<li>增强安全性 :<br>1.通过向用户授予对存储过程 (而不是基于表) 的访问权限 , 它们可以提供对特定数据的访问 ;<br>2.提高代码安全 , 防止 SQL注入 (但未彻底解决 , 例如将数据操作语言 DML 附加到输入参数) ;<br>3.SQLParameter 类指定存储过程参数的数据类型 , 作为深层次防御性策略的一部分 , 可以验证用户提供的值类型 (但也不是万无一失 , 还是应该传递至数据库前得到附加验证) ;</li>
+</ol>
+<h4 id="缺点"><a href="#缺点" class="headerlink" title="缺点 :"></a>缺点 :</h4><ol>
+<li>如果更改范围大到需要对输入存储过程的参数进行更改 , 或者要更改由其返回的数据 , 则仍需要更新程序集中的代码以添加参数 , 等等 ;</li>
+<li>可移植性差 , 由于存储过程将应用程序绑定到 Server , 因此使用存储过程封装业务逻辑将限制应用程序的可移植性 ; 如果应用程序的可移植性在您的环境中非常重要 , 则将业务逻辑封装在不特定于 RDBMS 的中间层中可能是一个更佳的选择 ;</li>
+</ol>
+<h3 id="3-存储过程语法"><a href="#3-存储过程语法" class="headerlink" title="3.存储过程语法"></a>3.存储过程语法</h3><h4 id="1-创建存储过程"><a href="#1-创建存储过程" class="headerlink" title="1.创建存储过程"></a>1.创建存储过程</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">procedure</span> GetUsers()</span><br><span class="line"><span class="keyword">begin</span> </span><br><span class="line">	<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> <span class="keyword">user</span>; </span><br><span class="line"><span class="keyword">end</span>;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="2-调用存储过程"><a href="#2-调用存储过程" class="headerlink" title="2.调用存储过程"></a>2.调用存储过程</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">call</span> GetUsers();</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-删除存储过程"><a href="#3-删除存储过程" class="headerlink" title="3.删除存储过程"></a>3.删除存储过程</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">drop</span> <span class="keyword">procedure</span> if <span class="keyword">exists</span> GetUsers;</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-相关小知识点"><a href="#5-相关小知识点" class="headerlink" title="5.相关小知识点"></a>5.相关小知识点</h3><h5 id="1-SET-ANSI-NULLS-ON以及SET-QUOTED-IDENTIFIER-ON"><a href="#1-SET-ANSI-NULLS-ON以及SET-QUOTED-IDENTIFIER-ON" class="headerlink" title="1.SET ANSI_NULLS ON以及SET QUOTED_IDENTIFIER ON"></a>1.SET ANSI_NULLS ON以及SET QUOTED_IDENTIFIER ON</h5><blockquote>
+<p>USE [Test]<br>GO<br>SET ANSI_NULLS ON<br>GO<br>SET QUOTED_IDENTIFIER ON<br>GO</p>
+</blockquote>
+<p>1.作用和详解：<br>1). USE:指明整个存储过程所调用/使用的数据库，其中Test是我本地建立的数据库名称，USE [Test]就是告诉程序，要调用/使用的是我本地的Test数据库的意思。必须要指明调用/使用的具体数据库。</p>
+<p>2).GO:该语句不是SQL的语句，表示一个事务结束的标识，告诉程序在go语句之前的所有语句已经确认并提交了，可以进行批处理操作了。当程序运行到go语句时，就会直接对go语句之前的代码进行批处理操作了。</p>
+<p>3).SET ANSI_NULLS ON:表示对空值(null)对等于(=)或不等于(&lt;&gt;)进行判断时，遵从 SQL-92 规则。</p>
+<p>(1).SQL-92规则中，在对空值(null)进行等于(=)或不等于(&lt;&gt;)比较时，取值为false。也就是说:</p>
+<p>1&gt;.即使是表中字段column_name中包含空值(null),在进行条件判断 where column_name = NULL 时，该select查询语句返回的数据是空的/返回零行。</p>
+<p>2&gt;.即使是表中字段column_name中包含非空值，在进行条件判断 where column_name &lt;&gt; NULL时，该select查询语句返回的数据是空的/返回零行。</p>
+<p>3)SET ANSI_NULLS OFF:表示在对空值(null)进行等于(=)或不等于(&lt;&gt;)比较时，不再遵从SQL-92的规则：</p>
+<p>1&gt;.当column_name字段中包含了空值(null)，在进行条件判断 where column_name = null 时，该select查询语句会返回表中column_name 字段值为空(null)的数据行。</p>
+<p>2&gt;.当column_name字段中包含了非空值，在进行条件判断 where column_name &lt;&gt; null 时，该select 查询语句会返回表中column_name 字段值不为空的数据行。</p>
+<p>4).SET QUOTED_IDENTIFIER ON:表示使用  引用标识符，标识符可以用双引号分隔，但是，文字必须用单引号分隔。</p>
+<p>例如：</p>
+<p> select “name”,”age”,”sex”,”grade” from a where name = ‘张三’</p>
+<p>或<br> select name,age,sex,grade from a where name = ‘张三’</p>
+<p>说明：当设置为ON时，标识符(数据表字段 name)等字段可以用双引号分隔，也可以不用双引号分隔，但是文字部分必须用单引号来分隔，否则会报错。注意：当设置为ON时，标识符返回的是改字段的值，name，返回的是姓名为张三，age字符返回的是年龄为25，sex字符返回的是性别为男，grade字符返回的是分数为400</p>
+<p>5).SET QUOTED_IDENTIFIER OFF:表示标识符不能用双引号分隔，否则标识符会被当做字符串值来返回，不再是字符来返回。而且，文字部分必须用单引号或双引号分隔。</p>
+<p>说明：当设置为OFF时，标识符是不能用双引号来分隔的，否则标识符就会被当做是字符串来返回，不再是字符来返回了。而且，文字部分是必须要引号来分隔，可以是单引号(‘’)，也可以是双引号(“”)。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:2914475618@qq.com">Lu sir</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://a2914475618.github.io/2021/05/18/post%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9F%A5%E8%AF%86%E5%9C%A8%E8%B7%AF%E4%B8%8A/">https://a2914475618.github.io/2021/05/18/post%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9F%A5%E8%AF%86%E5%9C%A8%E8%B7%AF%E4%B8%8A/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://a2914475618.github.io" target="_blank">一位可可爱爱的编橙爱好者</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/v2-01b80c7a20a123a293f26e8826c2cd44_r.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2021/04/28/post%E5%93%88%E5%A4%AB%E6%9B%BC%E6%A0%91%E8%A7%A3%E5%8E%8B%E6%B3%95/"><img class="next-cover" src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/v2-ad6138caa49f70c900cccd2f5c8cb0ab_r.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">哈夫曼树解压法（接上节）</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="/img/Touxiang.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Lu sir</div><div class="author-info__description">如风的少年</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">27</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">27</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/a2914475618"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">欢迎来到爱的小屋，爱你们哟</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AD%A6%E4%B9%A0%EF%BC%88%E6%96%B0%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">数据库学习（新）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B"><span class="toc-number">1.1.</span> <span class="toc-text">存储过程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="toc-number">1.1.1.</span> <span class="toc-text">1.存储过程的概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-number">1.1.2.</span> <span class="toc-text">2.存储过程的优缺点</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%98%E7%82%B9"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">优点 :</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%BA%E7%82%B9"><span class="toc-number">1.1.2.2.</span> <span class="toc-text">缺点 :</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B%E8%AF%AD%E6%B3%95"><span class="toc-number">1.1.3.</span> <span class="toc-text">3.存储过程语法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%88%9B%E5%BB%BA%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B"><span class="toc-number">1.1.3.1.</span> <span class="toc-text">1.创建存储过程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E8%B0%83%E7%94%A8%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B"><span class="toc-number">1.1.3.2.</span> <span class="toc-text">2.调用存储过程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E5%88%A0%E9%99%A4%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B"><span class="toc-number">1.1.3.3.</span> <span class="toc-text">3.删除存储过程</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E7%9B%B8%E5%85%B3%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%82%B9"><span class="toc-number">1.1.4.</span> <span class="toc-text">5.相关小知识点</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-SET-ANSI-NULLS-ON%E4%BB%A5%E5%8F%8ASET-QUOTED-IDENTIFIER-ON"><span class="toc-number">1.1.4.0.1.</span> <span class="toc-text">1.SET ANSI_NULLS ON以及SET QUOTED_IDENTIFIER ON</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/18/post%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9F%A5%E8%AF%86%E5%9C%A8%E8%B7%AF%E4%B8%8A/" title="数据库知识在路上"><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/v2-01b80c7a20a123a293f26e8826c2cd44_r.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="数据库知识在路上"/></a><div class="content"><a class="title" href="/2021/05/18/post%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9F%A5%E8%AF%86%E5%9C%A8%E8%B7%AF%E4%B8%8A/" title="数据库知识在路上">数据库知识在路上</a><time datetime="2021-05-18T12:36:51.000Z" title="发表于 2021-05-18 20:36:51">2021-05-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/28/post%E5%93%88%E5%A4%AB%E6%9B%BC%E6%A0%91%E8%A7%A3%E5%8E%8B%E6%B3%95/" title="哈夫曼树解压法（接上节）"><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/v2-ad6138caa49f70c900cccd2f5c8cb0ab_r.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="哈夫曼树解压法（接上节）"/></a><div class="content"><a class="title" href="/2021/04/28/post%E5%93%88%E5%A4%AB%E6%9B%BC%E6%A0%91%E8%A7%A3%E5%8E%8B%E6%B3%95/" title="哈夫曼树解压法（接上节）">哈夫曼树解压法（接上节）</a><time datetime="2021-04-28T02:29:36.000Z" title="发表于 2021-04-28 10:29:36">2021-04-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/24/post%E5%93%88%E5%A4%AB%E6%9B%BC%E6%A0%91%E5%8E%8B%E7%BC%A9%E6%B3%95/" title="哈夫曼树压缩法"><img src="https://i.loli.net/2021/04/24/j8TPEmaYDg6qV2W.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="哈夫曼树压缩法"/></a><div class="content"><a class="title" href="/2021/04/24/post%E5%93%88%E5%A4%AB%E6%9B%BC%E6%A0%91%E5%8E%8B%E7%BC%A9%E6%B3%95/" title="哈夫曼树压缩法">哈夫曼树压缩法</a><time datetime="2021-04-24T11:34:16.000Z" title="发表于 2021-04-24 19:34:16">2021-04-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/24/post%E9%82%A3%E4%BA%9B%E6%88%91%E6%9C%AA%E6%9B%BE%E7%9F%A5%E6%99%93%E7%9A%84C%E8%AF%AD%E8%A8%80%E5%B0%8F%E7%9F%A5%E8%AF%86/" title="那些我未曾知晓的C语言小知识"><img src="https://i.loli.net/2021/04/24/UehH2l4jq3TMInQ.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="那些我未曾知晓的C语言小知识"/></a><div class="content"><a class="title" href="/2021/04/24/post%E9%82%A3%E4%BA%9B%E6%88%91%E6%9C%AA%E6%9B%BE%E7%9F%A5%E6%99%93%E7%9A%84C%E8%AF%AD%E8%A8%80%E5%B0%8F%E7%9F%A5%E8%AF%86/" title="那些我未曾知晓的C语言小知识">那些我未曾知晓的C语言小知识</a><time datetime="2021-04-24T08:25:36.000Z" title="发表于 2021-04-24 16:25:36">2021-04-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/23/postVue/" title="Vue入门"><img src="https://i.loli.net/2021/04/23/nEqVNglJsoxWpAe.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Vue入门"/></a><div class="content"><a class="title" href="/2021/04/23/postVue/" title="Vue入门">Vue入门</a><time datetime="2021-04-23T07:47:42.000Z" title="发表于 2021-04-23 15:47:42">2021-04-23</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By Lu sir</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">我的肩上是风，风上是闪烁的星群</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'pc3JDCREMGoF3S3e4YzeC6kX-gzGzoHsz',
+      appKey: '01uhcP5vYPOKkVzxt5chIypp',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'en',
+      recordIP: false,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: false,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script src="js/jquery.min.js"></script><script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/gh/xiabo2/CDN@latest/fishes.js"></script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-heart.min.js" async="async" mobile="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/haruto.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body></html>
