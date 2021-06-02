@@ -1,0 +1,262 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>C#学习 | 一位可可爱爱的编橙爱好者</title><meta name="keywords" content="C#"><meta name="author" content="Lu sir,2914475618@qq.com"><meta name="copyright" content="Lu sir"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="C#学习记录 记录学习中的重要点，嘿嘿嘿  泛型 泛型无处不在，与接口地位相当 泛型的东西在编程的时候不能直接拿来使用的，需要特化以后才能拿来使用 类型膨胀、成员膨胀（就比如方法重载，就只有参数类型不同，其他所有逻辑都是相同的） 写在&lt;&gt;里面的成为类型参数       泛型接口  一个类实现的是泛型接口，则他本身也是泛型的 泛型具有良好的正交性 .net framework 常用的数据">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C#学习">
+<meta property="og:url" content="https://a2914475618.github.io/2021/06/02/postC-%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="一位可可爱爱的编橙爱好者">
+<meta property="og:description" content="C#学习记录 记录学习中的重要点，嘿嘿嘿  泛型 泛型无处不在，与接口地位相当 泛型的东西在编程的时候不能直接拿来使用的，需要特化以后才能拿来使用 类型膨胀、成员膨胀（就比如方法重载，就只有参数类型不同，其他所有逻辑都是相同的） 写在&lt;&gt;里面的成为类型参数       泛型接口  一个类实现的是泛型接口，则他本身也是泛型的 泛型具有良好的正交性 .net framework 常用的数据">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/v2-527b50f8650cd17bd85841f4ab87c982_r.jpg">
+<meta property="article:published_time" content="2021-06-02T11:05:39.000Z">
+<meta property="article:modified_time" content="2021-06-02T11:07:52.684Z">
+<meta property="article:author" content="Lu sir">
+<meta property="article:tag" content="C#">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/v2-527b50f8650cd17bd85841f4ab87c982_r.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://a2914475618.github.io/2021/06/02/postC-%E5%AD%A6%E4%B9%A0/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-06-02 19:07:52'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><link rel="stylesheet" href="css/footer.css"><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="一位可可爱爱的编橙爱好者" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/img/Touxiang.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">31</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">31</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fas fa-comments"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/v2-527b50f8650cd17bd85841f4ab87c982_r.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">一位可可爱爱的编橙爱好者</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fas fa-comments"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">C#学习</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-06-02T11:05:39.000Z" title="发表于 2021-06-02 19:05:39">2021-06-02</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-06-02T11:07:52.684Z" title="更新于 2021-06-02 19:07:52">2021-06-02</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E6%A1%A3/">技术文档</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>3分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="C#学习"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="C-学习记录"><a href="#C-学习记录" class="headerlink" title="C#学习记录"></a>C#学习记录</h1><blockquote>
+<p>记录学习中的重要点，嘿嘿嘿</p>
+</blockquote>
+<h2 id="泛型"><a href="#泛型" class="headerlink" title="泛型"></a>泛型</h2><blockquote>
+<p>泛型无处不在，与接口地位相当</p>
+<p>泛型的东西在编程的时候不能直接拿来使用的，需要特化以后才能拿来使用</p>
+<p>类型膨胀、成员膨胀（就比如方法重载，就只有参数类型不同，其他所有逻辑都是相同的）</p>
+<p>写在&lt;&gt;里面的成为类型参数      </p>
+<p>泛型接口 </p>
+<p>一个类实现的是泛型接口，则他本身也是泛型的</p>
+<p>泛型具有良好的正交性</p>
+<p>.net framework 常用的数据结构都是泛型的</p>
+<p>集中在 System.Collections.Generic里</p>
+<p>list为动态数组，没有长度限制，自动创建新的数组并把内容拷贝过去</p>
+<p>实现IEnumerable 接口的可以被迭代</p>
+<p>实现ICollection是一个集合接口的可以添加新元素和删除元素</p>
+<p>泛型接口也可以有两个类型参数，如IDictionary&lt;int,string&gt;</p>
+<p>方法也可以是泛型的，只需呀写一个泛型方法，就能接受多种不一样的类型参数</p>
+<p>泛型委托1.ACTION委托  2.FUNCTION委托Func&lt;参数类型，参数类型，返回值类型&gt;</p>
+<p>lamada表达式：对于逻辑简单的方法，我们不想去声明他，随调用，随申明，不想污染上下文，把名字留给更重要的方法去用</p>
+</blockquote>
+<h2 id="partial类"><a href="#partial类" class="headerlink" title="partial类"></a>partial类</h2><blockquote>
+<p>允许我们把代码分成两部分，或者多部分，而且每个部分都可以以自己的版本进行更新</p>
+<p>需要其帮我们减少派生类</p>
+<p>允许一个类的不同部分用不同的编程语言，比如cshtml</p>
+</blockquote>
+<h2 id="枚举类型"><a href="#枚举类型" class="headerlink" title="枚举类型"></a>枚举类型</h2><blockquote>
+<p>enum </p>
+<p>限制数据的选择范围</p>
+<p>枚举值的处置是从0开始，也可以自己给其赋值</p>
+<p>比特位用法 1 2 4 8 </p>
+</blockquote>
+<h2 id="事件"><a href="#事件" class="headerlink" title="事件"></a>事件</h2><blockquote>
+<p>mvc ,mvp,mvvm等模式，是事件模式更高级的用法</p>
+<p>事件模型五个部分</p>
+<p>1.事件的拥有者</p>
+<p>事件的源头</p>
+<p>2.事件成员</p>
+<p>3.事件的响应者</p>
+<p>哪些类被通知到</p>
+<p>4.事件处理器</p>
+<p>用自己的方法来响应</p>
+<p>5.事件订阅</p>
+<p>事件处理器与事件关联在一起，监听</p>
+<p>委托是事件的底层基础</p>
+<p>事件是委托的上层建筑</p>
+</blockquote>
+<h2 id="委托"><a href="#委托" class="headerlink" title="委托"></a>委托</h2><blockquote>
+<p>函数指针的升级版</p>
+<p>函数指针c语言：typedef int(*Calc)(int a,int b);间接调用</p>
+<p>delegate</p>
+<p>委托是一种类</p>
+<p>通过委托保留了函数指针</p>
+<p>1.action委托</p>
+<p>Action action=new Action （类名.方法)</p>
+<p>间接调用 action.Invoke();</p>
+<p>也可以写为action();</p>
+<p>2.Func委托</p>
+<p>Func&lt;int ,int ,int&gt; func =new  Func&lt;int,int,int&gt;(类名.方法）</p>
+<hr>
+<p>通过delegate来声明委托，自定义委托</p>
+<p>delegate double Calc (double x,double y);</p>
+<p>用于回调方法</p>
+</blockquote>
+<h2 id="mvvm模式"><a href="#mvvm模式" class="headerlink" title="mvvm模式"></a>mvvm模式</h2><blockquote>
+<p>MVVM 是Model-View-ViewModel 的缩写，它是一种基于前端开发的架构模式，其<strong>核心是提供对View 和 ViewModel 的双向数据绑定，这使得ViewModel 的状态改变可以自动传递给 View，即所谓的数据双向绑定</strong>。</p>
+<p>　　Vue.js 是一个提供了 MVVM 风格的双向数据绑定的 Javascript 库，专注于View 层。它的核心是 MVVM 中的 VM，也就是 ViewModel。 ViewModel负责连接 View 和 Model，保证视图和数据的一致性，这种轻量级的架构让前端开发更加高效、便捷。</p>
+<p>MVVM 由 Model、View、ViewModel 三部分构成，Model 层代表数据模型，也可以在Model中定义数据修改和操作的业务逻辑；View 代表UI 组件，它负责将数据模型转化成UI 展现出来，ViewModel 是一个同步View 和 Model的对象。</p>
+<p>　　<strong>在MVVM架构下，View 和 Model 之间并没有直接的联系，而是通过ViewModel进行交互，Model 和 ViewModel 之间的交互是双向的， 因此View 数据的变化会同步到Model中，而Model 数据的变化也会立即反应到View 上</strong>。</p>
+<p>　　ViewModel 通过双向数据绑定把 View 层和 Model 层连接了起来，而View 和 Model 之间的同步工作完全是自动的，无需人为干涉，因此开发者只需关注业务逻辑，不需要手动操作DOM， 不需要关注数据状态的同步问题，复杂的数据状态维护完全由 MVVM 来统一管理。</p>
+</blockquote>
+<h2 id="派生"><a href="#派生" class="headerlink" title="派生"></a>派生</h2><blockquote>
+<p>在原有的类上扩展功能</p>
+<p>也叫做继承</p>
+</blockquote>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:2914475618@qq.com">Lu sir</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://a2914475618.github.io/2021/06/02/postC-%E5%AD%A6%E4%B9%A0/">https://a2914475618.github.io/2021/06/02/postC-%E5%AD%A6%E4%B9%A0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://a2914475618.github.io" target="_blank">一位可可爱爱的编橙爱好者</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/C/">C#</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/v2-527b50f8650cd17bd85841f4ab87c982_r.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2021/06/01/postnpm%E5%AD%A6%E4%B9%A0/"><img class="next-cover" src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/v2-1dfcfa807600f4e5e7983941bd115f2c_r.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">npm学习</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="/img/Touxiang.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Lu sir</div><div class="author-info__description">如风的少年</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">31</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">31</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/a2914475618"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">欢迎来到爱的小屋，爱你们哟</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#C-%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95"><span class="toc-number">1.</span> <span class="toc-text">C#学习记录</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%9B%E5%9E%8B"><span class="toc-number">1.1.</span> <span class="toc-text">泛型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#partial%E7%B1%BB"><span class="toc-number">1.2.</span> <span class="toc-text">partial类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9E%9A%E4%B8%BE%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.3.</span> <span class="toc-text">枚举类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6"><span class="toc-number">1.4.</span> <span class="toc-text">事件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A7%94%E6%89%98"><span class="toc-number">1.5.</span> <span class="toc-text">委托</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mvvm%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.6.</span> <span class="toc-text">mvvm模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B4%BE%E7%94%9F"><span class="toc-number">1.7.</span> <span class="toc-text">派生</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/06/02/postC-%E5%AD%A6%E4%B9%A0/" title="C#学习"><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/v2-527b50f8650cd17bd85841f4ab87c982_r.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="C#学习"/></a><div class="content"><a class="title" href="/2021/06/02/postC-%E5%AD%A6%E4%B9%A0/" title="C#学习">C#学习</a><time datetime="2021-06-02T11:05:39.000Z" title="发表于 2021-06-02 19:05:39">2021-06-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/06/01/postnpm%E5%AD%A6%E4%B9%A0/" title="npm学习"><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/v2-1dfcfa807600f4e5e7983941bd115f2c_r.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="npm学习"/></a><div class="content"><a class="title" href="/2021/06/01/postnpm%E5%AD%A6%E4%B9%A0/" title="npm学习">npm学习</a><time datetime="2021-06-01T11:57:20.000Z" title="发表于 2021-06-01 19:57:20">2021-06-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/05/21/postAOP%E9%9D%A2%E5%90%91%E5%88%87%E9%9D%A2%E7%BC%96%E7%A8%8B/" title="面向切面编程"><img src="https://i.loli.net/2021/04/17/Et4ouRNd7jC18OA.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="面向切面编程"/></a><div class="content"><a class="title" href="/2021/05/21/postAOP%E9%9D%A2%E5%90%91%E5%88%87%E9%9D%A2%E7%BC%96%E7%A8%8B/" title="面向切面编程">面向切面编程</a><time datetime="2021-05-21T08:25:45.000Z" title="发表于 2021-05-21 16:25:45">2021-05-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/05/20/post%E6%9C%89%E5%90%91%E5%9B%BE%E4%B8%A4%E7%82%B9%E7%9A%84%E6%89%80%E6%9C%89%E8%B7%AF%E5%BE%84/" title="有向图两点的所有路径"><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/DI6WK%5BVN3%5DRXO5OPQRQZH%60M.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="有向图两点的所有路径"/></a><div class="content"><a class="title" href="/2021/05/20/post%E6%9C%89%E5%90%91%E5%9B%BE%E4%B8%A4%E7%82%B9%E7%9A%84%E6%89%80%E6%9C%89%E8%B7%AF%E5%BE%84/" title="有向图两点的所有路径">有向图两点的所有路径</a><time datetime="2021-05-20T03:30:18.000Z" title="发表于 2021-05-20 11:30:18">2021-05-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/05/18/post%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9F%A5%E8%AF%86%E5%9C%A8%E8%B7%AF%E4%B8%8A/" title="数据库知识在路上"><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/v2-01b80c7a20a123a293f26e8826c2cd44_r.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="数据库知识在路上"/></a><div class="content"><a class="title" href="/2021/05/18/post%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9F%A5%E8%AF%86%E5%9C%A8%E8%B7%AF%E4%B8%8A/" title="数据库知识在路上">数据库知识在路上</a><time datetime="2021-05-18T12:36:51.000Z" title="发表于 2021-05-18 20:36:51">2021-05-18</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By Lu sir</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">我的肩上是风，风上是闪烁的星群</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'pc3JDCREMGoF3S3e4YzeC6kX-gzGzoHsz',
+      appKey: '01uhcP5vYPOKkVzxt5chIypp',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'en',
+      recordIP: false,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: false,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script src="js/jquery.min.js"></script><script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/gh/xiabo2/CDN@latest/fishes.js"></script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-heart.min.js" async="async" mobile="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/haruto.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body></html>
