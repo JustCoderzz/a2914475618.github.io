@@ -1,0 +1,386 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>图解HTTP | 一位可可爱爱的编橙爱好者</title><meta name="keywords" content="HTTP"><meta name="author" content="Lu sir,2914475618@qq.com"><meta name="copyright" content="Lu sir"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Http1、URI（uniform统一+resource资源+identifier标识符） 2、RFC（Request for comments)征求修改意见书   http协议的技术标准 3、http无状态协议，为了更快的处理大量事务，确保协议的可伸缩性 4、http 1.1引入了cookie技术 管理状态 5、方法  head方法获得报文首部      options询问支持的方法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="图解HTTP">
+<meta property="og:url" content="https://a2914475618.github.io/2021/11/10/%E5%9B%BE%E8%A7%A3HTTP/index.html">
+<meta property="og:site_name" content="一位可可爱爱的编橙爱好者">
+<meta property="og:description" content="Http1、URI（uniform统一+resource资源+identifier标识符） 2、RFC（Request for comments)征求修改意见书   http协议的技术标准 3、http无状态协议，为了更快的处理大量事务，确保协议的可伸缩性 4、http 1.1引入了cookie技术 管理状态 5、方法  head方法获得报文首部      options询问支持的方法">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/1.jpg">
+<meta property="article:published_time" content="2021-11-10T07:52:07.000Z">
+<meta property="article:modified_time" content="2021-11-14T05:50:46.264Z">
+<meta property="article:author" content="Lu sir">
+<meta property="article:tag" content="HTTP">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/1.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://a2914475618.github.io/2021/11/10/%E5%9B%BE%E8%A7%A3HTTP/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-11-14 13:50:46'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><link rel="stylesheet" href="css/footer.css"><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="一位可可爱爱的编橙爱好者" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/Touxiang.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">58</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">58</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">13</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fas fa-comments"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/1.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">一位可可爱爱的编橙爱好者</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fas fa-comments"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">图解HTTP</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-11-10T07:52:07.000Z" title="发表于 2021-11-10 15:52:07">2021-11-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-11-14T05:50:46.264Z" title="更新于 2021-11-14 13:50:46">2021-11-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%A7%8B%E6%8B%9B%E5%AD%A6%E4%B9%A0/">秋招学习</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>10分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="图解HTTP"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="Http"><a href="#Http" class="headerlink" title="Http"></a>Http</h1><p>1、URI（uniform统一+resource资源+identifier标识符）</p>
+<p>2、RFC（Request for comments)征求修改意见书   http协议的技术标准</p>
+<p>3、http无状态协议，为了更快的处理大量事务，确保协议的可伸缩性</p>
+<p>4、http 1.1引入了cookie技术 管理状态</p>
+<p>5、方法</p>
+<ul>
+<li>head方法获得报文首部     </li>
+<li>options询问支持的方法     </li>
+<li>trace方法追踪路径  </li>
+<li>connect   隧道协议连接代理 与代理服务器通信时建立隧道，实现用隧道进行Tcp通信</li>
+</ul>
+<p>6、SSL(Secure Sockets layer)安全套接字</p>
+<p>7、TLS（Transport layer  Security)  传输层安全  协议</p>
+<p>8、为了解决TCP多次建立增加通信量开销的问题，出现了持久连接</p>
+<p>9、<strong>持久连接</strong>： 只要任意一端没有明确提出断开连接，则保证Tcp连接</p>
+<p>10、http1.1中所有的连接默认都是<strong>持久连接</strong></p>
+<p>11、<strong>持久连接</strong>使得多数请求以管线化方式发送成为可能</p>
+<p>12、<strong>管线化技术</strong>：不需等待响应就可直接发送下一个请求。</p>
+<p>13、服务器端发送的响应报文内的一个叫做Set-cookie的首部字段信息，通知客户端保存Cookie等于该值</p>
+<p>14、压缩传输的内容编码：</p>
+<ol>
+<li>gzip（GNU zip)</li>
+<li>compress(UNIX系统的标准压缩)</li>
+<li>deflate(zlib)</li>
+<li>identity(不进行编码)</li>
+</ol>
+<p>15、<strong>分块传输编码</strong>：在传输大容量数据时，通过把数据分割成多块，能够让浏览器逐步显示页面</p>
+<p>16、MIME(Multipurpose Internet Mail Extensions) 多用途因特网邮件扩展它允许邮件处理文本、图片、视频等多个不同类型的数据。</p>
+<p>17、HTTP协议采纳了多部份对象集合，一部分报文主体有多类型实体。通常在图片或文本文件等上传时使用。</p>
+<ol>
+<li>multipart/form-data  在web表单文件上传时使用</li>
+<li>multipart/byteranges  状态码206，响应报文包含了多个范围的内容</li>
+</ol>
+<p>使用多部份对象集合时，需要在首部字段里加上Content-type</p>
+<p>18、获取部分内容的<strong>范围请求</strong>：从下载中断处恢复下载</p>
+<p>在首部使用Range字段</p>
+<ol>
+<li>Range:  bytes=5001-10000</li>
+<li>Range:   bytes=5001-   到之后全部的</li>
+</ol>
+<p>针对范围请求  返回206状态码</p>
+<p>19、状态码</p>
+<ol>
+<li>1XX   信息性状态码    接受的请求正在处理</li>
+<li>2XX    成功状态码        正常处理完毕</li>
+<li>3XX    重定向状态码    需要进行附加操作完成请求</li>
+<li>4XX      客户端错误状态码      服务器无法处理请求</li>
+<li>5XX       服务器错误状态码       服务器处理请求出错</li>
+</ol>
+<p>20、通信数据转发程序：代理、网关、隧道</p>
+<p>21、<strong>代理</strong>：服务器和客户端的中间人，接受客户端的请求转发给服务器，接受服务器返回的响应给客户端。</p>
+<p>理由：利用缓存技术减少网络带宽的流量，组织内部针对特定网站的访问控制，以获取访问日志为主要目的。</p>
+<p>正向代理隐藏的是客户端（我无法直接访问它，我通过中间人来访问服务器，服务器不知道是谁发来的，VPN），反向代理隐藏的服务器（我只知道发给它，具体由谁负责我不知道）</p>
+<p>代理有多种使用方法：</p>
+<ol>
+<li>是否使用缓存</li>
+<li>是否会修改报文</li>
+</ol>
+<p><strong>缓存代理</strong>：</p>
+<p>代理转发响应时，缓存代理会预先将资源的副本保存在代理服务器上。</p>
+<p>当代理再次接受到对相同资源的请求时，可以不从源服务器获取资源，将之前的资源作为响应返回。</p>
+<p><strong>透明代理</strong>：</p>
+<p>转发请求或者响应时，不对报文做任何加工的代理类型称为透明代理。</p>
+<p>对报文内容加工的称为非透明代理。</p>
+<p>22、<strong>网关</strong>：转发其他服务器通信数据的服务器，接收从客户端发送来的请求时，它就像拥有资源的源服务器一样对请求进行处理。</p>
+<p><strong>代理连接的是两个或多个使用相同协议的应用程序，而网关连接的则是两个或多个使用不同协议的应用程序。</strong></p>
+<p><strong>网关扮演的是协议转换器的角色，即使客户端和服务端使用的是不同的协议，客户端也可以通过网关来和客户端进行交互</strong></p>
+<p>23、<strong>隧道</strong>：在相隔甚远的客户端和服务器之间进行中转，并保持双方通信连接的应用程序。</p>
+<p>建立一条与其他服务器通信的通信线路，可以使用SSL等加密手段通信。</p>
+<p><strong>目的</strong>：确保客户端与服务器端进行安全的通信。</p>
+<p>隧道不会解析http，请求保持原样中转给之后的服务器。</p>
+<p>24、<strong>缓存指代理服务器或者客户端本地磁盘内保存的资源副本</strong>。可以减少对源服务器的访问。缓存服务器是代理服务器的一种，归类在缓存代理中。</p>
+<p>当代理转发从服务器返回的响应时，代理服务器将会保存一份资源的副本。</p>
+<p>25、<strong>http的不足</strong></p>
+<ol>
+<li>通信使用明文，内容可能被窃听</li>
+<li>不验证通信方的身份，因此可能被伪装</li>
+<li>无法证明报文的完整性，所以有可能篡改</li>
+</ol>
+<p>缺点一：</p>
+<p><strong>解决方案</strong>：</p>
+<p>1.<strong>通信的加密</strong></p>
+<p>http中没有加密机制，但是可以用ssl建立安全通信线路之后，在该线路进行http通信。</p>
+<p>https    =      http    +     ssl</p>
+<p>2.<strong>内容的加密</strong></p>
+<p>将http报文里所含的内容进行加密。要求客户端和服务器端都必须具有加密和解密机制。但是内容仍然有被篡改的可能。</p>
+<hr>
+<p>缺点二：</p>
+<p>http协议简单，不确认通信方，会有以下隐患：</p>
+<ol>
+<li>有可能是已经伪装的服务器</li>
+<li>有可能是已经伪装的客户端</li>
+<li>无法确定正在通信的对方是否具备访问权限。</li>
+<li>即使无意义的请求也会响应。无法阻止海量下的Dos攻击。</li>
+</ol>
+<p><strong>解决方案</strong>：</p>
+<p>ssl不仅提供加密处理，而且还使用了<strong>证书</strong>，用于确定方。</p>
+<p><strong>证书</strong>由第三方机构颁发，用以证明服务器和客户端是实际存在的。</p>
+<hr>
+<p>缺点三：</p>
+<p>MITM(中间人攻击)    ：请求或者相应在传输中，遭到攻击者拦截并篡改内容的攻击。</p>
+<p><strong>解决方案</strong>：</p>
+<p>MD5和SHA-1等散列值校验的方法，以及用来确认文件的数字签名方法。</p>
+<p>依然无法达到百分百的安全，因为PGP和MD5本身被改写。</p>
+<p>26、<strong>HTTP+加密处理+认证+完整性保护=HTTPS</strong></p>
+<p>HTTPS并非是应用层的一种新的协议。只是HTTP通信接口使用SSL和TLS协议代替而已。</p>
+<p>原本是由HTTP直接和传输层的TCP直接通信。</p>
+<p>现在是有HTTP和SSL通信，SSL在和TCP通信，相当于HTTP和TCP中间多了一层。ssl也在应用层。</p>
+<p><strong>SSL</strong>采用<strong>公开密钥加密</strong>的加密处理方式、也称为非对称加密方式。</p>
+<p><strong>共享密钥加密</strong>方式就是加密和解密都用同一个密钥，也成为堆成加密方式。</p>
+<p>https<strong>采用混合密钥加密机制</strong>，在交换密钥环节使用公开密钥加密方式，之后建立的通信交换报文阶段则使用共享密钥加密方式。</p>
+<p>为了证明公开密钥没有被篡改，使用由数字证书认证机构和其相关机关颁发的公开密钥证书。</p>
+<p><strong>数字证书</strong>机构在判明申请者的身份后，会对已经申请的公开密钥做数字签名，然后分配这个已经签名的公开密钥，将该公开密钥放入公钥证书后绑定在一起。</p>
+<p>公钥证书也叫做数字证书或者证书。</p>
+<p>客户端证书进行客户端认证，证明服务器是真实存在的服务器。</p>
+<hr>
+<p><strong>https安全通信机制步骤</strong></p>
+<ol>
+<li>客户端发送报文开始通信。报文中有客户端支持的SSL的指定版本、加密组件列表（加密的算法以及密钥长度）</li>
+<li>服务端可进行SSL通信时，发送报文作为响应。报文中包含SSL版本以及加密组件。该加密组件是从接受到的客户端加密组件内筛选出来的</li>
+<li>服务器发送证书报文。包含公开密钥证书。</li>
+<li>服务器发送报文通知客户端第一次SSL握手协商结束。</li>
+<li>客户端确认证书的有效性，取出公开密钥，向服务端发送通过公开密钥已加密的随机密码串，告知服务器之后通信会采用该随机密码串密钥加密。</li>
+<li>服务端使用私有密钥对客户端发来的报文取出已加密的随机密码串，解密。此后<strong>公开密钥加密结束</strong></li>
+<li>向客户端确认通信会采用该随机密码串密钥加密。也就是<strong>共享加密</strong></li>
+<li>客户端与服务端SSL建立成功后，<strong>以后的通信就使用对随机密码串解密后的随机数进行对称加密</strong></li>
+</ol>
+<p>SSL的慢</p>
+<ol>
+<li><p>通信的慢</p>
+<p>和使用http比，网络负载变慢2到100倍，除去和TCP连接、发送HTTP请求响应以外，还必须进行SSL通信，整体上通信量增加。</p>
+</li>
+<li><p>大量消耗CPU及内存等资源，导致处理速度变慢</p>
+<p>加密和解密消耗了硬件资源。</p>
+</li>
+</ol>
+<p>为何不一直使用https？</p>
+<ol>
+<li>加密通信会消耗更多CPU及内存资源，使得每台计算机能处理的请求必定减少</li>
+<li>敏感数据使用https，非敏感数据http</li>
+<li>购买证书需要开销</li>
+</ol>
+<hr>
+<p>http的基本认证</p>
+<ol>
+<li>basic认证（基本认证）</li>
+<li>digest认证（摘要认证）</li>
+<li>sll客户端认证</li>
+<li>formBase认证（基于表单认证）</li>
+</ol>
+<p>basic认证即使用用户名密码通过Base64进行加密传给服务端验证，在报文中头部写入Authorization:Basic MTIzOjEyMw==   但是base64不属于加密，等同于明文。</p>
+<p>digest认证使用<strong>质询响应方式</strong>：一开始一方会先发送认证要求给另一方，接着使用从另一方那接收到的质询码计算生成响应码。最后将响应码回给对方进行认证。安全等级高于Basic</p>
+<p>ssl客户端认证需要将客户端证书发给客户端，客户端需要安装此证书。</p>
+<p><strong>双因素认证</strong>指在认证过程中不仅需要密码这一个因素，还需要申请认证者提供其他持有信息，从而作为另一个因素，与其组合使用的认证方式。</p>
+<p>通过向用户发放sessionid，记录认证状态。在cookie中存储sessionid，为防止xxs跨站脚本攻击，应在cookie内加上Httponly属性。如果cookie中设置了HttpOnly属性，那么通过js脚本将无法读取到cookie信息，这样能有效的防止XSS攻击，窃取cookie内容，这样就增加了cookie的安全性</p>
+<hr>
+<p><strong>http的瓶颈</strong></p>
+<ol>
+<li>一条连接上只可发送一个请求</li>
+<li>请求只能从客户端开始。客户端不可以接受除响应以外的指令。</li>
+<li>请求/响应首部未经压缩就发送。首部信息越多延迟越大。</li>
+<li>发送冗长的首部。每次互相发送发送相同的首部造成的浪费比较多。</li>
+<li>可任意选择数据压缩格式。非强制压缩发送。</li>
+</ol>
+<p><strong>Ajax</strong>（Asynchronous javascript and xml）异步javascrip 与xml技术，利用javascript和Dom的操作，以达到局部web页面替换加载的异步通信手段。只更新一部分页面，响应中传输的数据量也会因此减少。</p>
+<p>ajax仍不能解决http协议本身的问题，每次都互相发送相同的首部，有时不压缩数据直接发送。</p>
+<p><strong>Comet</strong>一旦服务端内容更新了，comet不会让请求等待，而是直接给客户端响应。通过延迟应答，模拟实现服务器端向客户端推送的功能。仍无法解决http协议本身存在的问题。 </p>
+<ol>
+<li>通常服务器端收到请求，在处理完毕后就会立即返回响应，但是为了实现推送这个功能</li>
+<li>Comett会先将响应置于挂起状态</li>
+<li>服务器端有内容更新时，再返回该响应</li>
+</ol>
+<hr>
+<p><strong>SPDY</strong>没有改写HTTP协议，而是在TCP/IP的应用层与运输层之间通过新加会话层的形式运作。同时规定通信使用SSL。SPDY控制对数据的流动，仍采用HTTP建立通信连接。</p>
+<p>SPDY使得HTTP协议获得以下功能：</p>
+<ol>
+<li><p>多路复用流</p>
+<p>通过单一的TCP连接，可以无限制处理多个HTTP请求。</p>
+</li>
+<li><p>赋予请求优先级</p>
+</li>
+<li><p>压缩HTTP首部</p>
+</li>
+<li><p>推送功能</p>
+<p>支持服务器主动向客户端推送数据的功能。服务器可以直接发送数据，而不必等待客户端请求。</p>
+</li>
+<li><p>服务器提示功能</p>
+<p>服务器可以制动提示客户端请求资源</p>
+</li>
+</ol>
+<hr>
+<p>WebSocket是Web浏览器与Web服务器之间全双工通信标准。 </p>
+<ol>
+<li>握手请求</li>
+<li>握手响应，响应101，切换成WebSocket协议</li>
+</ol>
+<p>CGI（Common GateWay Interface ) 通用网关接口是指Web服务器在接收到客户端发送过来的请求后转发给程序的一组机制。</p>
+<p><strong>xxs</strong>跨站脚本攻击，使用javascript</p>
+<p><strong>os</strong>攻击，通过web应用执行非法的操作体统命令达到攻击的目的。通过OS注入攻击可执行sql上安装的各种应用程序。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:2914475618@qq.com">Lu sir</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://a2914475618.github.io/2021/11/10/%E5%9B%BE%E8%A7%A3HTTP/">https://a2914475618.github.io/2021/11/10/%E5%9B%BE%E8%A7%A3HTTP/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://a2914475618.github.io" target="_blank">一位可可爱爱的编橙爱好者</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/HTTP/">HTTP</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/1.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/11/22/JAVA%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/"><img class="prev-cover" src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/1.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">JAVA并发编程</div></div></a></div><div class="next-post pull-right"><a href="/2021/10/20/JVM/"><img class="next-cover" src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/1.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">JVM</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/Touxiang.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Lu sir</div><div class="author-info__description">如风的少年</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">58</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">58</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">13</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/a2914475618"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">欢迎来到爱的小屋，爱你们哟</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Http"><span class="toc-number">1.</span> <span class="toc-text">Http</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/11/25/%E5%9B%BE%E8%A7%A3TCP-IP/" title="图解TCP/IP"><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="图解TCP/IP"/></a><div class="content"><a class="title" href="/2021/11/25/%E5%9B%BE%E8%A7%A3TCP-IP/" title="图解TCP/IP">图解TCP/IP</a><time datetime="2021-11-25T05:06:39.000Z" title="发表于 2021-11-25 13:06:39">2021-11-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/11/22/JAVA%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" title="JAVA并发编程"><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JAVA并发编程"/></a><div class="content"><a class="title" href="/2021/11/22/JAVA%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" title="JAVA并发编程">JAVA并发编程</a><time datetime="2021-11-22T10:48:31.000Z" title="发表于 2021-11-22 18:48:31">2021-11-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/11/10/%E5%9B%BE%E8%A7%A3HTTP/" title="图解HTTP"><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="图解HTTP"/></a><div class="content"><a class="title" href="/2021/11/10/%E5%9B%BE%E8%A7%A3HTTP/" title="图解HTTP">图解HTTP</a><time datetime="2021-11-10T07:52:07.000Z" title="发表于 2021-11-10 15:52:07">2021-11-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/10/20/JVM/" title="JVM"><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JVM"/></a><div class="content"><a class="title" href="/2021/10/20/JVM/" title="JVM">JVM</a><time datetime="2021-10-20T07:29:51.000Z" title="发表于 2021-10-20 15:29:51">2021-10-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/10/11/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" title="设计模式"><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="设计模式"/></a><div class="content"><a class="title" href="/2021/10/11/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" title="设计模式">设计模式</a><time datetime="2021-10-11T12:26:35.000Z" title="发表于 2021-10-11 20:26:35">2021-10-11</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By Lu sir</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">我的肩上是风，风上是闪烁的星群</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'pc3JDCREMGoF3S3e4YzeC6kX-gzGzoHsz',
+      appKey: '01uhcP5vYPOKkVzxt5chIypp',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'en',
+      recordIP: false,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: false,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script src="js/jquery.min.js"></script><script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/gh/xiabo2/CDN@latest/fishes.js"></script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-heart.min.js" async="async" mobile="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/haruto.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body></html>

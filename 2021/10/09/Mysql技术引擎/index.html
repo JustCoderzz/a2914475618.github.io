@@ -1,0 +1,1409 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Mysql技术引擎 | 一位可可爱爱的编橙爱好者</title><meta name="keywords" content="mysql技术"><meta name="author" content="Lu sir,2914475618@qq.com"><meta name="copyright" content="Lu sir"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Mysql技术 声明：该文章为我学习Mysql技术引擎Innodb的笔记，欢迎查阅  1、Mysql体系结构和存储引擎数据库和实例数据库：物理操作系统文件或其他形式文件类型的集合。数据库文件可以是frm、MYD、MYI、ibd结尾的文件。 实例：Mysql数据库由由后台线程以及一个共享内存区组成。共享内存可以被运行的后台线程所共享。数据库实例才是真正用于操作数据库文件的。 两者关系： 一个实例对应">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mysql技术引擎">
+<meta property="og:url" content="https://a2914475618.github.io/2021/10/09/Mysql%E6%8A%80%E6%9C%AF%E5%BC%95%E6%93%8E/index.html">
+<meta property="og:site_name" content="一位可可爱爱的编橙爱好者">
+<meta property="og:description" content="Mysql技术 声明：该文章为我学习Mysql技术引擎Innodb的笔记，欢迎查阅  1、Mysql体系结构和存储引擎数据库和实例数据库：物理操作系统文件或其他形式文件类型的集合。数据库文件可以是frm、MYD、MYI、ibd结尾的文件。 实例：Mysql数据库由由后台线程以及一个共享内存区组成。共享内存可以被运行的后台线程所共享。数据库实例才是真正用于操作数据库文件的。 两者关系： 一个实例对应">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/1.jpg">
+<meta property="article:published_time" content="2021-10-09T05:54:30.000Z">
+<meta property="article:modified_time" content="2021-11-23T13:31:55.915Z">
+<meta property="article:author" content="Lu sir">
+<meta property="article:tag" content="mysql技术">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/1.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://a2914475618.github.io/2021/10/09/Mysql%E6%8A%80%E6%9C%AF%E5%BC%95%E6%93%8E/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-11-23 21:31:55'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><link rel="stylesheet" href="css/footer.css"><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="一位可可爱爱的编橙爱好者" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/Touxiang.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">58</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">58</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">13</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fas fa-comments"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/1.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">一位可可爱爱的编橙爱好者</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fas fa-comments"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Mysql技术引擎</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-10-09T05:54:30.000Z" title="发表于 2021-10-09 13:54:30">2021-10-09</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-11-23T13:31:55.915Z" title="更新于 2021-11-23 21:31:55">2021-11-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%9F%A5%E8%AF%86%E7%A7%AF%E7%B4%AF/">知识积累</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">23.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>75分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Mysql技术引擎"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="Mysql技术"><a href="#Mysql技术" class="headerlink" title="Mysql技术"></a>Mysql技术</h1><blockquote>
+<p>声明：该文章为我学习Mysql技术引擎Innodb的笔记，欢迎查阅</p>
+</blockquote>
+<h2 id="1、Mysql体系结构和存储引擎"><a href="#1、Mysql体系结构和存储引擎" class="headerlink" title="1、Mysql体系结构和存储引擎"></a>1、Mysql体系结构和存储引擎</h2><h3 id="数据库和实例"><a href="#数据库和实例" class="headerlink" title="数据库和实例"></a>数据库和实例</h3><p>数据库：物理操作系统文件或其他形式文件类型的集合。数据库文件可以是frm、MYD、MYI、ibd结尾的文件。</p>
+<p>实例：Mysql数据库由由后台线程以及一个共享内存区组成。共享内存可以被运行的后台线程所共享。数据库实例才是真正用于操作数据库文件的。</p>
+<p>两者关系：</p>
+<p>一个实例对应一个数据库，一个数据库对应一个实例。</p>
+<p>Mysql被设计为一个单进程多线程的数据库，Mysql数据库实例在系统上的表现就是一个进程</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;Linux通过命令ps观察数据库启动后的进程情况</span><br><span class="line">ps -ef | grep mysqlId</span><br><span class="line">&#x2F;&#x2F;Mysql数据库实例启动后，会在哪些位置查看配置文件</span><br><span class="line">mysql --help |grep my.cnf</span><br><span class="line">&#x2F;&#x2F;mysql数据库会以读取到的最后一个配置文件中的参数为准</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;找到数据文件的目录</span><br><span class="line">SHOW VARIABLES LIKE &#39;datadir&#39;\G    得到&#x2F;usr&#x2F;local&#x2F;mysql&#x2F;data&#x2F;</span><br><span class="line">&#x2F;&#x2F;查看文件夹下文件</span><br><span class="line">system ls-lh &#x2F;usr&#x2F;local&#x2F;mysql&#x2F;data</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="Mysql体系结构"><a href="#Mysql体系结构" class="headerlink" title="Mysql体系结构"></a>Mysql体系结构</h3><ol>
+<li>数据库是文件的集合，是依照某种数据模型组织起来并存放于二级存储器中的数据集合</li>
+<li>数据库实例是程序，是位于用户于操作系统之间的一层数据管理软件</li>
+<li>应用程序只有通过数据库实例才能和数据库打交道</li>
+</ol>
+<p>mysql体系</p>
+<p><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211009212246.png"></p>
+<p>对应的解释：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211009212331.png"></p>
+<p>mysql数据库区别于其他数据库的重要特点就是插件式的表存储引擎。</p>
+<p><strong>存储引擎是基于表的，而不是数据库。</strong></p>
+<h3 id="Mysql存储引擎"><a href="#Mysql存储引擎" class="headerlink" title="Mysql存储引擎"></a>Mysql存储引擎</h3><p><strong>存储引擎的好处</strong>：每个存储引擎都有各自的特点，能够根据具体的应用建立不同存储引擎表。</p>
+<p><strong>常见的存储引擎：</strong></p>
+<p>InnoDB存储引擎支持事务，主要面向在线事务处理OLTP的应用，特点是行锁设计，支持外键    ，支持类似于Oracle的非锁定读，默认读取操作不会产生锁。InnoDB存储引擎是默认的存储引擎。</p>
+<p>InnoDB通过使用多版本并发控制（MVVC）来获得高并发性。提供了插入缓冲、二次写、自适应哈希索引、预读等高性能和高可用的功能。</p>
+<p>对于表中的数据的存储，InnoDB采用了聚集的方式，每张表的存储按主键的顺序进行存放。如果没有显示的指定主键，InnoDB会为每一行生成一个6字节的ROWID，并以此作为主键。</p>
+<p>=================================================================</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;查看当前数据库所支持的存储引擎</span><br><span class="line">SHOW ENGINES\G;</span><br></pre></td></tr></table></figure>
+
+<h3 id="连接Mysql"><a href="#连接Mysql" class="headerlink" title="连接Mysql"></a>连接Mysql</h3><p>连接Mysql操作是一个连接进程和Mysql数据库实例进行通信。本质上进程通信。</p>
+<p>常用的进程通信方式有：</p>
+<ol>
+<li>管道</li>
+<li>命名管道</li>
+<li>命名字</li>
+<li>TCP/IP套接字</li>
+<li>UNIX域套接字</li>
+</ol>
+<p>TCP/IP:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -h192.168.0.101 -u david -p</span><br></pre></td></tr></table></figure>
+
+<p>命名管道和共享内存：</p>
+<p>两个需要通信的进程在同一台服务器上，必须在mysql配置文件仲启用-enable-named-pipe</p>
+<p>UNIX域套接字：</p>
+<p>只能在Mysql客户端和数据库实例在一台服务器上的情况下使用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;查看套接字文件路径</span><br><span class="line">SHOW VARIABLES LIKE &#39;socket&#39;</span><br><span class="line">&#x2F;&#x2F;通过套接字文件路径连接</span><br><span class="line">mysql -udavid -S &#x2F;tmp&#x2F;mysql.sock</span><br></pre></td></tr></table></figure>
+
+<h2 id="2、InnoDB存储引擎"><a href="#2、InnoDB存储引擎" class="headerlink" title="2、InnoDB存储引擎"></a>2、InnoDB存储引擎</h2><p>InnoDB是事务安全的Mysql存储引擎，是OLTP应用中核心表的首选存储引擎。</p>
+<h3 id="2-1InnoDB体系架构"><a href="#2-1InnoDB体系架构" class="headerlink" title="2.1InnoDB体系架构"></a>2.1InnoDB体系架构</h3><p><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211015143846.png"></p>
+<p>后台线程主要作用：</p>
+<ol>
+<li>负责刷新内存池中的数据</li>
+<li>将已经修改的数据文件刷新到磁盘文件</li>
+<li>保证数据库异常时InnoDB能回复到正常运行状态。</li>
+</ol>
+<h4 id="2-1-1-后台线程"><a href="#2-1-1-后台线程" class="headerlink" title="2.1.1 后台线程"></a>2.1.1 后台线程</h4><p><strong>Master   Thread</strong></p>
+<p>核心后台线程</p>
+<p>主要负责将缓冲池中的数据异步刷新到磁盘，保持数据一致性</p>
+<p>包括脏页的刷新、合并插入缓冲、UNDO页的回收等。</p>
+<p><strong>IO Thread</strong></p>
+<p>InnoDB中大量使用AIO（Async  IO）处理写IO请求 ，这样可以极大的提高数据库性能。</p>
+<p>IO Thread负责这些IO请求的回调处理</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//查看当前InnoDB的版本</span></span><br><span class="line">SHOW VARIABLES LIKE <span class="string">&#x27;innodb_version&#x27;</span>\G;</span><br><span class="line"><span class="comment">//查看io thread进程的参数</span></span><br><span class="line">SHOW VARIABLES LIKE <span class="string">&#x27;innodb_%io_threads&#x27;</span>\G;</span><br><span class="line"><span class="comment">//查看INNODB的所有状态参数</span></span><br><span class="line">SHOW ENGINE INNODB STATUS\G;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>Purge Thread</strong></p>
+<p>事务提交后，使用的undolog不再需要，需要PurgeThread来回收已经使用并分配的undo页。</p>
+<p>用户可以在mysql数据库的配置文件中添加命令来启用独立的Purge Thread</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[mysqlId]</span><br><span class="line">innodb_purge_thread&#x3D;1;</span><br></pre></td></tr></table></figure>
+
+<p>InnoDB支持多个Purge Thread      为了进一步加快undo页的回收。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SHOW VARIABLES LIKE &#39;innodb_purge_threads&#39;\G</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>Page Cleaner Thread</strong></p>
+<p>将版本中脏页刷新操作放在单独的线程中来完成。</p>
+<p>进一步减轻Master Thread工作以及对于用户查询线程的阻塞。</p>
+<h4 id="2-1-2-内存"><a href="#2-1-2-内存" class="headerlink" title="2.1.2 内存"></a>2.1.2 内存</h4><p>1.<strong>缓冲池</strong></p>
+<p>InnoDB基于磁盘存储，按页进行管理。可将其视为磁盘的数据库系统。</p>
+<p>缓冲池是在cpu和磁盘之间的一块内存区域，起到cache的作用。</p>
+<p>数据库读页时：</p>
+<ol>
+<li>将从磁盘读到的页放在缓冲池中，称为“FIX”</li>
+<li>下一次读取相同页时，判断该页是否再缓冲池中，若在则直接命中</li>
+<li>否则就读取磁盘</li>
+</ol>
+<p>数据库修改页时：</p>
+<ol>
+<li>先修改再缓冲池中的页，以一定的频率刷新到磁盘上。</li>
+<li>并不是每次页更新时，而是通过Checkpoint机制刷新回到磁盘。</li>
+</ol>
+<p>缓冲池大小影响数据库性能。由于32为操作系统的限制。最多将该值设为3G，建议将数据库服务器都采用64位的操作系统。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;显示缓冲池容量大小</span><br><span class="line">SHOW VARIABLES LIKE &#39;innodb_buffer_pool_size&#39;\G</span><br></pre></td></tr></table></figure>
+
+
+
+<p>缓冲池中缓存的数据页类型：</p>
+<ol>
+<li>索引页</li>
+<li>数据页</li>
+<li>undo页</li>
+<li>插入缓冲</li>
+<li>自适应哈希索引</li>
+<li>InnoDB存储的锁信息</li>
+<li>数据字典信息</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211015151823.png"></p>
+<p>允许有多个缓冲池实例。根据哈希值平均分配到不同缓冲池实例中。</p>
+<p>减少数据库内部的资源竞争，增加并发处理能力。</p>
+<p>通过参数innodb_buffer_pool_instance进行配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;查看缓冲池实例的个数</span><br><span class="line">SHOW VARIABLES LIKE &#39;innodb_buffer_pool_instance&#39;\G</span><br></pre></td></tr></table></figure>
+
+<p>当然从5.6版本以后就可以再information_schema架构下的表INNNODB_BUFFER_POOL_STATS来观察缓冲池的状态。</p>
+<p>2.<strong>LRU Iist、Free List、Flush List</strong></p>
+<p>缓冲池是通过LRU算法进行管理的：</p>
+<ul>
+<li>频繁使用的页放在LRU列表的前端，最少使用页放在LRU列表的尾端</li>
+<li>当缓冲池不能存放新读取到的页时，首先释放LRU列表中尾端的页。</li>
+</ul>
+<p>InnoDB存储引擎中，缓冲池默认大小为16KB。同样使用LRU算法对缓存进行管理。再InnoDB存储引擎中，还加入了Midpoint位置。</p>
+<p>新读取到的页，虽然是最新访问的页，但是并不是直接放入到LRU列表首部，而是放到Midpoint位置。这个算法在InnoDB存储引擎下称为midpoint insertion strategy。默认配置下，该位置在LRU列表长度的5/8处。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;查看midpoint位置</span><br><span class="line">SHOW VARIABLES LIKE &#39;innodb_old_blocks_pct&#39;\G;</span><br></pre></td></tr></table></figure>
+
+<p>midpoint之前的称为new列表，之后的称为old列表。</p>
+<p>普通的LRU算法在执行索引或数据的扫描操作时，可能会将热点数据从LRU列表中删除。下一次则又需要从磁盘中进行访问。</p>
+<p>InnoDB引入了一个参数进一步管理LRU列表—–innodb_old_blocks_time</p>
+<p>表示页读取到mid位置后还需要等待多久才会被加入到LRU列表的热端。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SET GLOBAL innodb_old_blocks_time&#x3D;1000;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>当数据库刚启动时，LRU列表是空的，没有任何的页。页都存放在Free列表中。</p>
+<ol>
+<li>需要从缓冲池中分页时，首先从Free列表中查找是否有可用的空闲页</li>
+<li>若有，则将该页从Free中删除，放入到LRU列表中</li>
+<li>否则，根据LRU算法，淘汰LRU列表末尾的页，将内存空间分配给新的页。</li>
+<li>从old到new  称为page made young   因为innodb_old_blocks_time导致没有从old到new称为page not made young</li>
+</ol>
+<p>SHOW ENGINE INNODB STATUS 显示的不是当前的状态，而是过去某个时间范围内Innodb存储引擎的状态。</p>
+<p>InnoDB支持压缩页的功能，可以将原本的16KB页压缩为1KB、2KB、4KB、8KB，对于非16KB的页，是通过unzip_LRU列表进行管理的。</p>
+<ol>
+<li>unzip_LRU列表中对不同压缩页大小的页进行分别管理</li>
+<li>通过<strong>伙伴算法</strong>进行内存的分配</li>
+</ol>
+<p>伙伴算法：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211015165405.png"></p>
+<hr>
+<p>在LRU列表中页被修改后，页被称为脏页。</p>
+<p>脏页：缓冲池中的页和磁盘中的数据产生了不一致。</p>
+<p>这个时候通过CHECKPOINT机制将脏页刷新回到磁盘，而Flush列表中的页即为脏页列表。需要注意的是，脏页既存在于LRU列表中，也存在FLUSH列表中。LRU列表用来管理缓冲池中页的可用性，Flush列表用来管理将页刷新回磁盘。</p>
+<p>Flush列表页可以通过SHOW ENGINE INNODB STATUS来查看。Modified db pages 就显示了脏页的数量。</p>
+<p>3.<strong>重做日志缓冲</strong></p>
+<p>InnoDB引擎存储的内存区除了有缓冲池外，还有重做日志缓冲。</p>
+<ol>
+<li>InnoDB首先将重做日志信息先放入缓冲区</li>
+<li>按照一定频率将其刷新到重做日志文件</li>
+</ol>
+<p>重做日志缓冲一般不需要设置的很大，一般情况下每一秒钟会将重做日志缓冲刷新到日志文件。只需保证每秒产生的事务量在缓冲大小之内即可。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;查看日志缓冲大小</span><br><span class="line">SHOW VARIABLES LIKE &#39;innodb_log_buffer_size&#39;\G</span><br></pre></td></tr></table></figure>
+
+<p>在以下三种情况下会重做日志缓冲文件中的内容刷新到外部磁盘的重做日志文件中：</p>
+<ol>
+<li>Master Thread每一秒将重做日志缓冲刷新到重做日志文件</li>
+<li>每个事务提交时会将重做日志缓冲刷新到重做日志文件</li>
+<li>当重做日志缓冲池剩余空间小于1/2时，重做日志缓冲刷新到重做日志文件中。</li>
+</ol>
+<p>4.<strong>额外的内存池</strong></p>
+<p>在InnoDB存储引擎中，对内存的管理是通过一种称为<strong>内存堆</strong>的方式进行的。在对一些数据结构本身的内存进行分配时，需要从额外的内存池中进行申请，当该区域的内存不够时，会从缓冲池中进行申请。</p>
+<h3 id="2-2-Checkpoint技术"><a href="#2-2-Checkpoint技术" class="headerlink" title="2.2 Checkpoint技术"></a>2.2 Checkpoint技术</h3><p>为了避免发生数据丢失的问题，当前事务数据库系统普遍都采用了Write Ahead Log策略——当事务提交时，先重做日志，再修改页。当由于发生宕机导致数据库数据丢失时通过重做日志来完成数据的恢复。</p>
+<hr>
+<p>Cheackpoint技术解决以下几个问题：</p>
+<ol>
+<li>缩短数据库的恢复时间</li>
+<li>缓冲池不够用时，将脏页刷新到磁盘。</li>
+<li>重做日志不可用时，刷新脏页</li>
+</ol>
+<p>如何解决</p>
+<ul>
+<li>当数据库发生宕机时，数据库不需要重做所有的日志，因为Checkpoint之前的页都已经刷新回到磁盘，顾数据库只需对Checkpoint后的重做日志进行回复。</li>
+<li>当缓冲池不够用时，根据LRU算法会溢出最近最少使用的页，若此页是脏页，需强制执行Checkpoint，将脏页刷新到磁盘。</li>
+<li>重做日志可以被重用的部分是指这些重做日志已经不在需要，若此时重做日志还需要使用，必须强制产生Checkpoint，将缓冲池中的页至少刷新到当前重做日志的位置。</li>
+</ul>
+<p>InnoDB是通过LSN(log sequence number)来标记版本的。</p>
+<p>Checkpoint做的事就是将缓冲池中的脏页刷新回到磁盘。</p>
+<p>不同之处在于每次刷新多少页到磁盘，从哪里取脏页，什么时候触发Checkpoint。InnoDB有两种Checkpoint：</p>
+<ol>
+<li><p>Sharp Checkpoint</p>
+<p>发生在数据库关闭时将所有的脏页刷新回到磁盘。参数innodb_fast_shutdown=1。若在运行时使用Sharp Checkpoint那么数据库可用性会收到很大的影响。</p>
+</li>
+<li><p>Fuzzy Checkpoint</p>
+<p>InnoDB中使用Fuzzy Checkpoint进行页的刷新。</p>
+<p>只刷新一部分脏页，而不是刷新所有的脏页到磁盘。</p>
+<ol>
+<li><p>Master Thread Checkpoint</p>
+<p>每秒或每10秒从缓冲池的脏页刷新一定比例的页回磁盘</p>
+</li>
+<li><p>FLUSH_LRU_LIST Checkpoint</p>
+<p>检查LRU列表中是否有足够的可用空间操作发生在用户查询线程中，倘若没有100个可用页，那么InnoDB存储引擎会将LRU列表尾端的页移除。如果页中有脏页的话，需要进行Checkpoint。</p>
+<p>从5.6以后，该检查单独放到了Page Cleaner中 参数innodb_lru_scan_depth控制LRU列表中可用页的数量</p>
+</li>
+<li><p>Async/Sync Flush Checkpoint</p>
+<p>重做日志文件不可用时，需要强制将一些页刷新回磁盘。</p>
+</li>
+<li><p>Dirty Page too much Checkpoint</p>
+<p>脏页数量太多，导致INNODB强制进行Checkpoint。保证缓冲池中有足够可用的页。innodb_max_dirty_pages_pct控制 当超过对应值时进行刷新。</p>
+</li>
+</ol>
+</li>
+</ol>
+<h3 id="2-3Master-Thread工作方式"><a href="#2-3Master-Thread工作方式" class="headerlink" title="2.3Master Thread工作方式"></a>2.3Master Thread工作方式</h3><p>Master Thread 具有最高的线程优先级别。</p>
+<h4 id="2-3-1-InnoDB-1-0x-版本之前的Master-Thread"><a href="#2-3-1-InnoDB-1-0x-版本之前的Master-Thread" class="headerlink" title="2.3.1 InnoDB 1.0x 版本之前的Master Thread"></a>2.3.1 InnoDB 1.0x 版本之前的Master Thread</h4><p>内部有多个循环(loop)组成：</p>
+<ol>
+<li>主循环(loop)</li>
+<li>后台循环(backgroup loop)</li>
+<li>刷新循环（flush loop)</li>
+<li>暂停循环(suspend loop)</li>
+</ol>
+<p>1.主循环</p>
+<p>大多数操作在这个循环中，主要包括两部分</p>
+<ol>
+<li><p>每秒钟操作</p>
+<ol>
+<li><p>日志刷新到磁盘，即使事务还没有提交（总是）</p>
+<p>问：再大的事务为什么提交时间也很短？</p>
+<p>即使某个事务还未提交，InnoDB存储引擎仍然每秒会将重做日志缓冲中的内容刷新到重做日志文件。</p>
+</li>
+<li><p>合并插入缓冲（可能）</p>
+<p>判断当前一秒内发生的IO次数是否小于5次</p>
+</li>
+<li><p>至少刷新100个InnoDB的缓冲池中的脏页到磁盘（可能）</p>
+<p>判断当前缓冲池中脏页的比例(buf_get_modified_ratio_pct)是否超过了配置文件中的(innodb_max_dirty_pages_pct默认为90)，如果超过，InnoDB认为需要做磁盘同步的操作，将100个脏页写入磁盘中。</p>
+</li>
+<li><p>当前用户没有活动，切换到后台循环（可能）</p>
+</li>
+</ol>
+</li>
+<li><p>每10秒钟操作</p>
+<ol>
+<li><p>刷新100个脏页到磁盘（可能的情况下）</p>
+<p>判断过去10秒之内磁盘的IO操作是否小于200次，如果是，则将100个脏页刷新到磁盘。</p>
+</li>
+<li><p>合并至多5个插入缓冲（总是）</p>
+<p>这个阶段不同于1秒时操作，他总会执行</p>
+</li>
+<li><p>将日志缓冲刷新到磁盘（总是）</p>
+</li>
+<li><p>删除无用的Undo页（总是）</p>
+<p>判断当前事务系统中已经被删除的行为是否可以删除，比如有可能还有查询操作需要读取之前的版本中的undo信息。</p>
+</li>
+<li><p>刷新100个或者10个脏页到磁盘（总是）</p>
+<p>判断缓冲池中脏页的比例(buf_get_modified_ratio_pct)，如果有超过70%脏页，则刷新100个脏页到磁盘，小于70%，则只刷新10%到磁盘。</p>
+</li>
+</ol>
+</li>
+</ol>
+<p>2.后台循环</p>
+<p>若当前没有用户活动（数据库空闲时）或者数据库关闭，就会切换到该循环。</p>
+<p>执行以下操作：</p>
+<ol>
+<li>删除无用的Undo页（总是）</li>
+<li>合并20个插入缓冲（总是）</li>
+<li>跳回主循环（总是）</li>
+<li>不断刷新100个页直到符合条件（可能，跳转到flush loop中完成）</li>
+</ol>
+<p>若flush loop中没有什么事情可以做了，InnoD存储引擎会切换到suspend_loop，将Master Thread挂起，等待事件的发生。若启用了InnoDB存储引擎，却没有使用任何InnoDB存储引擎的表，那么Master Thread总是 处于挂起的状态。</p>
+<h4 id="2-3-2-InnoDB1-2x之前的Master-Thread"><a href="#2-3-2-InnoDB1-2x之前的Master-Thread" class="headerlink" title="2.3.2 InnoDB1.2x之前的Master Thread"></a>2.3.2 InnoDB1.2x之前的Master Thread</h4><p>之前版本的问题：InnoDB存储引擎最大只会刷新100个脏页到磁盘，合并20个插入缓冲。在写入密集的应用程序中，每秒可能会产生大于100个的脏页，如果是产生大于20个插入缓冲的情况，Master Thread会忙不过来。当发生宕机恢复时，由于很多数据还没有刷新回磁盘，导致恢复的时间可能需要很久。</p>
+<p><strong>解决方案：</strong></p>
+<p>①InnoDB提供了参数<strong>innodb_io_capacity</strong>，用来表示磁盘的IO吞吐量，默认值为200。刷新到磁盘页的数量，会按照innodb_io_capacity百分比进行控制。</p>
+<ul>
+<li>在合并插入缓冲时，合并插入缓冲的数量innodb_io_capacity值的5%</li>
+<li>从缓冲区刷新脏页时，刷新脏页得数量为innodb_io_capacity</li>
+</ul>
+<p>因此可以根据存储设备拥有更高IO速度时，将这个参数调高一点，直到符合磁盘IO的吞吐量。</p>
+<p>②参数<strong>innodb_max_dirty_pages_pct</strong>该值的默认值为90，意味着脏页占缓冲池超过百分之90，才会刷新100个脏页。如果内存足够或者数据库服务器压力大，刷新脏页速度反而会降低。</p>
+<p>从1.0x版本开始<strong>innodb_max_dirty_pages_pct</strong>参数的默认值变为了75。既加快刷新脏页的频率，又保证了磁盘IO的负载。</p>
+<p>③参数<strong>innodb_adaptive_flushing</strong>（自适应地刷新），影响每秒刷新脏页地数量。</p>
+<p>原来的刷新规则：</p>
+<p>脏页在缓冲池所占比例小于innodb_max_dirty_pages_pct时，不刷新脏页。大于innodb_max_dirty_pages_pct时，刷新100个脏页。</p>
+<p>引入参数后刷新规则：</p>
+<p>InnoDB存储引擎通过一个名为buf_flush_get_desired_flush_rate函数判断刷新脏页最合适的数量。该函数通过判断产生重做日志的速度决定最合适的刷新脏页数量。因此即使党脏页的比例小于innodb_max_dirty_pages_pct时，也会刷新一定量的脏页。</p>
+<p>④之前每次进行full purge时，最多回收20个Undo页，现在引入了参数<strong>innodb_purge_batch_size</strong> 该参数可以控制每次full purge回收undo页的数量。</p>
+<p>默认值为20可以进行修改</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set global innodb_purge_batch_size&#x3D;50;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-3-3Innodb-1-2x版本的Master-Thread"><a href="#2-3-3Innodb-1-2x版本的Master-Thread" class="headerlink" title="2.3.3Innodb 1.2x版本的Master Thread"></a>2.3.3Innodb 1.2x版本的Master Thread</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">if InnoDB is idle</span><br><span class="line">	srv_master_do_idle_tasks();</span><br><span class="line">else </span><br><span class="line">	srv_master_do_active_tasks();</span><br></pre></td></tr></table></figure>
+
+<p>srv_master_do_idle_tasks()就是之前版本中10秒的操作</p>
+<p>srv_master_do_active_tasks()处理之前每秒的操作</p>
+<p>对于刷新脏页的操作，从Master Thread分离到一个单独的Page Cleaner Thread，从而减轻了Master Thread工作。</p>
+<h3 id="2-4InnoDB关键特性"><a href="#2-4InnoDB关键特性" class="headerlink" title="2.4InnoDB关键特性"></a>2.4InnoDB关键特性</h3><p>包括</p>
+<ul>
+<li>插入缓冲（Insert Buffer）</li>
+<li>两次写</li>
+<li>自适应哈希索引</li>
+<li>异步IO</li>
+<li>刷新邻接页</li>
+</ul>
+<h4 id="2-4-1-插入缓冲"><a href="#2-4-1-插入缓冲" class="headerlink" title="2.4.1 插入缓冲"></a>2.4.1 插入缓冲</h4><h5 id="2-4-1-1Insert-Buffer"><a href="#2-4-1-1Insert-Buffer" class="headerlink" title="2.4.1.1Insert Buffer"></a>2.4.1.1Insert Buffer</h5><p>Insert Buffer和数据页一样，都是物理页的一个组成部分。</p>
+<p>InnoDB中，主键是行唯一的标识符。应用程序中行记录的插入顺序是按照主键递增的顺序进行插入的。插入聚集索引一般是顺序的，不需要磁盘的随机读取。</p>
+<p>并不是所有的主键插入都是顺序的。主键类若是UUID这样的类，那么插入和辅助索引一样，同样是随机的。即使主键自增，插入的也是指定的值，而不是null值，同样导致插入非连续。</p>
+<p>当一张表上有多个非聚集索引时，在进行插入操作时，数据页的存放还是按照主键进行顺序存放的，对于非聚集索引叶子结点的插入不再是顺序的，需要离散的访问非聚集索引页，从而随机读取导致了插入操作性能下降。<strong>这是因为B+树的特性决定了非聚集索引插入的离散性。</strong></p>
+<p>某些情况下辅助索引的插入依然是顺序的，或者是比较顺序的。比如购买时间。</p>
+<hr>
+<p>InnoDB存储引擎的Insert Buffer，对于非聚集索引的插入或更新操作，不是每一次直接插入到索引页中，而是先判断插入的非聚集索引是否在缓冲池中，若在，直接插入。若不在，则先放到一个Insert Buffer对象。然后再以一定的频率和情况进行Insert Buffer和辅助索引页子结点的merge（合并）操作，这时通常能将多个插入合并到一个操作中，大大提高了非聚集索引插入的性能。</p>
+<p>然而Insert Buffer需要同时满足以下两个条件：</p>
+<ol>
+<li>索引是辅助索引</li>
+<li>索引不是唯一的</li>
+</ol>
+<p>满足条件时，InnoDB会使用Insert Buffer。应考虑这种情况：</p>
+<p>应用程序进行大量的插入操作，都涉及了不唯一的非聚集索引，使用了Insert Buffer。若此时Mysql数据库发生了宕机，就会造成大量的Insert Buffer并没有合并到实际的非聚集索引中去。因此这时恢复需要几个小时。</p>
+<p>辅助索引不能是唯一的，因为再插入缓冲中，数据库不去查找索引页来判断插入的记录的唯一性。如果去找肯定会有离散读取的情况发生，从而导致Insert Buffer失去意义。</p>
+<h5 id="2-4-1-2-Change-Buffer"><a href="#2-4-1-2-Change-Buffer" class="headerlink" title="2.4.1.2 Change Buffer"></a>2.4.1.2 Change Buffer</h5><p>InnoDB 1.0x版本开始引入了Change Buffer。适用对象依然是非唯一的辅助索引。</p>
+<p>从这个版本开始，InnoDB可以对DML操作都进行缓冲——INSERT,DELETE,UPDATE,他们分别是Insert Buffer，Delete Buffer（删除标记），Purge Buffer（进行删除）。</p>
+<p>InnoDB存储引擎提供了参数<strong>innodb_change_buffering</strong>，用来开启各种Buffer选项。该参数可选(默认为all)</p>
+<ol>
+<li>inserts</li>
+<li>deletes</li>
+<li>purges</li>
+<li>changes</li>
+<li>all</li>
+<li>none</li>
+</ol>
+<p>1.2x版本开始，可以通过参数innodb_change_buffer_max_size控制Change Buffer最大使用内存的数量。该值表示最多使用25%的缓冲池内存空间。最大有效值为50%。</p>
+<h5 id="2-4-1-3-Insert-Buffer的内部实现"><a href="#2-4-1-3-Insert-Buffer的内部实现" class="headerlink" title="2.4.1.3 Insert Buffer的内部实现"></a>2.4.1.3 Insert Buffer的内部实现</h5><p>Insert Buffer的数据结构是一颗B+树。在Mysql 4.1之前的版本中每张表有一颗Insert Buffer B+树。而现在的版本中，全局只有一颗Insert Buffer B+树，<strong>负责对所有的表的辅助索引进行Insert Buffer</strong>。</p>
+<p>这棵B+树放在共享表空间中，默认也就是ibdata1中。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211021151837.png"></p>
+<p>键值占9字节，space表示待插入记录所在表的表空间Id，Innodb中每个表有一个唯一的space id，通过该值可以查询是哪张表。</p>
+<p>space 占4字节，maker 占1字节，offest表示页所在的偏移量，占4字节。</p>
+<p>当一个辅助索引插入到页时（space，offset），该页如果不在缓冲池中，InnoDB根据上述规则构造一个键值，查询Insert Buffer这棵B+树，然后将记录插入到Insert Buffer B+树的叶子节点中。</p>
+<p>插入到Insert Buffer叶子结点的记录，需要根据以下的规则进行构造</p>
+<p><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211021155112.png"></p>
+<p>space、marker、offset和之前非叶子结点含义相同，共占用9字节。</p>
+<p>metadata占用4个字节,其存储的内容如表</p>
+<p><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211021155551.png"></p>
+<p><strong>IBUF_REC_OFFSET_COUNT</strong>用来排序每个记录进入Insert Buffer的顺序。通过这个顺序回放(replay)才能的到记录的正确值。</p>
+<p>从Insert Buffer第5列开始，就是实际插入记录的各个字段了。因此比较原插入记录，Insert Buffe B+树的页子结点记录需要额外13字节的开销。</p>
+<p>启用Insert Buffer索引后，辅助索引页中的记录可能被插到Insert Buffer B+树中，为了保证每次Merge Insert Buffer页必须成功，需要一个特殊的页来标记每个辅助索引页的可用空间。这个页的类型为Insert Buffer Bitmap。</p>
+<p>每个Insert Buffer Bitmap用来追踪16384个辅助索引页，也就是256个区。每个Insert Buffer Bitmap页都在16384个页的第二页。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211021161116.png"></p>
+<h5 id="2-4-4-Merge-Insert-Buffer"><a href="#2-4-4-Merge-Insert-Buffer" class="headerlink" title="2.4.4 Merge Insert Buffer"></a>2.4.4 Merge Insert Buffer</h5><p>可能操作的几种情况：</p>
+<p>1.辅助索引页被读取到缓冲池中</p>
+<ol>
+<li>执行正常的SELECT查询操作，检查Insert Buffer Bitmap页</li>
+<li>确认该辅助索引页是否有记录存放在INsert Buffer中</li>
+<li>若有，则将Insert Buffer B+树中该页的记录插入到该辅助索引页中。</li>
+<li>对该页多次的记录操作通过一次操作合并到了原有的辅助索引页中。</li>
+</ol>
+<p>2.Insert Buffer Bitmap 追踪到该辅助索引页已无可用空间时</p>
+<p>Insert Buffer Bitmap页用来追踪每个辅助索引页的可用空间，并至少有1/32的空间。若插入辅助索引记录时检测到插入记录后可用空间会小于1/32页，则会强制进行一个合并操作，即强制读取辅助索引页，将Insert Buffer B+树中该页的记录及待插入的记录插入到辅助索引页中。</p>
+<p>3.Master Thread</p>
+<p>在Master Thread线程中每秒或者每10秒会进行一次Merge Insert Buffer的操作，不同在于merge操作的页的数量不同。</p>
+<p>在Master Thread中，执行merge操作不止一个页，根据srv_innodb_io_capactiy百分比决定真正合并多少个辅助索引页。</p>
+<p>在Insert Buffer B+树中，辅助索引页根据(space,offset)已经排好序，可以根据(space,offset)排序顺序进行页的选择。对于Insert Buffer页的选择，InnoDB会随机选择Insert Buffer B+树中的一个页，读取该页中的space以及之后所需数量的页。若进行merge时，要进行merge表已经删除，此时可以直接丢弃已经被Insert/Change Buffer的胡数据记录。</p>
+<h4 id="2-4-2-两次写"><a href="#2-4-2-两次写" class="headerlink" title="2.4.2 两次写"></a>2.4.2 两次写</h4><p>Insert Buffer带给InnoDB存储引擎的时性能上提示，两次写(doublewrite)带给InnoDB存储引擎的是数据页的可靠性。</p>
+<hr>
+<p><strong>部分写失效</strong></p>
+<p>数据库宕机时，InnoDB正在写某个页列表，而这个页只写了一部分。导致数据丢失。</p>
+<p>该问题无法通过重做日志文件进行恢复。原因：重做日志文件中记录的是对页的物理操作，如偏移量800，写“aaaa”记录。如果该页已经损坏，重做没有意义。</p>
+<p><strong>doublewrite</strong>在应用重做日志文件前，用户需要一个页的副本，当写入失效发生时，先通过页的副本还原页，再进行重做。</p>
+<p>InnoDB存储引擎中doublewrite体系架构：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211021183011.png"></p>
+<p>doublewrite由两部分组成</p>
+<ol>
+<li>内存中的doublewrite buffer   大小2MB</li>
+<li>物理磁盘上共享空间中连续的128个页，即两个区  大小2MB</li>
+</ol>
+<p><strong>两次写的过程</strong></p>
+<p>对缓冲池中的脏页进行刷新时，不直接写磁盘</p>
+<ol>
+<li>通过memcpy函数将脏页先复制到内存中的doublewrite buffer</li>
+<li>通过doublewrite buffer再分两次</li>
+<li>每次1MB顺序地写入共享表空间地物理磁盘上</li>
+<li>马上调用fsync函数，同步磁盘，避免缓冲写带来地问题</li>
+</ol>
+<p>doublewrite页是连续的，在完成doublewrite页的写入后，此时的写入则是离散的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;查看doublewrite运行情况</span><br><span class="line">show global status like &quot;innodb_dblwr%&quot;\G;</span><br></pre></td></tr></table></figure>
+
+<p>参数<strong>Innodb_buffer_pool_pages_flushed</strong>表示当前从缓冲池中刷新到磁盘页的数量。</p>
+<p>用户若需要统计数据库在生产环境中写入的量，最安全的方法还是根据<strong>Innodb_dblwr_pages_written</strong>进行统计。</p>
+<p>参数<strong>skip_innodb_doublewrite</strong>可以禁止使用doublewrite功能，这时可能会发生写失效的问题。</p>
+<h4 id="2-4-3-自适应哈希索引"><a href="#2-4-3-自适应哈希索引" class="headerlink" title="2.4.3 自适应哈希索引"></a>2.4.3 自适应哈希索引</h4><p>哈希查找时间复杂度为O（1），仅需一次就能找到。B+树查找次数取决于B+树的高度，生产环境中B+树高度一般为3<del>4层，故需要3</del>4次查询。</p>
+<p>InnoDB存储引擎监控表上各索引页的查询。如果建立哈希索引可以带来速度提升，则建立哈希索引，称之为<strong>自适应哈希索引（AHI）</strong>。</p>
+<p>AHI通过缓冲池中B+树页构造，无需为整张表构建哈希索引。InnoDB存储引擎根据访问频率和模式自动为<strong>热点页</strong>建立哈希索引。</p>
+<p><strong>AHI要求对这个页的连续访问模式是一样的。</strong></p>
+<blockquote>
+<p>例如(a,b)的联合索引页<br>访问模式可以是如下情况:<br>where a=xxx<br>where a=xxx and b=xxx</p>
+</blockquote>
+<p>访问模式一样指的是查询条件一样。AHI还有如下要求：</p>
+<ol>
+<li>以该模式访问100次</li>
+<li>页通过该模式访问了N次，其中N=页中记录*1/16</li>
+</ol>
+<p>启用AHI后，读取和写入速度可以提高2倍，辅助索引连接操作性能提高5倍。AHI是非常好的优化模式，设计思想是数据库自优化。</p>
+<p><strong>注意</strong></p>
+<ul>
+<li>哈希索引只能用来搜索等值的查询（=），而不能用来做范围查询的（between  and  )</li>
+<li>默认AHI为开启状态</li>
+<li>参数innodb_adaptive_hash_index考虑是否禁用此特性</li>
+</ul>
+<h4 id="2-4-4-异步IO"><a href="#2-4-4-异步IO" class="headerlink" title="2.4.4 异步IO"></a>2.4.4 异步IO</h4><p>为提高磁盘操作性能，数据库都采用异步IO方式处理磁盘操作。</p>
+<p>**AIO（Asynchronous IO)**用户在发出一个IO请求后立即发出另一个IO请求，当全部IO请求发送完毕后，等待所有IO操作完成，这就是AIO。</p>
+<p>AIO的另一个优势就是可以进行 IO Merge操作，多个IO合并为1个IO，提高IOPS性能。</p>
+<p>从1.1x开始，提供了内核级别的AIO支持，称为Native AIO。</p>
+<p>参数<strong>innodb_use_native_aio</strong>可以通过开启和关闭Native AIO比较Innodb的性能。启用Native AIO，恢复速度提高75%</p>
+<p>磁盘的写入操作则全部由AIO完成。</p>
+<h4 id="2-4-5-刷新邻接页"><a href="#2-4-5-刷新邻接页" class="headerlink" title="2.4.5 刷新邻接页"></a>2.4.5 刷新邻接页</h4><p>工作原理为：当刷新一个脏页时，InnoDB存储引擎检测该页所在区的所有页，如果是脏页，那么一起刷新。</p>
+<p>通过AIO可以将多以IO写入操作合并为一个IO操作。</p>
+<p>InnoDB存储引擎从1.2x提供参数<strong>innodb_flush_neighobrs</strong>，用来控制是否启用该特性。</p>
+<ol>
+<li><p>对于传统机械硬盘建议启用特性</p>
+</li>
+<li><p>对于固态硬盘有着超高的IOPS性能的磁盘，建议关闭特性。</p>
+<p>原因：可能将不怎么脏的页进行写入，而该页之后又很快变成脏页</p>
+</li>
+</ol>
+<h3 id="2-5-启动、关闭与恢复"><a href="#2-5-启动、关闭与恢复" class="headerlink" title="2.5 启动、关闭与恢复"></a>2.5 启动、关闭与恢复</h3><p>参数<strong>innodb_fast_shutdown</strong>影响着表的存储引擎为InnoDB的行为。默认值为1</p>
+<ul>
+<li>0表示在数据库关闭时，Innodb完成所有的full  purge和merge insert buffer，将所有的脏页刷新回磁盘。耗费时间，在进行Innodb升级时，需要调为0，再关闭数据库</li>
+<li>1表示不需要上述的操作，但是再缓冲中的一些数据脏页还是会刷新回磁盘</li>
+<li>2表示不完成full purge和merge insert buffer操作，也不将缓冲中的数据脏页写回磁盘，而是将日志都写入日志文件。下次数据库启动时，会进行恢复操作。</li>
+</ul>
+<p>数据库非正常关闭时，如Kill命令关闭数据库，参数设为2时，会对InnoDB存储引擎的表进行恢复操作。</p>
+<p>参数<strong>innodb_force_recovery</strong>影响存储引擎恢复情况。默认值为0</p>
+<ul>
+<li>0表示恢复时进行所有的恢复操作，当不能进行有效恢复时，如数据页发生corruption，mysql发生宕机，把错误写入到错误日志中去。</li>
+<li>1表示忽略检查到的corrupt页</li>
+<li>2表示阻止Master Thread线程运行</li>
+<li>3表示不进行事务的回滚操作</li>
+<li>4表示不进行插入缓冲的合并操作</li>
+<li>5表示不查看撤销日志，Innodb存储引擎会将未提交的事务视为已提交</li>
+<li>6表示不进行前滚的操作</li>
+</ul>
+<p>当该参数设置值大于0后，用户可以对表进行select,create,drop,但是不能进行insert、update、delete这些操作。</p>
+<h2 id="3-文件"><a href="#3-文件" class="headerlink" title="3.文件"></a>3.文件</h2><h3 id="3-1-参数文件"><a href="#3-1-参数文件" class="headerlink" title="3.1 参数文件"></a>3.1 参数文件</h3><p>mysql实例启动时，数据库会先去读配置参数文件，寻找数据库各种文件所在位置以及指定某些初始化参数，这些参数定义了某种内存结构有多大。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;查找指定顺序的文件</span><br><span class="line">mysql--help | grep my.cnf</span><br></pre></td></tr></table></figure>
+
+<p>比较：</p>
+<p>Oracle实例启动时找不到参数文件，不能进行装载操作。</p>
+<p>Mysql实例可以不需要参数文件，所有的参数值取决于编译Mysql时指定的默认值和源代码指定参数的默认值。如果Mysql实例再默认的数据库目录下找不到Mysql架构，启动仍然会失败。</p>
+<p>MySQL的mysql 架构中记录了访问该实例的权限，当找不到这个架构时，mysql不会成功。</p>
+<h4 id="3-1-1-参数"><a href="#3-1-1-参数" class="headerlink" title="3.1.1 参数"></a>3.1.1 参数</h4><p>数据库参数是一个个键/值对。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;查看数据库中所有的参数</span><br><span class="line">show variables;</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-1-2-参数类型"><a href="#3-1-2-参数类型" class="headerlink" title="3.1.2 参数类型"></a>3.1.2 参数类型</h4><p>1.动态参数</p>
+<p>意味着可以在mysql实例运行中进行更改。可以通过SET命令对动态的参数值进行修改<img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211022125716.png"></p>
+<p>对变量的全局进行了修改，再这次实例生命周期都有效，但是mysql实例本身并不会对参数文件中的值进行修改。下次启动时mysql实例还是会读取参数文件。若想下次启动参数值保留，必须去修改参数文件。</p>
+<p>2.静态参数</p>
+<p>再整个实例声明周期内都不得进行更改，就好像是只读的。</p>
+<h3 id="3-2-日志文件"><a href="#3-2-日志文件" class="headerlink" title="3.2 日志文件"></a>3.2 日志文件</h3><p>记录了影响mysql数据库的各种类型活动。包括：</p>
+<ol>
+<li>错误日志</li>
+<li>二进制日志</li>
+<li>慢查询日志</li>
+<li>查询日志</li>
+</ol>
+<h4 id="3-2-1-错误日志"><a href="#3-2-1-错误日志" class="headerlink" title="3.2.1 错误日志"></a>3.2.1 错误日志</h4><p>错误日志文件对Mysql启用、运行、关闭过程进行了记录。在遇到问题时，应首先查看该文件以便定位问题。得到一些关于数据库优化的信息。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;查看错误日志文件的位置</span><br><span class="line">show variables like &quot;log_error&quot;</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-2-2-慢查询日志"><a href="#3-2-2-慢查询日志" class="headerlink" title="3.2.2 慢查询日志"></a>3.2.2 慢查询日志</h4><p>慢查询日志(slow log)定位可能存在的SQL语句，从而进行SQL语句层面的优化。</p>
+<p>可以再mysql启动时设一个阈值，将运行时间超过该值的所有sql语句都记录到慢查询日志文件中。从而DBA可以对sql语句进行优化。</p>
+<p>该阈值通过参数<strong>long_query_time</strong>来设置，默认值为10。</p>
+<p>默认mysql并不启动慢查询日志，需要用户自动设置。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;查询阈值</span><br><span class="line">show variables like &quot;long_query_time&quot;</span><br><span class="line">&#x2F;&#x2F;查看慢查询日志文件打开状态</span><br><span class="line">show variables like &quot;long_slow_queries&quot;</span><br></pre></td></tr></table></figure>
+
+<p>参数<strong>log_queries_not_using_indexes</strong>，运行的SQL没有使用索引，则Mysql数据库同样会将这条sql语句记录到慢查询日志文件中。</p>
+<p>参数<strong>log_throttle_queries_not_using_indexes</strong>，用来表示每分钟允许记录到slow log的且未使用索引的SQL语句次数。默认值为0，表示没有限制。生产环境下，若没有使用索引，此类sql语句会频繁地记录到slow log。导致slow log文件不断增加，因此DBA应该配置。</p>
+<p>当大量地sql查询记录到慢查询日志文件中，需要使用mysqldumpslow命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">mysqldumpslow nh122-190-slow.log</span><br><span class="line"></span><br><span class="line">-s, 是表示按照何种方式排序</span><br><span class="line">c: 访问计数</span><br><span class="line">l: 锁定时间</span><br><span class="line">r: 返回记录</span><br><span class="line">t: 查询时间</span><br><span class="line">al:平均锁定时间</span><br><span class="line">ar:平均返回记录数</span><br><span class="line">at:平均查询时间</span><br><span class="line">-t, 是top n的意思，即为返回前面多少条的数据；</span><br><span class="line">-g, 后边可以写一个正则匹配模式，大小写不敏感的；</span><br><span class="line"></span><br><span class="line">得到返回记录集最多的10个SQL。</span><br><span class="line">mysqldumpslow -s r -t 10 &#x2F;database&#x2F;mysql&#x2F;mysql06_slow.log</span><br><span class="line">得到访问次数最多的10个SQL</span><br><span class="line">mysqldumpslow -s c -t 10 &#x2F;database&#x2F;mysql&#x2F;mysql06_slow.log</span><br><span class="line">得到按照时间排序的前10条里面含有左连接的查询语句。</span><br><span class="line">mysqldumpslow -s t -t 10 -g “left join” &#x2F;database&#x2F;mysql&#x2F;mysql06_slow.log</span><br><span class="line">另外建议在使用这些命令时结合 | 和more 使用 ，否则有可能出现刷屏的情况。</span><br><span class="line">mysqldumpslow -s r -t 20 &#x2F;mysqldata&#x2F;mysql&#x2F;mysql06-slow.log | more</span><br></pre></td></tr></table></figure>
+
+<p>mysql 5.1开始将慢查询日志记录放在一张表中。该表再mysql架构下，名为slow_log</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;查看表结构</span><br><span class="line">show create table mysql.slow_log\G;</span><br><span class="line">&#x2F;&#x2F;修改慢查询输出地格式，默认为FILE，将它设为TABLE</span><br><span class="line">show variables like &quot;log_output&quot;\G;</span><br><span class="line">Set global log_output&#x3D;&quot;TABLE&quot;;</span><br><span class="line">select * from mysql.slow_log\G;</span><br></pre></td></tr></table></figure>
+
+<p>slow_log使用CSV引擎，对大数据量下查询效率不高。用户可以把slow_log表引擎换为MyISAM，并在start_time列上添加索引提高效率。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;修改表的引擎   已经开启了慢查询会报错</span><br><span class="line">Alter table mysql.slow_log engine&#x3D;myism</span><br><span class="line">&#x2F;&#x2F;关闭慢查询</span><br><span class="line">set global slow_query_log&#x3D;off</span><br></pre></td></tr></table></figure>
+
+<p>参数<strong>long_query_io</strong>将超过指定逻辑IO次数的sql语句记录到slow log中。默认值为100.</p>
+<p>参数<strong>slow_query_type</strong>用来表示启用slow log的方式</p>
+<p><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211022161809.png"></p>
+<h4 id="3-2-3-查询日志"><a href="#3-2-3-查询日志" class="headerlink" title="3.2.3 查询日志"></a>3.2.3 查询日志</h4><p>记录了所有对mysql数据库请求的信息。默认文件名：主机名.log</p>
+<p><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211022162350.png"></p>
+<p>MySQL 5.1后 查询日志的记录放入mysql架构下的general_log表中</p>
+<h4 id="3-2-4-二进制日志"><a href="#3-2-4-二进制日志" class="headerlink" title="3.2.4 二进制日志"></a>3.2.4 二进制日志</h4><p>记录了对mysql数据库执行更改的所有操作。不包括select和show操作。（binary log)。select 和show 只能使用查询日志</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;查看master数据库当前正在使用的二进制日志及当前执行二进制日志位置</span><br><span class="line">show master status</span><br><span class="line">&#x2F;&#x2F;查看所有二进制日志列表</span><br><span class="line">show master logs</span><br><span class="line">&#x2F;&#x2F;查看binlog内容</span><br><span class="line">show binlog events</span><br></pre></td></tr></table></figure>
+
+<p>二进制日志的主要作用：</p>
+<ol>
+<li><strong>恢复</strong>：数据恢复使用二进制日志（通过二进制日志进行point-in-time的恢复)</li>
+<li><strong>复制</strong>:通过复制和执行二进制日志使一台远程的Mysql数据库（一般称为slave或primary）进行实时同步。主从复制</li>
+<li><strong>审计</strong>：通过对二进制日志中信息来进行审计，判断是否有对数据库进行注入的攻击。</li>
+</ol>
+<p>通过参数配置log-bin[=name]可以启动二进制日志。若不指定name，默认为二进制日志文件名为主机名，后缀为二进制日志的序列号，所在路径为数据库所在目录（datadir）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">show variables like &quot;datadir&quot;</span><br><span class="line">system ls lh 上一行输出的值</span><br></pre></td></tr></table></figure>
+
+<p>bing_log.index存储过往产生的二进制日志序列号。</p>
+<p><strong>二进制日志文件默认没有启动。</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;查看是否打开了二进制日志文件</span><br><span class="line">show variables like &#39;log_bin&#39;;</span><br></pre></td></tr></table></figure>
+
+<p>以下参数影响着二进制日志记录的信息和行为：</p>
+<p><strong>1.max_binlog_size</strong></p>
+<p>指定了单个二进制日志文件的最大值，超过该值，产生新的二进制日志文件，后缀名+1，记录到.index文件。默认大小为1G；</p>
+<p><strong>2.binlog_cache_size</strong></p>
+<p>当使用事务的表存储引擎（INNODB）时，所有未提交的二进制日志会被记录到一个缓冲中去，等待事务提交时直接将缓冲中的二进制日志写入二进制日志文件，该参数指定了缓冲的大小。默认为32K</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;Binglog_cache_use记录了使用缓冲写二进制日志的次数</span><br><span class="line">show global status like &quot;binlog_cache_use&quot;\G;</span><br><span class="line">&#x2F;&#x2F;查看bing_cache_size大小</span><br><span class="line">show variables like &quot;binglog_cache_size&quot;</span><br><span class="line">&#x2F;&#x2F;查看binglog_cache状态(同时查看binlog_cache_disk_use和binlog_cache_use)</span><br><span class="line">show global status like &quot;binlog_cache%&quot;</span><br></pre></td></tr></table></figure>
+
+<p><strong>3.sync_binlog</strong></p>
+<p>二进制日志并不是每次写都同步到磁盘（缓冲写）。当数据库发生宕机时，可能有一部分数据没有写入二进制日志文件中。</p>
+<p>该参数sync_binlog=[N] 表示每写缓冲多少次就同步到磁盘。默认为0，1表示同步写，这是写操作不适用操作系统的缓冲来写二进制日志。</p>
+<p><strong>4.innodb_support_xa</strong></p>
+<p>因为sync_binlog设为1后，发生同步写，但是由于一个事务还未commit，但是这时已经写入 了二进制日志，此时数据库发生宕机，当下次mysql数据库启动时，由于该事务没有提交，事务会被回滚。但是二进制日志已经记录了，出现问题。</p>
+<p>该参数设为1，确保了二进制日志和InnoDB存储引擎数据文件的同步。</p>
+<p><strong>5.binglog-do-db</strong></p>
+<p>表示需要写入那些库的日志</p>
+<p>默认为空，表示需要同步所有库的日志到二进制日志</p>
+<p><strong>6.binlog-ignore-db</strong></p>
+<p>表示需要忽略吸入哪些库的日志</p>
+<p>默认为空，表示需要同步所有库的日志到二进制日志</p>
+<p><strong>7.log-slave-update</strong></p>
+<p>如果该数据库是主从复制中的从的话，不会从master取得并执行二进制日志写入自己的二进制日志文件中去。若需要，要设置该参数。</p>
+<p>要搭建master=&gt;slave=&gt;slave复制，必须设置该参数。</p>
+<p><strong>8.binlog_format</strong></p>
+<p>影响记录二进制日志的格式。影响InnoDB存储引擎的默认事务隔离级别（REPEATABLE READ 会出现类似丢失更新的现象，从而出现主从数据库上的数据不一致)。</p>
+<p>参数可设值有</p>
+<ol>
+<li><p>STATEMENT</p>
+<p>和之前的版本一致，二进制日志文件记录的是日志逻辑SQL语句</p>
+</li>
+<li><p>ROW</p>
+<p>记录表的更改情况。基于ROW格式的复制类似于Oracle的物理Standby（当然，还是有些区别）</p>
+</li>
+<li><p>MIXED</p>
+<p>mysql默认采用STATEMENT格式进行二进制文件的记录，但是在某些情况下使用ROW格式</p>
+<ol>
+<li>表的存储引擎为NDB，对表的DML操作都会以ROW格式记录</li>
+<li>使用UUID(),USER(),CURRENT_USER(),FOUND_ROWS(),ROW_COUNT()等不确定函数</li>
+<li>使用了INSERT DELAY 语句</li>
+<li>使用了用户定义函数（UDF)</li>
+<li>使用了临时表</li>
+</ol>
+</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211024125336.png"></p>
+<p>binlog_format是动态参数，可以在数据库允许环境下进行更改</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;更改当前会话binlog_format设为ROW</span><br><span class="line">set @@session.binlog_format&#x3D;&#39;ROW&#39;;</span><br><span class="line">&#x2F;&#x2F;查询当前会话的binlog_format</span><br><span class="line">select @@session.binlog_format;</span><br><span class="line">&#x2F;&#x2F;设置全局的binlog_format</span><br><span class="line">set global binlog_format&#x3D;&quot;ROW&quot;</span><br></pre></td></tr></table></figure>
+
+<p>参数<strong>binlog_format</strong>设置为ROW，会对磁盘空间有一定的增加。</p>
+<p>查看二进制日志文件不能使用像<strong>错误日志文件</strong>、<strong>慢查询日志文件</strong>那样使用<strong>cat</strong>、<strong>head</strong>、<strong>tail</strong>等命令来查看。</p>
+<p>要查看二进制日志文件需要使用mysql提供的工具<strong>mysqlbinlog</strong>，对于STATEMENT格式的二进制日志文件，使用mysqlbinlog后，看到的就是执行的逻辑SQL语句。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">-d, --database&#x3D;name      仅显示指定数据库的转储内容。</span><br><span class="line">-o, --offset&#x3D;#           跳过前N行的日志条目。</span><br><span class="line">-r, --result-file&#x3D;name   将输入的文本格式的文件转储到指定的文件。</span><br><span class="line">-s, --short-form         使用简单格式。</span><br><span class="line">--set-charset&#x3D;name       在转储文件的开头增加&#39;SET NAMES character_set&#39;语句。</span><br><span class="line">--start-datetime&#x3D;name    转储日志的起始时间。</span><br><span class="line">--stop-datetime&#x3D;name     转储日志的截止时间。</span><br><span class="line">-j, --start-position&#x3D;#   转储日志的起始位置。</span><br><span class="line">--stop-position&#x3D;#        转储日志的截止位置。</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-3-套接字文件"><a href="#3-3-套接字文件" class="headerlink" title="3.3 套接字文件"></a>3.3 套接字文件</h3><p>UNIX系统下本地连接mysql可以采用UNIX域套接字方式，这种方式需要一个套接字文件。</p>
+<p>套接字文件由参数socket控制</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;查看套接字文件路径</span><br><span class="line">show variables like &quot;socket&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-4-Pid文件"><a href="#3-4-Pid文件" class="headerlink" title="3.4 Pid文件"></a>3.4 Pid文件</h3><p>mysql实例启动时，将自己的进程ID写入一个文件中，该文件即为Pid文件。由参数pid_file控制，默认位于数据库目录下，文件名为主机名.pid</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;查看Pid文件路径</span><br><span class="line">show variables like &quot;pid_file&quot;\G;</span><br><span class="line">show variables like &quot;%pid%&quot;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-5-表结构定义文件（frm文件）"><a href="#3-5-表结构定义文件（frm文件）" class="headerlink" title="3.5 表结构定义文件（frm文件）"></a>3.5 表结构定义文件（frm文件）</h3><p>mysql数据的存储时根据表进行的，每个表都有其对应的文件，无论采用什么存储引擎，后缀名为frm的文件定义了该表的结构定义。</p>
+<p>frm文件还可以用来存放视图的定义，该文件是文本文件,可以直接用cat命令进行查看。</p>
+<h3 id="3-6-InnoDB存储引擎文件"><a href="#3-6-InnoDB存储引擎文件" class="headerlink" title="3.6 InnoDB存储引擎文件"></a>3.6 InnoDB存储引擎文件</h3><p>每个存储引擎都有自己独有的文件。</p>
+<h4 id="3-6-1-表空间文件"><a href="#3-6-1-表空间文件" class="headerlink" title="3.6.1 表空间文件"></a>3.6.1 表空间文件</h4><p>用来管理InnoDB的存储</p>
+<p>InnoDB采用将存储的数据按表空间进行存放设计。默认配置下会有一个初始化大小为10MB，名为ibdatea1的文件。该文件是默认的表空间文件，用户可以通过参数innodb_data_file_path进行设置。</p>
+<p>用户可以通过多个文件组成一个表空间，同时制定文件的属性。</p>
+<p>设置<strong>innodb_data_file_path</strong>参数后，所有基于InnoDB存储引擎的表数据都会记录到该共享空间中。</p>
+<p>设置<strong>innodb_file_per_table</strong>参数后，用户可以将每个基于InnoDB存储引擎的表产生一个独立表空间。独立表空间的命名为：表名.ibd。通过该方式，用户不用将所有数据都存放于默认的表空间中。</p>
+<p>单独的idb表空间文件仅存储该表的数据、索引和插入缓冲BITMAP等信息，其余的信息还是存放在默认的表空间中。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211024143353.png"></p>
+<h4 id="3-6-2-重做日志文件"><a href="#3-6-2-重做日志文件" class="headerlink" title="3.6.2 重做日志文件"></a>3.6.2 重做日志文件</h4><p>用来记录InnoDB的事务日志</p>
+<p>默认情况下，InnoDB存储引擎数据目录下有两个名为ib_logfile()和ib_logfile1的文件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;查看重做日志参数情况</span><br><span class="line">show variables like &quot;innodb%log%&quot;\G;</span><br></pre></td></tr></table></figure>
+
+<p>下列参数影响重做日志文件的属性：</p>
+<p>1.innodb_log_file_size</p>
+<p>指定了每个重做日志文件的大小</p>
+<p>2.innodb_log_files_in_group</p>
+<p>日志文件组中重做日志文件的数量，默认为2</p>
+<p>3.innodb_mirrored_log_groups</p>
+<p>指定了日志镜像文件组的数量，默认为1，表示只有一个日志文件组，没有镜像</p>
+<p>4.innodb_log_group_home_dir</p>
+<p>指定了日志文件组所在的路径，默认/</p>
+<p>p101二进制日志和重做日志的区别</p>
+<p>InnoDB存储引擎的重做日志只记录有关存储引擎本身的事务日志，而且记录的是关于每个页的更改的物理情况，事务的进行中，不断有重做日志条目被写入到重做日志文件中。</p>
+<hr>
+<p>InnoDB存储引擎中，对于不同的操作有着不同的重做日志格式。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211024145207.png"></p>
+<p>redo_log_type:占用1字节，重做日志类型</p>
+<p>space: 表空间的ID，采用压缩的方式，占用空间可能小于4字节</p>
+<p>page_no:表示页的偏移量，同样采用压缩方式</p>
+<p>redo_log_body:每个重做日志的数据部分，恢复时需要调用相应函数解析</p>
+<hr>
+<p><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211024145601.png"></p>
+<p>从日志缓冲写入磁盘上的重做日志文件按一定条件进行：</p>
+<ol>
+<li>master thread 每秒会将重做日志缓冲写入磁盘的重做日志文件中，不论事务是否提交</li>
+<li>由参数<strong>innodb_flush_log_at_trx_commit</strong>控制，表示在提交时，处理重做日志的方式。</li>
+</ol>
+<p><strong>innodb_flush_log_at_trx_commit</strong>有效值有</p>
+<ul>
+<li>0代表提交事务时，并不将事务的重做日志写入磁盘的日志文件，而是等待主线程每秒的刷新。</li>
+<li>1表示在执行commit时将重做日志缓冲同步写道磁盘。伴有fsync的调用</li>
+<li>2表示将重做日志异步写到磁盘，即写到文件系统的缓存中。不能完全保证在执行commit时肯定会写入重做日志文件。</li>
+</ul>
+<p>为保证事务的ADID的持久性，必须将innodb_flush_log_at_trx_commit设置为1，每当有事务提交时，必须确保事务都已经写入重做日志文件。</p>
+<h2 id="4-表"><a href="#4-表" class="headerlink" title="4.表"></a>4.表</h2><p>数据在表中是如何组织和存放的</p>
+<h3 id="4-1-索引组织表"><a href="#4-1-索引组织表" class="headerlink" title="4.1 索引组织表"></a>4.1 索引组织表</h3><p>在InnoDB存储引擎中，表是按主键顺序组织存放的，该存储方式为索引组织表。</p>
+<p>创建表时若没有显示定义主键，InnoDB存储引擎按如下方式选择或创建主键</p>
+<ol>
+<li><p>判断表中是否有非空的唯一索引，如果有，则为主键</p>
+</li>
+<li><p>若没有，InnoDB引擎自动创建一个6字节大小的指针</p>
+</li>
+<li><p>当表中有多个非空唯一索引时，InnoDB存储引擎将选择建表时第一个定义的非空唯一索引为主键。</p>
+<p><strong>注意</strong></p>
+<p>主键的选择是根据定义索引的顺序，而不是建表时列的</p>
+</li>
+</ol>
+<blockquote>
+<p>唯一约束与主键约束相似的是它们都可以确保列的唯一性。不同的是，唯一约束在一个表中可有多个，并且设置唯一约束的列允许有空值，但是只能有一个空值。而主键约束在一个表中只能有一个，且不允许有空值。比如，在用户信息表中，为了避免表中用户名重名，可以把用户名设置为唯一约束。</p>
+</blockquote>
+<p>通过</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">insert into 表名 select 列1，列2...</span><br></pre></td></tr></table></figure>
+
+<p>可以快速插入数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;查看某个表的主键</span><br><span class="line">select a,b,c,d,_rowid from z;</span><br></pre></td></tr></table></figure>
+
+<p>_rowid可以显示表的主键。只能查看单个列为主键的情况，对于多列组成的主键就显得无能为力了。</p>
+<h3 id="4-2-InnoDB逻辑存储结构"><a href="#4-2-InnoDB逻辑存储结构" class="headerlink" title="4.2 InnoDB逻辑存储结构"></a>4.2 InnoDB逻辑存储结构</h3><p><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211028143947.png"></p>
+<h4 id="4-2-1-表空间"><a href="#4-2-1-表空间" class="headerlink" title="4.2.1 表空间"></a>4.2.1 表空间</h4><p>InnoDB存储引擎逻辑结构的最高层，所有的数据存放在表空间中。</p>
+<p>默认情况下InnoDB存储引擎下有一个共享表空间ibdata1，即所有数据都放在这个表空间内。</p>
+<blockquote>
+<p>Undo 页</p>
+<p>Undo Log的原理很简单，为了满足事务的原子性，在操作任何数据之前，首先将数据备份到一个地方（这个存储数据备份的地方称为Undo Log）。然后进行数据的修改。如果出现了错误或者用户执行了ROLLBACK语句，系统可以利用Undo Log中的备份将数据恢复到事务开始之前的状态。</p>
+</blockquote>
+<p>即使在启用了innodb_file_per_table之后，共享空间还是会不断地增加大小。因为如回滚(undo)信息，插入缓冲索引页，系统事务信息，二次写缓冲还是存放在原来的共享空间内。</p>
+<p>即使事务rollback后InnoDB存储引擎也不会去收缩这个表空间。虽然不会回收但是会将其标记为可用空间，提供下个undo使用</p>
+<h4 id="4-2-2-段"><a href="#4-2-2-段" class="headerlink" title="4.2.2 段"></a>4.2.2 段</h4><p>表空间是由各个段组成的，常见的段由数据段、索引段、回滚段等。</p>
+<p>InnoDB存储引擎表是索引组织的，数据即索引，索引即数据。数据段为B+树的叶子结点，索引段即为B+树的非索引结点。</p>
+<p>Innodb存储引擎中，对段的管理都是由引擎自身完成。</p>
+<h4 id="4-2-3-区"><a href="#4-2-3-区" class="headerlink" title="4.2.3 区"></a>4.2.3 区</h4><p>区是连续页组成的空间，任何情况下每个区的大小都为<strong>1MB</strong>。为了保证区中页的连续性，Innodb引擎一次从磁盘申请4~5个区。InnoDB存储引擎页大小为16KB，即一个区中共有64个连续的页。1MB/16kb=64</p>
+<p>参数<strong>key_block</strong>设置每个页的大小(1.0.x版本)</p>
+<p>参数<strong>innodb_page_size</strong>设置默认页大小(1.2.x版本)</p>
+<h4 id="4-2-4-页"><a href="#4-2-4-页" class="headerlink" title="4.2.4 页"></a>4.2.4 页</h4><p>页是InnoDB磁盘管理的最小单位。每个页默认大小为16KB，从1.2x版本开始可以通过innodb_page_size将页额大小设置为4K,8K,16K。</p>
+<p>页类型有：</p>
+<ol>
+<li>数据页</li>
+<li>undo页</li>
+<li>系统页</li>
+<li>事务数据页</li>
+<li>插入缓冲位图页</li>
+<li>插入缓冲空闲列表页</li>
+<li>未压缩的二进制大对象页</li>
+<li>压缩的二进制大对象页</li>
+</ol>
+<h4 id="4-2-5-行"><a href="#4-2-5-行" class="headerlink" title="4.2.5 行"></a>4.2.5 行</h4><p>InnoDB存储引擎是面向列的，数据是按行进行存放的。每页最多允许存放16KB/2-200行的记录，也就是7992行。</p>
+<h3 id="4-3-InnoDB行记录格式"><a href="#4-3-InnoDB行记录格式" class="headerlink" title="4.3 InnoDB行记录格式"></a>4.3 InnoDB行记录格式</h3><p>页中保存着一行行的数据。</p>
+<p>行格式两种：1. Compact     2.  Redundant</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;查看当前表使用的行格式</span><br><span class="line">show table like status like &#39;table_name&#39;\G;</span><br></pre></td></tr></table></figure>
+
+<p><strong>row_format</strong>记录了当前所使用的行记录结构类型。</p>
+<h2 id="5-索引与算法"><a href="#5-索引与算法" class="headerlink" title="5.索引与算法"></a>5.索引与算法</h2><h3 id="5-1-Innodb存储引擎的索引概述"><a href="#5-1-Innodb存储引擎的索引概述" class="headerlink" title="5.1 Innodb存储引擎的索引概述"></a>5.1 Innodb存储引擎的索引概述</h3><p>Innodb支持以下几种常见的索引：</p>
+<ol>
+<li><p>B+树索引</p>
+<p>传统意义上的索引。B+树构造类似于二叉树，根据键值快速找到数据。B代表的是balance。B+树索引并不能找到一个给定键值的具体行。<strong>B+树索引能找到被查数据所在的页。</strong>然后数据库将页读入内存，再在内存中进行查找，最后得到要查找的数据。</p>
+</li>
+<li><p>全文索引</p>
+</li>
+<li><p>哈希索引</p>
+<p>自适应的，Innodb存储引擎会根据表的使用情况自动为表生成哈希索引，不能认为干预是否在一张表中生成哈希索引。</p>
+</li>
+</ol>
+<h3 id="5-2-索引相关数据结构"><a href="#5-2-索引相关数据结构" class="headerlink" title="5.2  索引相关数据结构"></a>5.2  索引相关数据结构</h3><p><strong>平衡二叉树即ALV</strong>，首先满足二叉查找树的定义，其次必须满足任何结点的两个子树的高度最大差为1。</p>
+<p>通过多次左旋或者右旋维持二叉树的平衡性。</p>
+<h3 id="5-3-B-树"><a href="#5-3-B-树" class="headerlink" title="5.3 B+树"></a>5.3 B+树</h3><p>B+树是为磁盘或其他直接存取辅助设备设计的以中国平衡查找树。B+树中，所有记录结点都是按键值的大小顺序放在同一层的叶子节点上，由各叶子结点指针进行连接。</p>
+<h4 id="5-3-1-B-树的插入操作"><a href="#5-3-1-B-树的插入操作" class="headerlink" title="5.3.1 B+树的插入操作"></a>5.3.1 B+树的插入操作</h4><p>B+树插入需要保证插入后叶子结点中的记录依然排序，需要考虑三种情况。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211118201105.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211118202103.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211118202006.png"></p>
+<p>直接插入</p>
+<p><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211118202020.png"></p>
+<p>拆分叶子节点</p>
+<p><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211118202031.png"></p>
+<p>索引页和叶子页都拆分</p>
+<p>为了保持平衡对于新插入的键值可能需要做大量的拆分页操作。<strong>B+树结构主要用户磁盘，页的拆分意为着磁盘的操作，所以应经可能减少页的拆分操作。</strong></p>
+<p><strong>B+树同样提供了类似于平衡二叉树的旋转操作功能。</strong></p>
+<p>旋转发生在Leaf Page已经满，但是其的左右兄弟结点没有满的情况下。B+树不会急于去做拆分页的操作，而是将记录移到所在页的兄弟节点上。</p>
+<h4 id="5-3-2-B-树的删除操作"><a href="#5-3-2-B-树的删除操作" class="headerlink" title="5.3.2 B+树的删除操作"></a>5.3.2 B+树的删除操作</h4><p>B+树使用填充因子来控制树的删除变化。50%是填充因子可设的最小值。B+树的删除操作同样必须保证删除后叶子结点中的记录依然排序。删除根据填充因子的变化来衡量。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211118204350.png"></p>
+<h3 id="5-4-B-树索引"><a href="#5-4-B-树索引" class="headerlink" title="5.4 B+树索引"></a>5.4 B+树索引</h3><p>B+树索引的本质就是B+树在数据库中的实现。但是B+索引在数据库中有一个特定是高扇出性。B+树的高度一般在2~4层，也就是说查找某一键值的行记录时最多需要2到4此IO。</p>
+<p>B+树的索引可以分为<strong>聚集索引</strong>和<strong>辅助索引</strong>。<strong>聚集索引与辅助索引不同的是叶子结点存放的是否是一整行的数据</strong></p>
+<h4 id="5-4-1-聚集索引"><a href="#5-4-1-聚集索引" class="headerlink" title="5.4.1 聚集索引"></a>5.4.1 聚集索引</h4><p>Innodb存储引擎表是索引组织表，即表中数据是按照主键顺序存放。</p>
+<p><strong>聚集索引就是按照每张表的主键构造一颗B+树，叶子结点中存放的即为整张表的行记录数据，也将聚集索引的叶子结点称为数据页。</strong></p>
+<p>聚集索引的这个特性决定了索引组织表<strong>中数据也是索引的一部分。同B+树数据结构一样，每个数据页都通过一个双向链表进行链接。</strong></p>
+<p>实际的数据页只能按照一棵B+树进行排序，因此每张表中只能拥有一个聚集索引。</p>
+<p>查询优化器倾向于采用聚集索引，因为聚集索引能够在B+树索引的叶子结点上直接找到数据。</p>
+<p>数据页上存放的是完整的每行的记录，非数据页的索引页中，存放的仅仅是键值及指向数据页的偏移量，而不是一个完整的行记录。</p>
+<p><strong>聚集索引的存储并不是物理上连续的，而是逻辑上连续的。</strong></p>
+<ol>
+<li>页通过双向链表链接，页按照主键的顺序排序。</li>
+<li>每个页中的记录也是通过双向链表进行维护的，物理存储上可以同样不按照主键存储。</li>
+</ol>
+<p>好处：</p>
+<ol>
+<li>对主键的排序查找和范围查找速度非常快</li>
+<li><strong>范围查询</strong>，如果想要查找主键某一范围内的数据，通过叶子节点的上层结点就可以得到页的范围，之后直接读取数据页即可。</li>
+</ol>
+<p>explain（execute plan)  Mysql数据库的执行计划。</p>
+<h4 id="5-4-2-辅助索引"><a href="#5-4-2-辅助索引" class="headerlink" title="5.4.2 辅助索引"></a>5.4.2 辅助索引</h4><p><strong>叶子结点并不包含行记录的全部数据。叶子结点除了包含键值以外，每个叶子结点中的索引行还包含了一个书签。****书签用来告诉Innodb存储引擎哪里可以找到与索引相对应的行数据</strong>。由于Innodb存储引擎是索引组织表，因此Innodb存储引擎的辅助索引的书签就是响应行数据的聚集索引键。</p>
+<p>辅助索引的存在并不影响数据在聚集索引中的组织，因此每张表上可以有多个辅助索引。</p>
+<p>通过辅助索引寻找数据时</p>
+<ol>
+<li>Innodb存储引擎遍历辅助索引并通过叶级别的指针获得指向主键索引的主键</li>
+<li>通过主键索引来找到一个完整的行记录。</li>
+</ol>
+<p>SQL SERVER中的<strong>堆表</strong>：行数据的存储按照插入的顺序存放。堆表的特性决定了堆表上的索引都是非聚集的，主键与非主键的区别只是是否唯一且非空。这时书签是一个<strong>行标识符</strong>。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211119144334.png"></p>
+<h4 id="5-4-3-B-树索引的分裂"><a href="#5-4-3-B-树索引的分裂" class="headerlink" title="5.4.3 B+树索引的分裂"></a>5.4.3 B+树索引的分裂</h4><p>与B+树的分裂略有不同</p>
+<p>B+树索引页的分裂并不总是从页的中间记录开始的，这样会导致空间的浪费。</p>
+<p>Innodb存储引擎的Page Header中有以下几个部分用来保存插入的顺序信息：</p>
+<ol>
+<li><strong>PAGE_LAST_INSERT</strong></li>
+<li><strong>PAGE_DIRECTION</strong></li>
+<li><strong>PAGE_N_DIRECTION</strong></li>
+</ol>
+<p>通过这些信息，Innodb引擎决定是向左还是向右进行分裂，同时决定分裂点记录为哪一个。</p>
+<p>INNODB存储引擎插入时，首先需要进行定位，定位到的记录为待插入记录额前一条记录。</p>
+<h4 id="5-4-4-B-树索引的管理"><a href="#5-4-4-B-树索引的管理" class="headerlink" title="5.4.4 B+树索引的管理"></a>5.4.4 B+树索引的管理</h4><p><strong>1.索引管理</strong></p>
+<p>Alter table</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;创建索引</span><br><span class="line">Alter Table tbl_name</span><br><span class="line">add index|key index_name</span><br><span class="line">index_type   index_col_name</span><br><span class="line">&#x2F;&#x2F;删除索引</span><br><span class="line">alter table tbl_name</span><br><span class="line">drop primary key | drop index|key   index_name</span><br></pre></td></tr></table></figure>
+
+<p>create/drop index</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;创建索引</span><br><span class="line">create &#123;unique&#125; index index_name &#123;index_type&#125;</span><br><span class="line">on tbl_name &#123;index_col_name,..&#125;</span><br><span class="line">&#x2F;&#x2F;删除索引</span><br><span class="line">drop index index_name on tbl_name</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;查看某个表上的索引情况</span><br><span class="line">show index from tbl_name</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>字段名</th>
+<th>字段含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>table</td>
+<td>索引所在的表名</td>
+</tr>
+<tr>
+<td>Non_unique</td>
+<td>非唯一的索引，可以看到primary key为0是唯一的</td>
+</tr>
+<tr>
+<td>Key_name</td>
+<td>索引的名字，通过该值来drop index</td>
+</tr>
+<tr>
+<td>seq_in_index</td>
+<td>索引中列的位置，联合索引中指示1，2…</td>
+</tr>
+<tr>
+<td>column_name</td>
+<td>索引列名称</td>
+</tr>
+<tr>
+<td>collation</td>
+<td>列的存储方式A或者NULL。B+树索引总是A，即排序的。若是Heap存储引擎，并且建立了哈希索引，就为NULL</td>
+</tr>
+<tr>
+<td>cardinality</td>
+<td>表示索引中唯一值的数目的估计值。应尽可能接近1，若非常小，用户需要考虑是否可以删除此索引。</td>
+</tr>
+<tr>
+<td>sub_part</td>
+<td>列的部分被索引。若索引整个列，字段为NULL</td>
+</tr>
+<tr>
+<td>packed</td>
+<td>关键字如何被压缩。若未压缩，则为NULL</td>
+</tr>
+<tr>
+<td>NULL</td>
+<td>是否索引的列含有Null值。</td>
+</tr>
+<tr>
+<td>Index_type</td>
+<td>索引的类型。</td>
+</tr>
+<tr>
+<td>Comment</td>
+<td>注释</td>
+</tr>
+</tbody></table>
+<p>Cardinality值很关键，优化器根据这个值来判断是否使用这个索引。该值并不是实时更新的，即每次索引的更新都会更新该值，代价太大了。</p>
+<p><strong>若要更新cardinality的信息，可以使用analyze table命令。</strong></p>
+<p>Cardinality为NULL，某些情况下会发生索引建立了却没有用到的情况。或者两次explain会出现一次是使用了索引，一次使用的是全表扫描。这时就应该做一次analyze table操作。</p>
+<p><strong>2.Fast Index Creation</strong>(快速索引创建)  </p>
+<p>以前</p>
+<p><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211120160656.png"></p>
+<p>弊端：对大表索引的添加和删除操作，需要很长的时间。</p>
+<p>对于辅助索引的创建，Innodb存储引擎会对创建索引的表加上一个s锁。创建过程中不需要重建表。</p>
+<p>删除辅助索引操作更简单，Innodb存储只需要更新内部视图，并将辅助索引的空间标记为可用，同时删除Mysql数据库内部视图上多该表的索引。</p>
+<p><strong>3.Online Schema Change</strong> (在线架构改变)</p>
+<p><strong>4.Online DDL</strong>（在线数据定义）</p>
+<p>允许辅助索引创建的同时，还允许各类DML操作，提高了Mysql数据库的可用性。</p>
+<p>以下几类DDL操作都可以通过在线方式操作</p>
+<ol>
+<li>辅助索引的创建</li>
+<li>改变自增长值</li>
+<li>添加或者删除外键约束</li>
+<li>列的重命名</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211120162251.png"></p>
+<p>lock部分为索引创建或删除时对表添加锁的情况：</p>
+<p>1）None</p>
+<p>执行索引创建或者删除时，对目标不添加任何的锁。即事务仍然可以进行读写操作，不会受到阻塞。这种模式可以获得做大的并发度。</p>
+<p>2）SHARE</p>
+<p>和FIC类似，执行索引拆功能键或删除操作时，对目标表加上一个s锁。对于并发的读事务，依然可以执行，但是遇到写事务，就会发生等待。</p>
+<p>3）EXCLUSIVE</p>
+<p>执行时，对目标加上一个x锁。读写事务都不能进行，会阻塞所有的线程，这和copy方式运行得到的状态类似，但是不需要像copy那样创建一张临时表。</p>
+<p>4）DEFAULT</p>
+<p>该模式会判断当前操作是否可以使用none模式，若不能，则判断是否可以使用share模式，最后判断是否可以使用exclusive模式。<strong>也就是通过判断事务的最大并发性来判断执行DDL的新模式。</strong></p>
+<h3 id="5-5-Cardinality值"><a href="#5-5-Cardinality值" class="headerlink" title="5.5 Cardinality值"></a>5.5 Cardinality值</h3><h4 id="5-5-1-什么是cardinality"><a href="#5-5-1-什么是cardinality" class="headerlink" title="5.5.1 什么是cardinality"></a>5.5.1 什么是cardinality</h4><p>并不是所有的查询条件中出现的列都需要添加索引。<strong>对表字段高选择性的适合使用B+树索引。</strong>也就是基本不重复的。<strong>sql语句选取表中较少行的原则。</strong></p>
+<p><strong>通过show index中的cardinality的值来查看。表示的是索引中不重复记录数量的预估值。</strong></p>
+<p>cardinality值尽可能地接近1，在访问高选择性的字段并从表中取出很少一部分数据时，对这个字段添加B+树索引是有必要的。</p>
+<h4 id="5-5-2-Innodb存储引擎中的cardinality统计"><a href="#5-5-2-Innodb存储引擎中的cardinality统计" class="headerlink" title="5.5.2 Innodb存储引擎中的cardinality统计"></a>5.5.2 Innodb存储引擎中的cardinality统计</h4><p>cardinality表示选择性。<strong>建立索引的前提是列中的数据是高选择性的。</strong></p>
+<p><strong>不同的存储引擎对于B+树索引实现是不同的，所以对cardinality的统计是放在存储引擎层进行的。</strong></p>
+<p>数据库对于cardinality的统计是通过<strong>采样</strong>的方法来完成的。原因是索引更新频繁如果每次都统计会给数据库带来负担，而且对于大表统计时间很长。</p>
+<p>Cardinality统计信息发生在</p>
+<ol>
+<li>INSERT</li>
+<li>UPDATE</li>
+</ol>
+<p>InnoDB存储引擎内部对更新cardinality信息的策略为</p>
+<ol>
+<li><p>表中1/16的数据已经发生过变化</p>
+</li>
+<li><p>stat_modified_counter&gt;2 000 000 000</p>
+<p>对第一种的弥补，防止某一行数据频繁的进行更新操作，表中的数据司机并没有增加。<strong>在INNODB存储引擎中有一个计数器sata_modified_counter，用来表示发生变化的次数。</strong></p>
+</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211120185003.png"></p>
+<p>当然，当表足够小时，表的叶子结点树小于或者等于8个，这是随机采样，总会采取到这些页，因此cardinality值是相同的。</p>
+<p>当执行</p>
+<ol>
+<li><strong>analyze table</strong></li>
+<li><strong>show tables status</strong></li>
+<li><strong>show index</strong></li>
+<li><strong>访问information_schema架构下的表tables和statistics</strong></li>
+</ol>
+<p><strong>会导致Innodb存储引擎去重新计算索引的cardinality值。</strong></p>
+<p><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211120185800.png"></p>
+<h3 id="5-6-B-树索引的使用"><a href="#5-6-B-树索引的使用" class="headerlink" title="5.6 B+树索引的使用"></a>5.6 B+树索引的使用</h3><p><strong>OLTP</strong>:on-line transaction processing）翻译为联机事务处理  主要是数据库增删改</p>
+<p><strong>OLAP</strong>:On-Line Analytical Processing）翻译为联机分析处理   主要是查询数据</p>
+<p><strong>OLTP应用中</strong>查询操作只取得一小部分数据，一般就是根据主键来取的用户信息，典型的OLTP应用。<strong>这时，B+树索引建立后，对索引的使用应该只是通过该索引取得表中少部分的数据。这时候建立B+树索引是有意义的。</strong>否则即使建立了，优化器也可能选择不适用索引。</p>
+<p><strong>OLAP</strong>中情况会复杂。OLAP中需要访问表中大量数据，查询是面向分析的查询。</p>
+<p>OLAP中不需要给用户姓名加索引，<strong>一般都会对时间字段加索引。</strong>大多数统计需要根据时间维度来进行数据的筛选。</p>
+<h4 id="5-6-2-联合索引"><a href="#5-6-2-联合索引" class="headerlink" title="5.6.2 联合索引"></a>5.6.2 联合索引</h4><p>对表上的多个列进行索引。</p>
+<p>从本质上来说，联合索引也是一颗B+树，不同的联合索引的键值的数量不是1，而是大于等于2。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211120193223.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211120193250.png"></p>
+<p>联合索引的第二个好处是已经对第二个键值进行了排序处理。使用联合索引可以避免多一次的排序操作，因为索引本身在叶子结点已经排好序了。</p>
+<h4 id="5-6-3-覆盖索引"><a href="#5-6-3-覆盖索引" class="headerlink" title="5.6.3 覆盖索引"></a>5.6.3 覆盖索引</h4><p><strong>Innodb存储引擎支持覆盖索引，也称为索引覆盖，即从辅助索引中就可以得到查询的记录，而不需要查询聚集索引中的记录。</strong></p>
+<p>好处：</p>
+<p><strong>辅助索引不包含整行的所有信息，故其大小要远远小于聚集索引，因此可以减少大量的IO操作。</strong></p>
+<p>因为Innodb存储引擎的辅助索引存放了主键值，所以常常建立联合索引，就可以在辅助索引里即拿到主键的值。</p>
+<p>覆盖索引的另一个好处是对<strong>某些统计问题</strong>而言。<strong>因为表上有辅助索引，优化器不会选择聚集索引，因为辅助索引远小于聚集索引，选择辅助索引可以减少IO操作。</strong></p>
+<p>如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select count(*) from tbl_name</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="5-6-4-优化器选择不使用索引的情况"><a href="#5-6-4-优化器选择不使用索引的情况" class="headerlink" title="5.6.4 优化器选择不使用索引的情况"></a>5.6.4 优化器选择不使用索引的情况</h4><p>用explain命令来进行sql语句的分析时，<strong>会发现优化器并没有选择索引去查找数据</strong>，而是通过扫描聚集索引，也就是直接进行全表的扫描来得到数据。</p>
+<p><strong>该情况多发生于范围查找、JOIN链接操作等情况。</strong></p>
+<p><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211121143047.png"></p>
+<p>可以使用 FORCE INDEX来强制使用某个索引</p>
+<h4 id="5-6-5-索引提示"><a href="#5-6-5-索引提示" class="headerlink" title="5.6.5 索引提示"></a>5.6.5 索引提示</h4><p>mysql数据库支持索引提示(INDEX HINT)显式地告诉优化器使用哪个索引。</p>
+<h4 id="5-6-6-Multi-Range-Read-优化"><a href="#5-6-6-Multi-Range-Read-优化" class="headerlink" title="5.6.6 Multi-Range Read 优化"></a>5.6.6 Multi-Range Read 优化</h4><p>mysql5.6版本开始支持MMR优化。<strong>MRR优化目的是为了减少磁盘地随机访问，并且将随机访问转化为较为顺序地数据访问</strong>。<strong>适用于range，ref，eq_ref类型的查询</strong></p>
+<p>好处：</p>
+<ol>
+<li>MMR使得数据访问变得顺序。查找辅助索引时，根据查询结果，按照主键进行排序，并按照主键排序的顺序进行书签查找。</li>
+<li>减少缓冲池中页被替换的次数</li>
+<li>批量处理对键值的查询操作。</li>
+</ol>
+<p>对于Innodb和MyISAM存储引擎的范围查询和JOIN查询操作。MMR工作方式如下：</p>
+<ol>
+<li>将查询得到的辅助索引键值存放到一个缓存中，缓存中的数据时根据辅助索引键值排序的。</li>
+<li>将缓存中的键值根据ROWID来进行排序</li>
+<li>根据ROWID的排序顺序来访问实际的数据文件</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211121145123.png"></p>
+<h4 id="5-6-7-Index-Condition-Pushdown-ICP-优化"><a href="#5-6-7-Index-Condition-Pushdown-ICP-优化" class="headerlink" title="5.6.7 Index Condition Pushdown(ICP 优化)"></a>5.6.7 Index Condition Pushdown(ICP 优化)</h4><p>Mysql5.6后支持的根据索引进行查询的优化方式。</p>
+<p><strong>在支持Index Condition Pushdown后，mysql 数据库会在取出索引的同时，判断是否可以进行where条件的过滤。也就是将where的部分过滤放在了存储引擎层。</strong></p>
+<p><strong>ICP</strong>优化支持range,ref,eq_ref,ref_or_null类型的查询，当前支持MyISAM和Innodb存储引擎。</p>
+<h3 id="5-7-哈希算法"><a href="#5-7-哈希算法" class="headerlink" title="5.7 哈希算法"></a>5.7 哈希算法</h3><h4 id="5-7-2-Innodb存储引擎中的哈希算法"><a href="#5-7-2-Innodb存储引擎中的哈希算法" class="headerlink" title="5.7.2 Innodb存储引擎中的哈希算法"></a>5.7.2 Innodb存储引擎中的哈希算法</h4><p><strong>Innodb存储引擎使用哈希算法来对字典进行查找，冲突采用链表方式，哈希函数采用除法散列方式。</strong></p>
+<h4 id="5-7-3-自适应哈希索引"><a href="#5-7-3-自适应哈希索引" class="headerlink" title="5.7.3  自适应哈希索引"></a>5.7.3  自适应哈希索引</h4><p>InnoDB存储引擎会监控对表上各索引页的查询，如果监控到某个索引页被频繁查询，并诊断后发现如果为这一页的数据创建Hash索引会带来更大的性能提升，则会自动为这一页的数据创建Hash索引，并称之为<strong>自适应Hash索引。</strong></p>
+<p>由Innodb存储引擎自己控制的，通常是对热点索引页创建哈希索引。<strong>自适应Hash索引看成是索引的索引</strong></p>
+<p><strong>通过参数innodb_adaptive_hash_index来禁用或启动此特性。默认为开启。</strong></p>
+<h3 id="5-8-全文检索"><a href="#5-8-全文检索" class="headerlink" title="5.8 全文检索"></a>5.8 全文检索</h3><p><strong>全文检索是将存储与数据库的整本书或整篇文章中的任意内容信息查找出来的技术。</strong>根据需要获得全文中有关章、节、段、句、词等信息，进行各种统计和分析。</p>
+<p>5.8.2   倒排索引</p>
+<h2 id="6-锁"><a href="#6-锁" class="headerlink" title="6.锁"></a>6.锁</h2><h3 id="6-1-锁"><a href="#6-1-锁" class="headerlink" title="6.1 锁"></a>6.1 锁</h3><p>锁是数据库系统区别于文件系统的一个关键特性。锁机制解决对共享资源的并发访问问题。</p>
+<p>InnoDB存储引擎在行级别上对表数据上锁。</p>
+<p>MyIsam引擎支持的是表锁设计。并发情况下的读没有问题，但是在并发插入的性能上会差一点，若插入在底部，MyISAM存储引擎有一定的并发写入操作。</p>
+<p>InnoDB存储引擎提供一致性的非锁定读、行级锁支持。</p>
+<h3 id="6-2-lock与latch"><a href="#6-2-lock与latch" class="headerlink" title="6.2 lock与latch"></a>6.2 lock与latch</h3><p><strong>latch</strong>是轻量级的锁。其要求锁定的时间短。在InnoDB中又分为mutex（互斥量)和rwlock（读写锁)。其目的是用来保证并发线程操作临界资源的正确性。没有思索检测机制。</p>
+<p><strong>lock</strong>的对象是事务，锁定的是数据库中的对象。如表、页、行。在事务commit或rollback后进行释放。具有死锁机制。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211117205056.png"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;查看Innodb中的Latch,通过</span><br><span class="line">show engine innodb mutex</span><br><span class="line">&#x2F;&#x2F;在debug版本下 该命令可以查看更多信息</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-3-InnoDB存储引擎中的锁"><a href="#6-3-InnoDB存储引擎中的锁" class="headerlink" title="6.3 InnoDB存储引擎中的锁"></a>6.3 InnoDB存储引擎中的锁</h3><p>Innodb存储引擎实现如下两种标准的行级锁：</p>
+<ol>
+<li>共享锁(s)，允许事务读一行数据</li>
+<li>排他锁(x)，允许事务删除或更新一行数据</li>
+</ol>
+<p>InnoDB存储引擎支持不同粒度上进行加锁操作。额外的加锁方式-&gt;<strong>意向锁</strong>（IS,IX)：将锁定的对象分为多个层次，意向锁意味着事务希望在更细粒度上进行加锁。</p>
+<p>意向共享锁(IS LOCK):事务想要获得一张表中某几行的共享锁。</p>
+<p>意向排他锁(IX LOCK)：事务想要获得一张表中某几行的排他锁。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211117210431.png"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;查看当前锁请求的信息</span><br><span class="line">show engine innodb status</span><br></pre></td></tr></table></figure>
+
+<p>在Information_schema架构下三种表innodb_trx,innodb_locks,innodb_lock_waits</p>
+<p><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211117211330.png"></p>
+<p>该表只能显示当前运行的InnoDB事务，并不能直接判断锁的一些情况。若需要查看锁，还需要访问InnoDB_locks。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211117211543.png"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;查看表信息</span><br><span class="line">select * from information_schema.innodb_locks\G;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211118131709.png"></p>
+<p>Innodb_lock_waits表直观的反应了当前事务的等待。</p>
+<h4 id="6-3-2-一致性非锁定读"><a href="#6-3-2-一致性非锁定读" class="headerlink" title="6.3.2 一致性非锁定读"></a>6.3.2 一致性非锁定读</h4><p>指InnoDB存储引擎通过行多版本控制的方式来读取当前执行时间数据库中的数据。如果读取的行正在执行delete或Update操作，这时读取操作不会因此去等待行上锁的释放。相反，InnoDB会去读取行的一个快照数据。</p>
+<p><strong>非锁定读</strong>：因为不需要等待访问的行上x锁的释放。</p>
+<p><strong>快照数据</strong>：指的是该行之前版本的数据，通过Undo段完成。undo用来在事务回滚数据。读取快照数据是不需要上锁的。</p>
+<p>该机制提高了数据库的并发性。<strong>Innodb默认的读取方式</strong>，不会占用和等待表上的锁。</p>
+<p><strong>MVCC</strong>多版本并发控制，快照数据是当前数据之前的历史版本，每行记录可能有多个版本。一行记录可能有不止一个快照数据。</p>
+<p>在read committed和repeatable read事务隔离级别下，Innodb存储引擎使用非锁定的一致性读。</p>
+<p>read commiteted：对于快照数据，非一致性读总是读取被锁定行的最新一份快照数据。</p>
+<p>repeatable read：对于快照数据，非一致性读总是读取事务开始时的行数据版本。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211118141409.png"></p>
+<h4 id="6-3-3-一致性锁定读"><a href="#6-3-3-一致性锁定读" class="headerlink" title="6.3.3 一致性锁定读"></a>6.3.3 一致性锁定读</h4><p>Innodb引擎默认事务隔离级别为repeatable read模式,innodb存储引擎的select操作使用一致性非锁定读。</p>
+<p>某些情况，用户需要显式地对数据库读取操作进行加锁以保证数据逻辑地一致性。</p>
+<p>innodb对于select语句支持两种一致性地锁定读：</p>
+<ol>
+<li>select … for   update 对读取地记录加一个x锁，其他事务不能对已锁定地行加上任何锁。</li>
+<li>select …  lock in  share mode 对读取地行记录加一个s锁，其他事务可以向被锁定地行加s锁，若加x锁，则会被阻塞。</li>
+</ol>
+<p>使用这两种锁定语句时，务必加上begin  ,  start  transaction  , set autocommit=0</p>
+<p>6.3.4 自增长与锁</p>
+<p>Innodb存储引擎地内存结构中，每个含有自增长值得表都有一个自增长计数器(auto-increment counter)。当对含有自增长得计数器得表进行插入操作时，这个计数器会被初始化。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;得到计数器得值</span><br><span class="line">select max(auto_inc_col) from t for update</span><br></pre></td></tr></table></figure>
+
+<p>插入操作会依据这个自增长得计数器值加1赋予自增长列。该方式称作<strong>auto-inc locking</strong>。<strong>该锁是一种特殊得表锁机制</strong>，为了提高插入得性能，锁不是在一个事务完成后释放得，而是在完成对自增长值插入得sql语句后立即释放得。</p>
+<p>但是该锁会影响到大数据量的插入性能，因为另一个事务中的插入会阻塞。</p>
+<p>从5.1.22版本开始  Innodb提供了一种轻量级互斥量的自增长实现机制。Innodb提供了一个参数Innodb_autoinc_lock_mode来控制增长的模式，默认值为1。自增长插入类型的分类：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211118144231.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211118144316.png"></p>
+<h4 id="6-3-5-外键和锁"><a href="#6-3-5-外键和锁" class="headerlink" title="6.3.5  外键和锁"></a>6.3.5  外键和锁</h4><p>外键主要引用完整性的约束检查。Innodb存储引擎中，对于一个外键列，如果没有显式地对这个列加索引，InnoDB存储引擎会自动对其加一个索引，因为这样可以避免表锁。</p>
+<p>对于外键值得插入或更新，首先需要查询附表中得记录，即SELECT表。对于父表得SELECT操作，不是使用一致性非锁定读得方式，因为这样会发生数据不一致得问题，因此这时使用得时select … lock  in  share  mode方式，即主动对父表加一个S锁。</p>
+<h3 id="6-4-锁算法"><a href="#6-4-锁算法" class="headerlink" title="6.4 锁算法"></a>6.4 锁算法</h3><p>行锁的三种算法：</p>
+<p>1.Record Lock:单个记录上的锁</p>
+<p>2.Gap Lock:间隙锁，锁定一个范围，但不包含记录本身。</p>
+<p>3.Next-Key Lock:  Record Lock+ Gap Lock  锁定一个范围，并且锁定记录本身。</p>
+<h3 id="6-5-锁问题"><a href="#6-5-锁问题" class="headerlink" title="6.5 锁问题"></a>6.5 锁问题</h3><h4 id="6-5-1-脏读"><a href="#6-5-1-脏读" class="headerlink" title="6.5.1 脏读"></a>6.5.1 脏读</h4><p><strong>脏页</strong>值的是在缓冲池中已经被修改的页，但是还没有刷新到磁盘中，即数据库实例内存中的页和磁盘中的页的数据是不一致的。当然在刷新到磁盘之前，日志都已经写入到了重做日志文件中。</p>
+<p><strong>脏数据</strong>是指事务对缓冲池中行记录的修改，并且还没有被提交。</p>
+<p>脏页的读取是正常的。脏页是因为数据库实例内存和磁盘的异步造成的，并不影响数据的一致性。脏页的刷新是异步的，提高性能。</p>
+<p>脏数据却不一样，一个事务可以读到另一个事务未提交的数据，显然违背的数据库的隔离性。</p>
+<p><strong>脏读</strong>指的就是在不同的事务下，当前事务可以读取到另外事务未提交的数据。即可以读取到脏数据。</p>
+<h4 id="6-5-2-不可重复读"><a href="#6-5-2-不可重复读" class="headerlink" title="6.5.2 不可重复读"></a>6.5.2 不可重复读</h4><p><strong>不可重复度</strong>是指在一个事务内多次读取到统一数据集合。两次读取到的数据是不一样的。</p>
+<p><strong>与脏读的区别是：</strong>脏读读取到的是未提交的数据，而不可重复读读取的是已经提交的数据，但是违反了数据库事务一致性的要求。</p>
+<p>Mysql官方文档将不可重复的问题定义为Phantom Problem  即幻像问题。</p>
+<p>innodB存储引擎默认事务隔离级别是READ REPEATABLE  采用Next-Key Lock算法，避免了不可重复读的现象。</p>
+<h4 id="6-5-3-丢失更新"><a href="#6-5-3-丢失更新" class="headerlink" title="6.5.3  丢失更新"></a>6.5.3  丢失更新</h4><p><strong>丢失更新</strong>就是一个事务的更新操作会被另一个事务的更新操作所覆盖，导致数据的不一致。</p>
+<p>但是在当前数据库中，无论是任何隔离级别下，都不会导致数据库理论意义上的丢失更新。因为需要对行或其他粗粒度级别的对象加锁。</p>
+<p>要避免丢失更新发生，需要让事务在这种情况下的操作变成串行化，而不是并行的操作。</p>
+<p>实际应用中使用select … for update  而不使用update是因为首先需要检测用户的余额信息，在看是否能进行修改操作。</p>
+<h3 id="6-6-阻塞"><a href="#6-6-阻塞" class="headerlink" title="6.6 阻塞"></a>6.6 阻塞</h3><p><strong>阻塞</strong>由于不同锁之间的兼容性关系，有些时刻一个事务中的锁需要等待另一个事务中的锁释放它所占用的资源。</p>
+<p>Innodb中参数<strong>innodb_lock_wait_timeout</strong>用来控制等待的时间（默认50秒）</p>
+<p><strong>innodb_rollback_on_timeout</strong>用来设定是否在等待超时时对进行中的事务进行回滚操作（默认时OFF）</p>
+<p><strong>innodb_lock_wait_timeout</strong>是动态的，通过</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set @@innodb_lock_wait_timeout&#x3D;60</span><br></pre></td></tr></table></figure>
+
+<p><strong>innodb_rollback_on_timeout</strong>是静态的，不可再启动时进行修改。</p>
+<p>当发生超时时，Mysql数据库会抛出一个1205的错误。</p>
+<h3 id="6-7-死锁"><a href="#6-7-死锁" class="headerlink" title="6.7 死锁"></a>6.7 死锁</h3><p><strong>死锁时指两个或两个以上的事务再执行过程中，因争夺锁资源而造成的一种互相等待的现象。</strong>若无外力作用，事务将无法推进下去。</p>
+<p>解决死锁的方式：</p>
+<ol>
+<li>不要有等待，所有的等待都转换为回滚，并且事务重新开始。但是会导致并发性能的下降，甚至任何一个事务都不能进行。</li>
+<li>当两个事务互相等待时，当一个等接待时间超过设置的某一个阈值时，其中一个进行回滚，另一个等待的事务就能继续运行。InnoDB存储引擎中，参数innodb_lock_wait_timeout用来设置超时的时间。</li>
+<li>除了超时机制，当前数据普遍采用wait-for graph（等待图）的方式进行死锁检测。</li>
+</ol>
+<p>wait-for graph要求数据库保存以下两种信息：</p>
+<ol>
+<li>锁的信息链表</li>
+<li>事务等待链表</li>
+</ol>
+<p>通过上述列表构造出一张图，在这个图中若存在回路，就代表存在死锁，因此资源间相互发生等待。</p>
+<p><strong>wait-for graph 是一种较为主动的死锁检测机制</strong>。每个事务请求锁并发生等待都会判断是否存在回路。若存在有死锁，通常来说InnoDB存储引擎选择回滚undo量最小的事务。</p>
+<h4 id="6-7-2-死锁的概率"><a href="#6-7-2-死锁的概率" class="headerlink" title="6.7.2 死锁的概率"></a>6.7.2 死锁的概率</h4><p>死锁的概率与以下因素有关：</p>
+<ol>
+<li>系统中事务的数量，数量越多发生死锁的概率越大。</li>
+<li>每个事务操作的数量越多，发生死锁的概率越大</li>
+<li>操作数据的集合越小发生死锁的概率越大</li>
+</ol>
+<p>一个事务发生死锁的概率为</p>
+<p><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211118184321.png"></p>
+<p>Innodb存储引擎并不会回滚大部分的错误异常，但是死锁除外。Innodb发现死锁后，Innodb存储引擎会马上回滚一个事务。程序中捕获1213并不需要回滚。</p>
+<h3 id="6-8-锁升级"><a href="#6-8-锁升级" class="headerlink" title="6.8 锁升级"></a>6.8 锁升级</h3><p><strong>锁升级</strong>是指将当前锁的粒度降低。</p>
+<p>Innodb不是根据每个记录来产生行锁的。相反，其根据每个事务访问的每个页对锁进行管理，采用的是位图的方式。</p>
+<h2 id="7-事务"><a href="#7-事务" class="headerlink" title="7.事务"></a>7.事务</h2><p>事务会把数据库从一种一致的状态转换为另一种一致状态。要么所有修改都已经保存了，要么所有修改都不保存。</p>
+<p><strong>事务是访问并更新数据库中各种数据库项的一个程序执行单元。</strong></p>
+<p>Atomicity(原子性)指数据库事务是不可分割的工作单位。只有事务中所有的数据库操作都执行成功，才算成功。</p>
+<p>Consistency(一致性)指数据库从一种状态转变为下一种一致的状态。</p>
+<p>isolation（隔离性）指每个读写事务对其他事务的操作对象能相互分离，即提交前对其他事务都不见，通常使用锁来实现。</p>
+<p>durability（持久性）指事务一旦提交，其结果就是永久性的。即使发生宕机等故障，数据库也能教数据库恢复。</p>
+<h4 id="7-1-2-分类"><a href="#7-1-2-分类" class="headerlink" title="7.1.2 分类"></a>7.1.2 分类</h4><p>事务的分类：</p>
+<ol>
+<li>扁平事务</li>
+<li>带有保存点的扁平事务</li>
+<li>链事务</li>
+<li>嵌套事务</li>
+<li>分布式事务</li>
+</ol>
+<p><strong>扁平事务</strong>：在实际生产环境中，最频繁的事务。</p>
+<p>限制：<strong>不能提交或者回滚事务的某一部分，或者分几个步骤提交。</strong>回滚所有操作，代价太大，因为可能前面大多数操作是正确的，就最后操作有问题。</p>
+<hr>
+<p>因此，就出现了<strong>带保存点的扁平事务</strong>。可以有计划的回滚操作，不需要终止整个事务。</p>
+<p><strong>保存点</strong>用来通知系统应该记住事务当前的状态，以便当之后发生错误时，事务能够回到保存点当时的状态。</p>
+<p><strong>保存点用SAVE WORK来创建</strong>，通知系统记录当前的处理状态。当出现问题时，保存点能用作内部的重启动点。<strong>根据引用逻辑，决定回到哪个保存点。</strong></p>
+<p><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211121182917.png"></p>
+<hr>
+<p><strong>链事务</strong>是保存点模式的一种变种。带有保存点的扁平事务，当发生系统崩溃时，所有的保存点都将消失，因为保存点是易失的(volatile)。</p>
+<p><strong>链事务的思想是提交事务时，释放不需要的数据对象，将必要的处理上下文隐式地传给写一个要开始的事务。</strong></p>
+<p><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211121183528.png"></p>
+<hr>
+<p><strong>嵌套事务</strong></p>
+<hr>
+<p><strong>分布事务</strong>通常在一个分布式环境下运行的扁平事务，根据数据所在位置访问网络中的不同节点。</p>
+<h3 id="7-2-事务的实现"><a href="#7-2-事务的实现" class="headerlink" title="7.2 事务的实现"></a>7.2 事务的实现</h3><p>原子性、一致性、持久性通过数据库的redo log和Undo log来完成。</p>
+<p><strong>redo log称为重做日志，保证事务的原子性和持久性。redo恢复提交事务修改的页操作。redo通常是物理日志，记录的是页的物理修改操作。</strong></p>
+<p><strong>undo log用来办证事务的统一性。回滚到行记录到某个特定版本。undo是逻辑日志，根据每行记录进行记录。</strong>帮助事务回滚及MVCC功能。</p>
+<h4 id="7-2-2-redo"><a href="#7-2-2-redo" class="headerlink" title="7.2.2 redo"></a>7.2.2 redo</h4><p>重做日志实现事务的持久性。包含两个部分：</p>
+<ol>
+<li>内存中的重做日志缓冲，易失的。</li>
+<li>重做日志文件，持久的。</li>
+</ol>
+<p>Innodb是事务的存储引擎，通过Force log  at commit机制实现事务持久性，<strong>每当事务提交时，都会先将事务的所有日志写入到重做日志文件中。</strong></p>
+<p>redo log顺序读写，数据库运行时不需要对redo log的文件进行读取操作。</p>
+<p>undo log 进行随机读写。</p>
+<p>为了确保重做日志写入磁盘，必须进行一次fsync操作。</p>
+<p>参数innodb_flush_log_at_trx_commit用来控制重做日志刷新到磁盘的策略。</p>
+<ul>
+<li>默认值为1，表示事务提交时必须调用一次fsync操作</li>
+<li>0表示提交时不进行写入重做日志操作，仅在Master thread中完成，在master thread中每1秒会进行一次重做日志文件fsync操作</li>
+<li>2表示事务提交时讲重做日志写入重做日志文件，但是仅仅写入文件系统的缓存中，不进行fsync操作。</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211122145810.png"></p>
+<p>mysql数据库中还有一种二进制日志(binglog)。用来进行POINT-IN-TIME（PIT）的恢复及主从复制环境的建立。</p>
+<p><strong>二进制日志和重做日志的区别</strong>：</p>
+<ol>
+<li>重做日志是在Innodb存储引擎上产生，二进制日志是在mysql数据库的上层产生，二进制日志不仅仅针对于Innodb存储引擎，mysql数据库中的任何存储引擎对于数据库的更改都会产生二进制日志。</li>
+<li><strong>二进制日志是一种逻辑日志，记录的是对应的sql语句。Innodb存储引擎层面的重做日志是物理格式日志，记录的是对于每个页的修改。</strong></li>
+<li>二者记录的时间也不同，二进制日志在事务提交完成后进行一次写入，Innodb存储引擎的重做日志在事务进行中不断地被写入。</li>
+</ol>
+<p><strong>2.log block</strong></p>
+<p>InnoDB存储引擎中，重做日志以512字节进行存储。意味着重做日志缓存、重做日志文件都是以块的方式进行保存的，称为重做日志块，每块的大小为512字节。</p>
+<p><strong>3.log group</strong></p>
+<p>重做日志组，其中有多个重做日志文件。</p>
+<p>4.<strong>重做日志格式</strong></p>
+<p><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211122153945.png"></p>
+<p>redo_log_type:重做日志的类型</p>
+<p>space:表空间的ID</p>
+<p>page_no:页的偏移量</p>
+<p><strong>5.LSN</strong></p>
+<p>log sequence number  日志序列号。LSN占用8字节，单挑递增。表示的含义有：</p>
+<ol>
+<li>重做日志写入的总量，单位字节</li>
+<li>checkpoint的位置</li>
+<li>页的版本</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211122154412.png"></p>
+<p><strong>6.恢复</strong></p>
+<p>Innodb’在启动时，不管上次数据库运行是否正常关闭，都会尝试进行恢复操作。重做日志记录的是物理日志，因此恢复的速度要比逻辑日志块，如二进制日志。</p>
+<p>由于checkpoint表示已经刷新到磁盘上页的LSN，因此在恢复过程中仅需恢复checkpoint开始的日志部分。</p>
+<h4 id="7-2-2-undo"><a href="#7-2-2-undo" class="headerlink" title="7.2.2 undo"></a>7.2.2 undo</h4><p>undo 进行事务的回滚操作。undo存放在数据库内部的一个特殊段中，该段为undo段。undo位于共享表空间内。</p>
+<p>undo是逻辑日志，因此只是将数据库逻辑恢复到原来的样子。并不是将一个页回滚到事务开始的样子。</p>
+<p>回滚就是执行相反的操作：Insert就是Delete，update对应相反的update</p>
+<p>undo的另一个作用就是<strong>MVCC</strong>,<strong>即在Innodb存储引擎中MVCC的实现是通过undo来完成。</strong></p>
+<p><strong>通过undo读取之前的版本信息来实现非锁定读取</strong></p>
+<p><strong>undo log也会产生 redo  log，也就是Undo log的产生会伴随着redo log的产生，因为undo log也需要持久性的保护。</strong></p>
+<p><strong>2.undo 存储管理</strong></p>
+<p>Innodb存储对Undo的管理同样采用<strong>段</strong>的方式。和之前介绍的段不同。</p>
+<p>可以通过以下参数对rollback segment做进一步的设置。</p>
+<p>包括：</p>
+<ol>
+<li><p>innodb_undo_directory</p>
+<p>设置rollback segment文件所在的路径，即rollback segement可以存放在共享表空间以外的位置。</p>
+</li>
+<li><p>innodb_undo_logs</p>
+<p>设置rollback segement的个数，默认值为128</p>
+</li>
+<li><p>innodb_undo_tablespaces</p>
+<p>设置rollback segement文件的数量。</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;查看innodb_undo参数</span><br><span class="line">show variables like &quot;innodb_undo%&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>事务提交时，Innodb存储引擎会做以下两件事情：</p>
+<ol>
+<li>将Undo log放入列表中，以供之后的purge操作</li>
+<li>判断undo log所在的页是否可以重用，若可以分配给下个事务使用。</li>
+</ol>
+<p>事务提交后并不能马上删除Undo log及undo log所在的页。其他事务需要Undo log来得到行记录之前的版本。</p>
+<p><strong>事务提交之后将Undo log放入一个链表中,是否可以删除Undo log以及undo log所在的页由purge线程来判断。</strong></p>
+<p><strong>Innodb中对undo页重用</strong>：</p>
+<ol>
+<li>事务提交后，首先将Undo log放入链表中</li>
+<li>判断undo页的使用空间是否小于3/4</li>
+<li>若是则被重用，之后新的undo log记录在当前undo log的后面。</li>
+</ol>
+<p><strong>3.undo log格式</strong></p>
+<p><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211123152901.png"></p>
+<p><strong>Innodb中  undo log分为</strong>：</p>
+<ol>
+<li>INSERT UNDO LOG</li>
+<li>UPDATE UNDO LOG</li>
+</ol>
+<p><strong>1.  insert undo log</strong></p>
+<p><strong>由insert操作产生的undo log</strong>。因为对Insert 操作的记录，只对事务本身可见，对其他事务不可见（事务隔离性的要求）。<strong>故undo Log可以在事务提交后直接删除。不需要进行purge操作。</strong></p>
+<p><strong>2.update undo log</strong></p>
+<p>记录的是对delete 和 update操作产生的undo log。<strong>该undo log可能需要提供MVCC机制，因此不能在事务提交时就进行删除。</strong></p>
+<p>提交时放入Undo log链表。等待purge线程进行最后的删除。</p>
+<h4 id="7-2-3-purge"><a href="#7-2-3-purge" class="headerlink" title="7.2.3 purge"></a>7.2.3 purge</h4><p>delete 和update操作可能并不直接删除原有的数据。</p>
+<p>delete仅仅是将主键列等于1的记录delete flag设置为1，记录并没有被删除，记录还是存在于B+树的。<strong>真正删除这行记录的操作其实被延时了，最终在purge操作中完成。</strong></p>
+<p><strong>purge用于最终完成delete 和 update操作。这样设计是为了Innodb存储引擎支持MVCC，所以记录不能再事务提交时立即进行处理。</strong>其他事务可能正在引用这行，Innodb存储引擎需要保存记录之前的版本，若该行不被任何其他事务引用，那么就可以进行正真的delete操作。</p>
+<p>purge的执行过程：</p>
+<ol>
+<li>从history list中找到第一个需要被清理的记录</li>
+<li>清理之后Innodb存储会在事务的undo log所在的页中继续寻找存在可以被清理的记录</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211123154419.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211123154806.png"></p>
+<h4 id="7-2-4-Group-commit"><a href="#7-2-4-Group-commit" class="headerlink" title="7.2.4 Group commit"></a>7.2.4 Group commit</h4><h3 id="7-3-事务控制语句"><a href="#7-3-事务控制语句" class="headerlink" title="7.3 事务控制语句"></a>7.3 事务控制语句</h3><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>start transaction   |   begin</td>
+<td>显示地开启一个事务</td>
+</tr>
+<tr>
+<td>commit</td>
+<td>提交事务</td>
+</tr>
+<tr>
+<td>rollback</td>
+<td>回滚事务</td>
+</tr>
+<tr>
+<td>savepoint identifier</td>
+<td>允许在事务中创建一个保存点，一个事务可以有多个保存点</td>
+</tr>
+<tr>
+<td>release savepoint identifier</td>
+<td>删除一个事务的保存点</td>
+</tr>
+<tr>
+<td>rollback to identifier</td>
+<td>回滚到目标标记点</td>
+</tr>
+<tr>
+<td>set transaction</td>
+<td>设置事务的隔离级别</td>
+</tr>
+</tbody></table>
+<p>在存储过程中，只能使用start transaction语句来开启一个事务。</p>
+<p>当<strong>completion_type</strong>参数为默认值0时，commit 和commit work是完全等价的。</p>
+<p>当其为1时，commit word 等价于 <strong>commit and chain</strong>,表示马上自动开启一个相同隔离级别的事务。也就是事务变成了链事务。</p>
+<p>当其为2时，等同于<strong>commit and release</strong>，在事务提交后会自动断开与服务器的连接。</p>
+<p><strong>rollack to savepoiont命令并不真正地结束事务</strong>，也需要显示地允许commit或rollback命令。</p>
+<h3 id="7-4-隐式提交的SQL语句"><a href="#7-4-隐式提交的SQL语句" class="headerlink" title="7.4 隐式提交的SQL语句"></a>7.4 隐式提交的SQL语句</h3><p><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211123163016.png"></p>
+<h3 id="7-5-对事务操作的统计"><a href="#7-5-对事务操作的统计" class="headerlink" title="7.5 对事务操作的统计"></a>7.5 对事务操作的统计</h3><h3 id="7-6-事务的隔离级别"><a href="#7-6-事务的隔离级别" class="headerlink" title="7.6 事务的隔离级别"></a>7.6 事务的隔离级别</h3><p><strong>1.Read Uncommitted</strong></p>
+<p><strong>2.Read Committed</strong></p>
+<p><strong>3.Repeatable Read</strong></p>
+<p><strong>4.Serializable</strong></p>
+<p>隔离级别越低，事务请求的锁越少或保持锁的时间就越短。这也是大多数数据库默认的事务隔离级别是Read Committed。</p>
+<p>在Seriablable的事务隔离级别下，Innodb存储引擎会对每个select语句后自动加上loke in share mode，即为每个读取操作加一个共享锁。</p>
+<p><strong>一般不在本地事务中使用seriablable的隔离级别，seriablable的事务隔离级别主要用于Innodb存储引擎的分布式事务。</strong></p>
+<h3 id="7-7-分布式事务"><a href="#7-7-分布式事务" class="headerlink" title="7.7 分布式事务"></a>7.7 分布式事务</h3><h3 id="7-8-不好的事务习惯"><a href="#7-8-不好的事务习惯" class="headerlink" title="7.8 不好的事务习惯"></a>7.8 不好的事务习惯</h3><h4 id="7-8-1-在循环中提交"><a href="#7-8-1-在循环中提交" class="headerlink" title="7.8.1 在循环中提交"></a>7.8.1 在循环中提交</h4><p><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211123210717.png"></p>
+<p>会进行多次重做日志文件，增加消耗。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211123210738.png"></p>
+<p>只进行一次重做日志文件的写入。</p>
+<p><strong>不应该在循环中反复进行提交操作，不论是显式地提交还是隐式地提交。</strong></p>
+<h4 id="7-8-2-使用自动提交"><a href="#7-8-2-使用自动提交" class="headerlink" title="7.8.2  使用自动提交"></a>7.8.2  使用自动提交</h4><p>自动提交不是一个好习惯。</p>
+<p>mysql数据库默认设置使用自动提交。</p>
+<p>start transaction,begin显式地开启一个事务时，会默认执行set autocommit=0的命令。</p>
+<h4 id="7-8-3-使用自动回滚"><a href="#7-8-3-使用自动回滚" class="headerlink" title="7.8.3 使用自动回滚"></a>7.8.3 使用自动回滚</h4><p>Innodb存储引擎支持通过定义一个Handler来进行自动事务的回滚操作。如在一个存储过程中发生了错误会自动对其进行回滚操作。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211123211509.png"></p>
+<p>数据库开发人员应该自己正确的回滚事务，从而直到问题错在哪里。而不是交给系统。</p>
+<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><p>show命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;对表中的每一个字段返回一行 包含每个字段的信息</span><br><span class="line">show columns from  table</span><br><span class="line">&#x2F;&#x2F;mysql  使用describe 作为show columns的快捷方式</span><br><span class="line">describe table 来代替 show columns from table</span><br><span class="line">&#x2F;&#x2F;显示服务器状态信息</span><br><span class="line">show status </span><br><span class="line">&#x2F;&#x2F;显示创建特定数据库或表的Mysql语句</span><br><span class="line">show create table  和   show create database</span><br><span class="line">&#x2F;&#x2F;显示授予用户的安全权限</span><br><span class="line">show grants</span><br><span class="line">&#x2F;&#x2F;显示服务器错误或者警告信息</span><br><span class="line">show  errors  和 show  warnings;</span><br></pre></td></tr></table></figure>
+
+<p>select</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;限定行数</span><br><span class="line">limit 5    &#x2F;&#x2F;只要5行</span><br><span class="line">limit  5,5   &#x2F;&#x2F;从第5行开始的5行</span><br></pre></td></tr></table></figure>
+
+<p>And操作符在计算次序中优先级更高，解决方法是使用圆括号明确的分组相应的操作符    </p>
+<p>Regexp</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; . 是正则表达式语言中表示匹配任意一个字符</span><br><span class="line"></span><br><span class="line">select pname</span><br><span class="line">from products</span><br><span class="line">where pname regexp &#39;.000&#39;</span><br><span class="line">order by pnmae;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; |为正则表达式的OR操作</span><br><span class="line">where pname regexp &#39;1000|2000&#39;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; []为OR的另外一种形式</span><br><span class="line">where panme regexp &#39;[123] tom&#39;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; -  [0-9] 代替了[12346789]  [a-z]匹配任意字母</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;    \\表示的是转义  \\-  \\. 表示查找对用的字符</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211030154912.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211030155050.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211030160113.png"></p>
+<blockquote>
+<p>mysql使用concat函数来拼接两个列</p>
+<p>rtrim可以删除数据右侧多余的空格</p>
+<p>Upper函数将文本转为大写</p>
+<p>left 返回串左边的字符</p>
+<p>length  返回串的长度</p>
+<p>locate   找出串的子串</p>
+<p>right    返回串右边的字符</p>
+<p>soundex()    返回串的sound值   发音匹配</p>
+<p>SubString     返回字串的字符</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/20211030162403.png"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:2914475618@qq.com">Lu sir</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://a2914475618.github.io/2021/10/09/Mysql%E6%8A%80%E6%9C%AF%E5%BC%95%E6%93%8E/">https://a2914475618.github.io/2021/10/09/Mysql%E6%8A%80%E6%9C%AF%E5%BC%95%E6%93%8E/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://a2914475618.github.io" target="_blank">一位可可爱爱的编橙爱好者</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/mysql%E6%8A%80%E6%9C%AF/">mysql技术</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/1.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/10/11/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><img class="prev-cover" src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/1.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">设计模式</div></div></a></div><div class="next-post pull-right"><a href="/2021/10/09/java%E9%9D%A2%E7%BB%8F/"><img class="next-cover" src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/1.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">java面经</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/Touxiang.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Lu sir</div><div class="author-info__description">如风的少年</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">58</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">58</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">13</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/a2914475618"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">欢迎来到爱的小屋，爱你们哟</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Mysql%E6%8A%80%E6%9C%AF"><span class="toc-number">1.</span> <span class="toc-text">Mysql技术</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E3%80%81Mysql%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%92%8C%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E"><span class="toc-number">1.1.</span> <span class="toc-text">1、Mysql体系结构和存储引擎</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E5%92%8C%E5%AE%9E%E4%BE%8B"><span class="toc-number">1.1.1.</span> <span class="toc-text">数据库和实例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Mysql%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84"><span class="toc-number">1.1.2.</span> <span class="toc-text">Mysql体系结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Mysql%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E"><span class="toc-number">1.1.3.</span> <span class="toc-text">Mysql存储引擎</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5Mysql"><span class="toc-number">1.1.4.</span> <span class="toc-text">连接Mysql</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81InnoDB%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E"><span class="toc-number">1.2.</span> <span class="toc-text">2、InnoDB存储引擎</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1InnoDB%E4%BD%93%E7%B3%BB%E6%9E%B6%E6%9E%84"><span class="toc-number">1.2.1.</span> <span class="toc-text">2.1InnoDB体系架构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-1-%E5%90%8E%E5%8F%B0%E7%BA%BF%E7%A8%8B"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">2.1.1 后台线程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-2-%E5%86%85%E5%AD%98"><span class="toc-number">1.2.1.2.</span> <span class="toc-text">2.1.2 内存</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-Checkpoint%E6%8A%80%E6%9C%AF"><span class="toc-number">1.2.2.</span> <span class="toc-text">2.2 Checkpoint技术</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3Master-Thread%E5%B7%A5%E4%BD%9C%E6%96%B9%E5%BC%8F"><span class="toc-number">1.2.3.</span> <span class="toc-text">2.3Master Thread工作方式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-1-InnoDB-1-0x-%E7%89%88%E6%9C%AC%E4%B9%8B%E5%89%8D%E7%9A%84Master-Thread"><span class="toc-number">1.2.3.1.</span> <span class="toc-text">2.3.1 InnoDB 1.0x 版本之前的Master Thread</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-2-InnoDB1-2x%E4%B9%8B%E5%89%8D%E7%9A%84Master-Thread"><span class="toc-number">1.2.3.2.</span> <span class="toc-text">2.3.2 InnoDB1.2x之前的Master Thread</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-3Innodb-1-2x%E7%89%88%E6%9C%AC%E7%9A%84Master-Thread"><span class="toc-number">1.2.3.3.</span> <span class="toc-text">2.3.3Innodb 1.2x版本的Master Thread</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4InnoDB%E5%85%B3%E9%94%AE%E7%89%B9%E6%80%A7"><span class="toc-number">1.2.4.</span> <span class="toc-text">2.4InnoDB关键特性</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-4-1-%E6%8F%92%E5%85%A5%E7%BC%93%E5%86%B2"><span class="toc-number">1.2.4.1.</span> <span class="toc-text">2.4.1 插入缓冲</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#2-4-1-1Insert-Buffer"><span class="toc-number">1.2.4.1.1.</span> <span class="toc-text">2.4.1.1Insert Buffer</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-4-1-2-Change-Buffer"><span class="toc-number">1.2.4.1.2.</span> <span class="toc-text">2.4.1.2 Change Buffer</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-4-1-3-Insert-Buffer%E7%9A%84%E5%86%85%E9%83%A8%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.2.4.1.3.</span> <span class="toc-text">2.4.1.3 Insert Buffer的内部实现</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-4-4-Merge-Insert-Buffer"><span class="toc-number">1.2.4.1.4.</span> <span class="toc-text">2.4.4 Merge Insert Buffer</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-4-2-%E4%B8%A4%E6%AC%A1%E5%86%99"><span class="toc-number">1.2.4.2.</span> <span class="toc-text">2.4.2 两次写</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-4-3-%E8%87%AA%E9%80%82%E5%BA%94%E5%93%88%E5%B8%8C%E7%B4%A2%E5%BC%95"><span class="toc-number">1.2.4.3.</span> <span class="toc-text">2.4.3 自适应哈希索引</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-4-4-%E5%BC%82%E6%AD%A5IO"><span class="toc-number">1.2.4.4.</span> <span class="toc-text">2.4.4 异步IO</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-4-5-%E5%88%B7%E6%96%B0%E9%82%BB%E6%8E%A5%E9%A1%B5"><span class="toc-number">1.2.4.5.</span> <span class="toc-text">2.4.5 刷新邻接页</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5-%E5%90%AF%E5%8A%A8%E3%80%81%E5%85%B3%E9%97%AD%E4%B8%8E%E6%81%A2%E5%A4%8D"><span class="toc-number">1.2.5.</span> <span class="toc-text">2.5 启动、关闭与恢复</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%96%87%E4%BB%B6"><span class="toc-number">1.3.</span> <span class="toc-text">3.文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E5%8F%82%E6%95%B0%E6%96%87%E4%BB%B6"><span class="toc-number">1.3.1.</span> <span class="toc-text">3.1 参数文件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-1-%E5%8F%82%E6%95%B0"><span class="toc-number">1.3.1.1.</span> <span class="toc-text">3.1.1 参数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-2-%E5%8F%82%E6%95%B0%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.3.1.2.</span> <span class="toc-text">3.1.2 参数类型</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E6%97%A5%E5%BF%97%E6%96%87%E4%BB%B6"><span class="toc-number">1.3.2.</span> <span class="toc-text">3.2 日志文件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-1-%E9%94%99%E8%AF%AF%E6%97%A5%E5%BF%97"><span class="toc-number">1.3.2.1.</span> <span class="toc-text">3.2.1 错误日志</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-2-%E6%85%A2%E6%9F%A5%E8%AF%A2%E6%97%A5%E5%BF%97"><span class="toc-number">1.3.2.2.</span> <span class="toc-text">3.2.2 慢查询日志</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-3-%E6%9F%A5%E8%AF%A2%E6%97%A5%E5%BF%97"><span class="toc-number">1.3.2.3.</span> <span class="toc-text">3.2.3 查询日志</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-4-%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%97%A5%E5%BF%97"><span class="toc-number">1.3.2.4.</span> <span class="toc-text">3.2.4 二进制日志</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-%E5%A5%97%E6%8E%A5%E5%AD%97%E6%96%87%E4%BB%B6"><span class="toc-number">1.3.3.</span> <span class="toc-text">3.3 套接字文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-Pid%E6%96%87%E4%BB%B6"><span class="toc-number">1.3.4.</span> <span class="toc-text">3.4 Pid文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5-%E8%A1%A8%E7%BB%93%E6%9E%84%E5%AE%9A%E4%B9%89%E6%96%87%E4%BB%B6%EF%BC%88frm%E6%96%87%E4%BB%B6%EF%BC%89"><span class="toc-number">1.3.5.</span> <span class="toc-text">3.5 表结构定义文件（frm文件）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-6-InnoDB%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E%E6%96%87%E4%BB%B6"><span class="toc-number">1.3.6.</span> <span class="toc-text">3.6 InnoDB存储引擎文件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-6-1-%E8%A1%A8%E7%A9%BA%E9%97%B4%E6%96%87%E4%BB%B6"><span class="toc-number">1.3.6.1.</span> <span class="toc-text">3.6.1 表空间文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-6-2-%E9%87%8D%E5%81%9A%E6%97%A5%E5%BF%97%E6%96%87%E4%BB%B6"><span class="toc-number">1.3.6.2.</span> <span class="toc-text">3.6.2 重做日志文件</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E8%A1%A8"><span class="toc-number">1.4.</span> <span class="toc-text">4.表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-%E7%B4%A2%E5%BC%95%E7%BB%84%E7%BB%87%E8%A1%A8"><span class="toc-number">1.4.1.</span> <span class="toc-text">4.1 索引组织表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-InnoDB%E9%80%BB%E8%BE%91%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84"><span class="toc-number">1.4.2.</span> <span class="toc-text">4.2 InnoDB逻辑存储结构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-1-%E8%A1%A8%E7%A9%BA%E9%97%B4"><span class="toc-number">1.4.2.1.</span> <span class="toc-text">4.2.1 表空间</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-2-%E6%AE%B5"><span class="toc-number">1.4.2.2.</span> <span class="toc-text">4.2.2 段</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-3-%E5%8C%BA"><span class="toc-number">1.4.2.3.</span> <span class="toc-text">4.2.3 区</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-4-%E9%A1%B5"><span class="toc-number">1.4.2.4.</span> <span class="toc-text">4.2.4 页</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-5-%E8%A1%8C"><span class="toc-number">1.4.2.5.</span> <span class="toc-text">4.2.5 行</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-InnoDB%E8%A1%8C%E8%AE%B0%E5%BD%95%E6%A0%BC%E5%BC%8F"><span class="toc-number">1.4.3.</span> <span class="toc-text">4.3 InnoDB行记录格式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E7%B4%A2%E5%BC%95%E4%B8%8E%E7%AE%97%E6%B3%95"><span class="toc-number">1.5.</span> <span class="toc-text">5.索引与算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-Innodb%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E%E7%9A%84%E7%B4%A2%E5%BC%95%E6%A6%82%E8%BF%B0"><span class="toc-number">1.5.1.</span> <span class="toc-text">5.1 Innodb存储引擎的索引概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-%E7%B4%A2%E5%BC%95%E7%9B%B8%E5%85%B3%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-number">1.5.2.</span> <span class="toc-text">5.2  索引相关数据结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-3-B-%E6%A0%91"><span class="toc-number">1.5.3.</span> <span class="toc-text">5.3 B+树</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#5-3-1-B-%E6%A0%91%E7%9A%84%E6%8F%92%E5%85%A5%E6%93%8D%E4%BD%9C"><span class="toc-number">1.5.3.1.</span> <span class="toc-text">5.3.1 B+树的插入操作</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-3-2-B-%E6%A0%91%E7%9A%84%E5%88%A0%E9%99%A4%E6%93%8D%E4%BD%9C"><span class="toc-number">1.5.3.2.</span> <span class="toc-text">5.3.2 B+树的删除操作</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-4-B-%E6%A0%91%E7%B4%A2%E5%BC%95"><span class="toc-number">1.5.4.</span> <span class="toc-text">5.4 B+树索引</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#5-4-1-%E8%81%9A%E9%9B%86%E7%B4%A2%E5%BC%95"><span class="toc-number">1.5.4.1.</span> <span class="toc-text">5.4.1 聚集索引</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-4-2-%E8%BE%85%E5%8A%A9%E7%B4%A2%E5%BC%95"><span class="toc-number">1.5.4.2.</span> <span class="toc-text">5.4.2 辅助索引</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-4-3-B-%E6%A0%91%E7%B4%A2%E5%BC%95%E7%9A%84%E5%88%86%E8%A3%82"><span class="toc-number">1.5.4.3.</span> <span class="toc-text">5.4.3 B+树索引的分裂</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-4-4-B-%E6%A0%91%E7%B4%A2%E5%BC%95%E7%9A%84%E7%AE%A1%E7%90%86"><span class="toc-number">1.5.4.4.</span> <span class="toc-text">5.4.4 B+树索引的管理</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-5-Cardinality%E5%80%BC"><span class="toc-number">1.5.5.</span> <span class="toc-text">5.5 Cardinality值</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#5-5-1-%E4%BB%80%E4%B9%88%E6%98%AFcardinality"><span class="toc-number">1.5.5.1.</span> <span class="toc-text">5.5.1 什么是cardinality</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-5-2-Innodb%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E%E4%B8%AD%E7%9A%84cardinality%E7%BB%9F%E8%AE%A1"><span class="toc-number">1.5.5.2.</span> <span class="toc-text">5.5.2 Innodb存储引擎中的cardinality统计</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-6-B-%E6%A0%91%E7%B4%A2%E5%BC%95%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">1.5.6.</span> <span class="toc-text">5.6 B+树索引的使用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#5-6-2-%E8%81%94%E5%90%88%E7%B4%A2%E5%BC%95"><span class="toc-number">1.5.6.1.</span> <span class="toc-text">5.6.2 联合索引</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-6-3-%E8%A6%86%E7%9B%96%E7%B4%A2%E5%BC%95"><span class="toc-number">1.5.6.2.</span> <span class="toc-text">5.6.3 覆盖索引</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-6-4-%E4%BC%98%E5%8C%96%E5%99%A8%E9%80%89%E6%8B%A9%E4%B8%8D%E4%BD%BF%E7%94%A8%E7%B4%A2%E5%BC%95%E7%9A%84%E6%83%85%E5%86%B5"><span class="toc-number">1.5.6.3.</span> <span class="toc-text">5.6.4 优化器选择不使用索引的情况</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-6-5-%E7%B4%A2%E5%BC%95%E6%8F%90%E7%A4%BA"><span class="toc-number">1.5.6.4.</span> <span class="toc-text">5.6.5 索引提示</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-6-6-Multi-Range-Read-%E4%BC%98%E5%8C%96"><span class="toc-number">1.5.6.5.</span> <span class="toc-text">5.6.6 Multi-Range Read 优化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-6-7-Index-Condition-Pushdown-ICP-%E4%BC%98%E5%8C%96"><span class="toc-number">1.5.6.6.</span> <span class="toc-text">5.6.7 Index Condition Pushdown(ICP 优化)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-7-%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95"><span class="toc-number">1.5.7.</span> <span class="toc-text">5.7 哈希算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#5-7-2-Innodb%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E%E4%B8%AD%E7%9A%84%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95"><span class="toc-number">1.5.7.1.</span> <span class="toc-text">5.7.2 Innodb存储引擎中的哈希算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-7-3-%E8%87%AA%E9%80%82%E5%BA%94%E5%93%88%E5%B8%8C%E7%B4%A2%E5%BC%95"><span class="toc-number">1.5.7.2.</span> <span class="toc-text">5.7.3  自适应哈希索引</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-8-%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2"><span class="toc-number">1.5.8.</span> <span class="toc-text">5.8 全文检索</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E9%94%81"><span class="toc-number">1.6.</span> <span class="toc-text">6.锁</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1-%E9%94%81"><span class="toc-number">1.6.1.</span> <span class="toc-text">6.1 锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2-lock%E4%B8%8Elatch"><span class="toc-number">1.6.2.</span> <span class="toc-text">6.2 lock与latch</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-3-InnoDB%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E%E4%B8%AD%E7%9A%84%E9%94%81"><span class="toc-number">1.6.3.</span> <span class="toc-text">6.3 InnoDB存储引擎中的锁</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#6-3-2-%E4%B8%80%E8%87%B4%E6%80%A7%E9%9D%9E%E9%94%81%E5%AE%9A%E8%AF%BB"><span class="toc-number">1.6.3.1.</span> <span class="toc-text">6.3.2 一致性非锁定读</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-3-3-%E4%B8%80%E8%87%B4%E6%80%A7%E9%94%81%E5%AE%9A%E8%AF%BB"><span class="toc-number">1.6.3.2.</span> <span class="toc-text">6.3.3 一致性锁定读</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-3-5-%E5%A4%96%E9%94%AE%E5%92%8C%E9%94%81"><span class="toc-number">1.6.3.3.</span> <span class="toc-text">6.3.5  外键和锁</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-4-%E9%94%81%E7%AE%97%E6%B3%95"><span class="toc-number">1.6.4.</span> <span class="toc-text">6.4 锁算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-5-%E9%94%81%E9%97%AE%E9%A2%98"><span class="toc-number">1.6.5.</span> <span class="toc-text">6.5 锁问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#6-5-1-%E8%84%8F%E8%AF%BB"><span class="toc-number">1.6.5.1.</span> <span class="toc-text">6.5.1 脏读</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-5-2-%E4%B8%8D%E5%8F%AF%E9%87%8D%E5%A4%8D%E8%AF%BB"><span class="toc-number">1.6.5.2.</span> <span class="toc-text">6.5.2 不可重复读</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-5-3-%E4%B8%A2%E5%A4%B1%E6%9B%B4%E6%96%B0"><span class="toc-number">1.6.5.3.</span> <span class="toc-text">6.5.3  丢失更新</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-6-%E9%98%BB%E5%A1%9E"><span class="toc-number">1.6.6.</span> <span class="toc-text">6.6 阻塞</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-7-%E6%AD%BB%E9%94%81"><span class="toc-number">1.6.7.</span> <span class="toc-text">6.7 死锁</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#6-7-2-%E6%AD%BB%E9%94%81%E7%9A%84%E6%A6%82%E7%8E%87"><span class="toc-number">1.6.7.1.</span> <span class="toc-text">6.7.2 死锁的概率</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-8-%E9%94%81%E5%8D%87%E7%BA%A7"><span class="toc-number">1.6.8.</span> <span class="toc-text">6.8 锁升级</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E4%BA%8B%E5%8A%A1"><span class="toc-number">1.7.</span> <span class="toc-text">7.事务</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#7-1-2-%E5%88%86%E7%B1%BB"><span class="toc-number">1.7.0.1.</span> <span class="toc-text">7.1.2 分类</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-2-%E4%BA%8B%E5%8A%A1%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.7.1.</span> <span class="toc-text">7.2 事务的实现</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#7-2-2-redo"><span class="toc-number">1.7.1.1.</span> <span class="toc-text">7.2.2 redo</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-2-2-undo"><span class="toc-number">1.7.1.2.</span> <span class="toc-text">7.2.2 undo</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-2-3-purge"><span class="toc-number">1.7.1.3.</span> <span class="toc-text">7.2.3 purge</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-2-4-Group-commit"><span class="toc-number">1.7.1.4.</span> <span class="toc-text">7.2.4 Group commit</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-3-%E4%BA%8B%E5%8A%A1%E6%8E%A7%E5%88%B6%E8%AF%AD%E5%8F%A5"><span class="toc-number">1.7.2.</span> <span class="toc-text">7.3 事务控制语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-4-%E9%9A%90%E5%BC%8F%E6%8F%90%E4%BA%A4%E7%9A%84SQL%E8%AF%AD%E5%8F%A5"><span class="toc-number">1.7.3.</span> <span class="toc-text">7.4 隐式提交的SQL语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-5-%E5%AF%B9%E4%BA%8B%E5%8A%A1%E6%93%8D%E4%BD%9C%E7%9A%84%E7%BB%9F%E8%AE%A1"><span class="toc-number">1.7.4.</span> <span class="toc-text">7.5 对事务操作的统计</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-6-%E4%BA%8B%E5%8A%A1%E7%9A%84%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB"><span class="toc-number">1.7.5.</span> <span class="toc-text">7.6 事务的隔离级别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-7-%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1"><span class="toc-number">1.7.6.</span> <span class="toc-text">7.7 分布式事务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-8-%E4%B8%8D%E5%A5%BD%E7%9A%84%E4%BA%8B%E5%8A%A1%E4%B9%A0%E6%83%AF"><span class="toc-number">1.7.7.</span> <span class="toc-text">7.8 不好的事务习惯</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#7-8-1-%E5%9C%A8%E5%BE%AA%E7%8E%AF%E4%B8%AD%E6%8F%90%E4%BA%A4"><span class="toc-number">1.7.7.1.</span> <span class="toc-text">7.8.1 在循环中提交</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-8-2-%E4%BD%BF%E7%94%A8%E8%87%AA%E5%8A%A8%E6%8F%90%E4%BA%A4"><span class="toc-number">1.7.7.2.</span> <span class="toc-text">7.8.2  使用自动提交</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-8-3-%E4%BD%BF%E7%94%A8%E8%87%AA%E5%8A%A8%E5%9B%9E%E6%BB%9A"><span class="toc-number">1.7.7.3.</span> <span class="toc-text">7.8.3 使用自动回滚</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-number">1.8.</span> <span class="toc-text">常用命令</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/11/25/%E5%9B%BE%E8%A7%A3TCP-IP/" title="图解TCP/IP"><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="图解TCP/IP"/></a><div class="content"><a class="title" href="/2021/11/25/%E5%9B%BE%E8%A7%A3TCP-IP/" title="图解TCP/IP">图解TCP/IP</a><time datetime="2021-11-25T05:06:39.000Z" title="发表于 2021-11-25 13:06:39">2021-11-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/11/22/JAVA%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" title="JAVA并发编程"><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JAVA并发编程"/></a><div class="content"><a class="title" href="/2021/11/22/JAVA%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" title="JAVA并发编程">JAVA并发编程</a><time datetime="2021-11-22T10:48:31.000Z" title="发表于 2021-11-22 18:48:31">2021-11-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/11/10/%E5%9B%BE%E8%A7%A3HTTP/" title="图解HTTP"><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="图解HTTP"/></a><div class="content"><a class="title" href="/2021/11/10/%E5%9B%BE%E8%A7%A3HTTP/" title="图解HTTP">图解HTTP</a><time datetime="2021-11-10T07:52:07.000Z" title="发表于 2021-11-10 15:52:07">2021-11-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/10/20/JVM/" title="JVM"><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JVM"/></a><div class="content"><a class="title" href="/2021/10/20/JVM/" title="JVM">JVM</a><time datetime="2021-10-20T07:29:51.000Z" title="发表于 2021-10-20 15:29:51">2021-10-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/10/11/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" title="设计模式"><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="设计模式"/></a><div class="content"><a class="title" href="/2021/10/11/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" title="设计模式">设计模式</a><time datetime="2021-10-11T12:26:35.000Z" title="发表于 2021-10-11 20:26:35">2021-10-11</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By Lu sir</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">我的肩上是风，风上是闪烁的星群</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'pc3JDCREMGoF3S3e4YzeC6kX-gzGzoHsz',
+      appKey: '01uhcP5vYPOKkVzxt5chIypp',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'en',
+      recordIP: false,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: false,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script src="js/jquery.min.js"></script><script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/gh/xiabo2/CDN@latest/fishes.js"></script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-heart.min.js" async="async" mobile="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/haruto.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body></html>
