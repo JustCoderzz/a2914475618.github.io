@@ -1,0 +1,268 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>操作系统面经 | 一位可可爱爱的编橙爱好者</title><meta name="keywords" content="成长记录"><meta name="author" content="Lu sir,2914475618@qq.com"><meta name="copyright" content="Lu sir"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="操作系统面经进程和线程的区别？ 进程是资源分配的最小单位，线程是CPU调度的最小单位 一个进程可以有多个线程，而一个线程是只属于一个进程，线程是依赖于进程存在的。 进程拥有自己独立的内存单元，而多个线程共享该进程的内存 系统开销：进程在创建和销毁时，系统都为它们分配和回收资源，代价要高于线程的创建和销毁的开销。进程切换比线程切换开销更大，进程涉及到CPU环境的保存和新进程运行时的CPU环境变量。而">
+<meta property="og:type" content="article">
+<meta property="og:title" content="操作系统面经">
+<meta property="og:url" content="https://a2914475618.github.io/2022/03/05/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E7%BB%8F/index.html">
+<meta property="og:site_name" content="一位可可爱爱的编橙爱好者">
+<meta property="og:description" content="操作系统面经进程和线程的区别？ 进程是资源分配的最小单位，线程是CPU调度的最小单位 一个进程可以有多个线程，而一个线程是只属于一个进程，线程是依赖于进程存在的。 进程拥有自己独立的内存单元，而多个线程共享该进程的内存 系统开销：进程在创建和销毁时，系统都为它们分配和回收资源，代价要高于线程的创建和销毁的开销。进程切换比线程切换开销更大，进程涉及到CPU环境的保存和新进程运行时的CPU环境变量。而">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/1.jpg">
+<meta property="article:published_time" content="2022-03-05T06:30:03.000Z">
+<meta property="article:modified_time" content="2022-03-10T08:54:12.800Z">
+<meta property="article:author" content="Lu sir">
+<meta property="article:tag" content="成长记录">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/1.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://a2914475618.github.io/2022/03/05/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E7%BB%8F/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-03-10 16:54:12'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><link rel="stylesheet" href="css/footer.css"><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="一位可可爱爱的编橙爱好者" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/Touxiang.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">65</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">58</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">13</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fas fa-comments"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/1.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">一位可可爱爱的编橙爱好者</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fas fa-comments"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">操作系统面经</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-03-05T06:30:03.000Z" title="发表于 2022-03-05 14:30:03">2022-03-05</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-03-10T08:54:12.800Z" title="更新于 2022-03-10 16:54:12">2022-03-10</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.9k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>5分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="操作系统面经"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="操作系统面经"><a href="#操作系统面经" class="headerlink" title="操作系统面经"></a>操作系统面经</h1><h2 id="进程和线程的区别？"><a href="#进程和线程的区别？" class="headerlink" title="进程和线程的区别？"></a>进程和线程的区别？</h2><ol>
+<li>进程是<strong>资源分配的最小单位</strong>，线程是<strong>CPU调度的最小单位</strong></li>
+<li>一个进程可以<strong>有多个线程</strong>，而一个线程是只属于一个进程，线程是依赖于进程存在的。</li>
+<li>进程拥有自己独立的<strong>内存单元</strong>，而多个线程共享该进程的内存</li>
+<li>系统开销：进程在创建和销毁时，系统都为它们<strong>分配和回收资源</strong>，代价要高于线程的创建和销毁的开销。进程切换比线程切换开销更大，进程涉及到<strong>CPU环境的保存和新进程运行时的CPU环境变量</strong>。而线程只需要保存和设置部分进程器的内容，不<strong>涉及存储器管</strong>理方面的操作。</li>
+<li>通信：进程间通过<strong>管道，系统IPC</strong>（消息队列，信号量，信号，共享内存）和<strong>套接字Socke</strong>t进行通信，而线程通过<strong>全局变量</strong>来进行通信，volitile需要进程的同步和互斥手段辅助。</li>
+<li>进程间不会相互影响，<strong>一个进程中的某个线程挂掉会导致整个进程挂掉。</strong></li>
+</ol>
+<p>操作系统的任务调度实际上调度对象是<strong>线程</strong>，进程只是给线程提供了虚拟内存，全局变量等资源。</p>
+<h2 id="不同通信方式优缺点"><a href="#不同通信方式优缺点" class="headerlink" title="不同通信方式优缺点"></a>不同通信方式优缺点</h2><p>![image-20220305162717837](C:\Users\Lu  sir\AppData\Roaming\Typora\typora-user-images\image-20220305162717837.png)</p>
+<h2 id="进程间的通讯方式"><a href="#进程间的通讯方式" class="headerlink" title="进程间的通讯方式"></a>进程间的通讯方式</h2><p>​             1.<strong>管道/匿名管道(Pipes)</strong> ：用于具有<strong>亲缘关系的父子进程间</strong>或者<strong>兄弟进程之间</strong>的通 信。</p>
+<ol start="2">
+<li><strong>有名管道(Names Pipes)</strong> : 匿名管道由于没有名字，只能用于亲缘关系的进程间通 信。为了克服这个缺点，提出了有名管道。<strong>有名管道严格遵循先进先出(first in first out)<strong>。</strong>有名管道以磁盘文件的方式存在，可以实现本机任意两个进程通信。</strong> </li>
+<li><strong>信号(Signal)</strong> ：信号是一种比较复杂的通信方式，<strong>用于通知接收进程某个事件已 经发生</strong>；</li>
+<li><strong>消息队列(Message Queuing)</strong> ：消息队列是<strong>消息的链表</strong>,具有特定的格式,存放在 内存中并由消息队列标识符标识。<strong>管道和消息队列的通信数据都是先进先出的原 则</strong>。与管道（无名管道：<strong>只存在于内存中的文件</strong>；命名管道：<strong>存在于实际的磁盘介 质或者文件系统</strong>）不同的是<strong>消息队列存放在内核中</strong>，只有在内核重启(即，操作系 统重启)或者显示地删除一个消息队列时，该消息队列才会被真正的删除。消息队 列可以实现消息的随机查询,消息不一定要以先进先出的次序读取,也可以按消息的 类型读取.比 FIFO 更有优势。消息队列克服了信号承载信息量少，管道只能承 载无格式字 节流以及缓冲区大小受限等缺。 </li>
+<li><strong>信号量(Semaphores)</strong> ：信号量是一个计数器，用于<strong>多进程对共享数据的访问， 信号量的意图在于进程间同步</strong>。这种通信方式主要用于解决与同步相关的问题并避 免竞争条件。 </li>
+<li><strong>共享内存(Shared memory)</strong> ：使得多个进程可以访问同一块内存空间，<strong>不同进程 可以及时看到对方进程中对共享内存中数据的更新。</strong>这种方式需要依靠<strong>某种同步操 作</strong>，如互斥锁和信号量等。可以说这是最有用的进程间通信方式。 </li>
+<li><strong>套接字(Sockets)</strong> : 此方法主要用于在<strong>客户端和服务器之间通过网络进行通信</strong>。套 接字是支持 TCP/IP 的网络通信的基本操作单元，可以看做是<strong>不同主机之间的进程 进行双向通信的端点</strong>，简单的说就是通信的两方的一种约定，用套接字中的相关函 数来完成通信过程。</li>
+</ol>
+<h2 id="进程状态"><a href="#进程状态" class="headerlink" title="进程状态"></a>进程状态</h2><ol>
+<li>创建状态</li>
+<li>就绪状态。获得了除处理器以外的一切所需资源，一旦得到处理器资源即可运行。</li>
+<li>运行状态。进程正在处理器上运行。</li>
+<li>阻塞状态。等待某一事件暂停运行如等待某资源可用或IO操作完成。</li>
+<li>结束状态。进程从系统中消失。</li>
+</ol>
+<h2 id="用户态和内核态"><a href="#用户态和内核态" class="headerlink" title="用户态和内核态"></a>用户态和内核态</h2><ol>
+<li>用户态：进程可以直接读取用户程序的数据</li>
+<li>内核态：进程几乎可以访问计算机的任何资源，不受限制</li>
+</ol>
+<p>我们运行的程序基本都是再用户态，若需要调用操作系统提供的内核态级别的功能的时候，就需要<strong>系统调用</strong>方式向操作系统提出服务请求，由操作系统代为完成。</p>
+<p>系统调用按功能分为如下几类：</p>
+<ol>
+<li>设备管理</li>
+<li>文件管理</li>
+<li>进程控制</li>
+<li>进程通信</li>
+<li>内存管理</li>
+</ol>
+<h2 id="线程间的同步方式"><a href="#线程间的同步方式" class="headerlink" title="线程间的同步方式"></a>线程间的同步方式</h2><blockquote>
+<ol>
+<li>互斥量(Mutex)：采⽤互斥对象机制，只有拥有互斥对象的线程才有访问公共资源的权限。 因为互斥对象只有⼀个，所以可以保证公共资源不会被多个线程同时访问。⽐如 Java 中的 synchronized 关键词和各种 Lock 都是这种机制。 </li>
+<li>信号量(Semphares) ：它允许同⼀时刻多个线程访问同⼀资源，但是需要控制同⼀时刻访 问此资源的最⼤线程数量 </li>
+<li>事件(Event) :Wait/Notify：通过通知操作的⽅式来保持多线程同步，还可以⽅便的实现多线 程优先级的⽐᫾操</li>
+</ol>
+</blockquote>
+<h2 id="进程、线程、协程的异同"><a href="#进程、线程、协程的异同" class="headerlink" title="进程、线程、协程的异同"></a>进程、线程、协程的异同</h2><p>协程：</p>
+<ul>
+<li>没有线程的切换，完全是由程序所控制。没有内核切换的开销，不加锁的全局访问变量</li>
+<li>不需要多线程的锁机制，因为只有一个线程，也不存在同时写变量冲突</li>
+<li>用户态的轻量级线程，线程内部调度的基本单位</li>
+<li>异步机制，非抢占式</li>
+</ul>
+<h2 id="死锁的产生条件"><a href="#死锁的产生条件" class="headerlink" title="死锁的产生条件"></a>死锁的产生条件</h2><ol>
+<li>互斥使用</li>
+<li>占有且等待</li>
+<li>不可抢占</li>
+<li>循环等待</li>
+</ol>
+<p>如何避免？</p>
+<p>![image-20220305181551402](C:\Users\Lu  sir\AppData\Roaming\Typora\typora-user-images\image-20220305181551402.png)</p>
+<h2 id="虚拟内存作用及介绍"><a href="#虚拟内存作用及介绍" class="headerlink" title="虚拟内存作用及介绍"></a>虚拟内存作用及介绍</h2><ol>
+<li>虚拟内存是一种内存管理技术</li>
+<li>为每个进程提供一个连续虚拟地址空间，使得每一个进程具有独占主存的错觉，通过将内存扩展到硬盘空间，使得程序可以拥有超过系统物理内存大小的内存空间</li>
+<li>使用这种技术的系统使得大型程序的编写更加容易，对物理内存的使用也更有效率</li>
+</ol>
+<h2 id="局部性原理"><a href="#局部性原理" class="headerlink" title="局部性原理"></a>局部性原理</h2><p>较短的时间内，成勋执行局限于某一小部分，程序访问的存储空间也局限于某个区域。</p>
+<p>包括：</p>
+<ol>
+<li>事件局部性</li>
+<li>空间局部性</li>
+</ol>
+<p>![image-20220305183809274](C:\Users\Lu  sir\AppData\Roaming\Typora\typora-user-images\image-20220305183809274.png)</p>
+<h2 id="虚拟内存的技术实现"><a href="#虚拟内存的技术实现" class="headerlink" title="虚拟内存的技术实现"></a>虚拟内存的技术实现</h2><p>建立在离散分配的内存管理方式</p>
+<ol>
+<li>请求分页存储管理</li>
+<li>请求分段存储管理</li>
+<li>请求段页式存储管理</li>
+</ol>
+<h2 id="进程的调度算法"><a href="#进程的调度算法" class="headerlink" title="进程的调度算法"></a>进程的调度算法</h2><p>![image-20220305184725934](C:\Users\Lu  sir\AppData\Roaming\Typora\typora-user-images\image-20220305184725934.png)</p>
+<p>![image-20220305184945371](C:\Users\Lu  sir\AppData\Roaming\Typora\typora-user-images\image-20220305184945371.png)</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:2914475618@qq.com">Lu sir</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://a2914475618.github.io/2022/03/05/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E7%BB%8F/">https://a2914475618.github.io/2022/03/05/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E7%BB%8F/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://a2914475618.github.io" target="_blank">一位可可爱爱的编橙爱好者</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/1.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/03/06/Kafka%E9%9D%A2%E7%BB%8F/"><img class="prev-cover" src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/1.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Kafka面经</div></div></a></div><div class="next-post pull-right"><a href="/2022/03/04/Redis%E9%9D%A2%E7%BB%8F/"><img class="next-cover" src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/1.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Redis面经</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/Touxiang.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Lu sir</div><div class="author-info__description">如风的少年</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">65</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">58</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">13</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/a2914475618"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">欢迎来到爱的小屋，爱你们哟</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E7%BB%8F"><span class="toc-number">1.</span> <span class="toc-text">操作系统面经</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E5%92%8C%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-number">1.1.</span> <span class="toc-text">进程和线程的区别？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8D%E5%90%8C%E9%80%9A%E4%BF%A1%E6%96%B9%E5%BC%8F%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-number">1.2.</span> <span class="toc-text">不同通信方式优缺点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E9%97%B4%E7%9A%84%E9%80%9A%E8%AE%AF%E6%96%B9%E5%BC%8F"><span class="toc-number">1.3.</span> <span class="toc-text">进程间的通讯方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E7%8A%B6%E6%80%81"><span class="toc-number">1.4.</span> <span class="toc-text">进程状态</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E6%80%81%E5%92%8C%E5%86%85%E6%A0%B8%E6%80%81"><span class="toc-number">1.5.</span> <span class="toc-text">用户态和内核态</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B%E9%97%B4%E7%9A%84%E5%90%8C%E6%AD%A5%E6%96%B9%E5%BC%8F"><span class="toc-number">1.6.</span> <span class="toc-text">线程间的同步方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E3%80%81%E7%BA%BF%E7%A8%8B%E3%80%81%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%BC%82%E5%90%8C"><span class="toc-number">1.7.</span> <span class="toc-text">进程、线程、协程的异同</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%BB%E9%94%81%E7%9A%84%E4%BA%A7%E7%94%9F%E6%9D%A1%E4%BB%B6"><span class="toc-number">1.8.</span> <span class="toc-text">死锁的产生条件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98%E4%BD%9C%E7%94%A8%E5%8F%8A%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.9.</span> <span class="toc-text">虚拟内存作用及介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B1%80%E9%83%A8%E6%80%A7%E5%8E%9F%E7%90%86"><span class="toc-number">1.10.</span> <span class="toc-text">局部性原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98%E7%9A%84%E6%8A%80%E6%9C%AF%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.11.</span> <span class="toc-text">虚拟内存的技术实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E7%9A%84%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95"><span class="toc-number">1.12.</span> <span class="toc-text">进程的调度算法</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/03/10/Java%E5%B9%B6%E5%8F%91/" title="Java并发"><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java并发"/></a><div class="content"><a class="title" href="/2022/03/10/Java%E5%B9%B6%E5%8F%91/" title="Java并发">Java并发</a><time datetime="2022-03-10T04:33:25.000Z" title="发表于 2022-03-10 12:33:25">2022-03-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/03/07/Java%E5%AE%B9%E5%99%A8/" title="Java容器"><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java容器"/></a><div class="content"><a class="title" href="/2022/03/07/Java%E5%AE%B9%E5%99%A8/" title="Java容器">Java容器</a><time datetime="2022-03-07T11:22:26.000Z" title="发表于 2022-03-07 19:22:26">2022-03-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/03/07/Java%E9%9D%A2%E7%BB%8F-0/" title="Java核心知识"><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java核心知识"/></a><div class="content"><a class="title" href="/2022/03/07/Java%E9%9D%A2%E7%BB%8F-0/" title="Java核心知识">Java核心知识</a><time datetime="2022-03-07T03:08:27.000Z" title="发表于 2022-03-07 11:08:27">2022-03-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/03/06/Kafka%E9%9D%A2%E7%BB%8F/" title="Kafka面经"><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Kafka面经"/></a><div class="content"><a class="title" href="/2022/03/06/Kafka%E9%9D%A2%E7%BB%8F/" title="Kafka面经">Kafka面经</a><time datetime="2022-03-06T10:42:57.000Z" title="发表于 2022-03-06 18:42:57">2022-03-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/03/05/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E7%BB%8F/" title="操作系统面经"><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="操作系统面经"/></a><div class="content"><a class="title" href="/2022/03/05/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E7%BB%8F/" title="操作系统面经">操作系统面经</a><time datetime="2022-03-05T06:30:03.000Z" title="发表于 2022-03-05 14:30:03">2022-03-05</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By Lu sir</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">我的肩上是风，风上是闪烁的星群</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'pc3JDCREMGoF3S3e4YzeC6kX-gzGzoHsz',
+      appKey: '01uhcP5vYPOKkVzxt5chIypp',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'en',
+      recordIP: false,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: false,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script src="js/jquery.min.js"></script><script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/gh/xiabo2/CDN@latest/fishes.js"></script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-heart.min.js" async="async" mobile="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/haruto.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body></html>

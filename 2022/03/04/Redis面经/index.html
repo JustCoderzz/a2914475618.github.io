@@ -1,0 +1,398 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Redis面经 | 一位可可爱爱的编橙爱好者</title><meta name="keywords" content="成长记录"><meta name="author" content="Lu sir,2914475618@qq.com"><meta name="copyright" content="Lu sir"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Redis面经一、什么是Redis？ C语言开发的数据库 Redis数据存放在内存中，读写速度快，广泛用于缓存方向 也经常用来做分布锁，甚至是消息队列 提供多种数据类型支持不同业务。 支持事务、持久化、多种集群方案数据备份 高性能的非关系性数据库  优点：  基于内存操作 单线程（6.0以前）的处理所有网络请求，避免线程切换开销以及所线程的竞争问题 支持多种数据类型 支持持久化。包括RDB和AOF">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis面经">
+<meta property="og:url" content="https://a2914475618.github.io/2022/03/04/Redis%E9%9D%A2%E7%BB%8F/index.html">
+<meta property="og:site_name" content="一位可可爱爱的编橙爱好者">
+<meta property="og:description" content="Redis面经一、什么是Redis？ C语言开发的数据库 Redis数据存放在内存中，读写速度快，广泛用于缓存方向 也经常用来做分布锁，甚至是消息队列 提供多种数据类型支持不同业务。 支持事务、持久化、多种集群方案数据备份 高性能的非关系性数据库  优点：  基于内存操作 单线程（6.0以前）的处理所有网络请求，避免线程切换开销以及所线程的竞争问题 支持多种数据类型 支持持久化。包括RDB和AOF">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/1.jpg">
+<meta property="article:published_time" content="2022-03-04T08:27:32.000Z">
+<meta property="article:modified_time" content="2022-03-05T06:34:37.438Z">
+<meta property="article:author" content="Lu sir">
+<meta property="article:tag" content="成长记录">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/1.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://a2914475618.github.io/2022/03/04/Redis%E9%9D%A2%E7%BB%8F/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-03-05 14:34:37'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><link rel="stylesheet" href="css/footer.css"><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="一位可可爱爱的编橙爱好者" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/Touxiang.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">65</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">58</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">13</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fas fa-comments"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/1.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">一位可可爱爱的编橙爱好者</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fas fa-comments"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Redis面经</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-03-04T08:27:32.000Z" title="发表于 2022-03-04 16:27:32">2022-03-04</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-03-05T06:34:37.438Z" title="更新于 2022-03-05 14:34:37">2022-03-05</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>11分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Redis面经"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="Redis面经"><a href="#Redis面经" class="headerlink" title="Redis面经"></a>Redis面经</h1><h2 id="一、什么是Redis？"><a href="#一、什么是Redis？" class="headerlink" title="一、什么是Redis？"></a>一、什么是Redis？</h2><ol>
+<li>C语言开发的数据库</li>
+<li>Redis数据存放在内存中，读写速度快，广泛用于缓存方向</li>
+<li>也经常用来做分布锁，甚至是消息队列</li>
+<li>提供多种数据类型支持不同业务。</li>
+<li>支持事务、持久化、多种集群方案数据备份</li>
+<li>高性能的非关系性数据库</li>
+</ol>
+<p>优点：</p>
+<ol>
+<li>基于内存操作</li>
+<li>单线程（6.0以前）的处理所有网络请求，避免线程切换开销以及所线程的竞争问题</li>
+<li>支持多种数据类型</li>
+<li>支持持久化。包括RDB和AOF两种操作</li>
+<li>支持事务。Redis的所有操作都是原子性的</li>
+<li>支持主从复制</li>
+</ol>
+<p>缺点</p>
+<ol>
+<li>数据库容量受到物理内存的限制，不适合海量数据的高性能读写</li>
+</ol>
+<p>应用场景：</p>
+<ol>
+<li>缓存热点数据</li>
+<li>利用redis自增操作的原子性，实现计数器功能，比如统计点赞数，访问数</li>
+<li>简单的消息队列，使用自身的发布-订阅模式，实现异步操作</li>
+<li>限速器 限制某个用户访问接口的频率。比如秒杀</li>
+<li>好友关系。利用集合的命令，如交集、并集、差级</li>
+</ol>
+<blockquote>
+<p><strong>同步和异步</strong>的概念描述的是用户线程与内核的交互方式：同步是指用户线程发起IO请求后需要等待或者轮询内核IO操作完成后才能继续执行；而异步是指用户线程发起IO请求后仍继续执行，当内核IO操作完成后会通知用户线程，或者调用用户线程注册的回调函数。</p>
+<p><strong>阻塞和非阻塞</strong>的概念描述的是用户线程调用内核IO操作的方式：阻塞是指IO操作需要彻底完成后才返回到用户空间；而非阻塞是指IO操作被调用后立即返回给用户一个状态值，无需等到IO操作彻底完成。</p>
+<p>IO多路复用：<strong>同一个线程内同时处理多个IO请求的目的</strong></p>
+</blockquote>
+<h2 id="二、Redis单线程模型"><a href="#二、Redis单线程模型" class="headerlink" title="二、Redis单线程模型"></a>二、Redis单线程模型</h2><p>Redis基于Reactor模式来设计开发了自己的一套高效的事件处理模型</p>
+<p>Redis通过多路IO复用来监听客户端的大量链接（或者说是监听多个socket），将事件及类型注册到内核中监听每个事件是否发生。让Redis不需要创建多余的线程监听客户端的连接，降低资源的消耗。</p>
+<h2 id="三、redis6-0之前为什么不使用多线程"><a href="#三、redis6-0之前为什么不使用多线程" class="headerlink" title="三、redis6.0之前为什么不使用多线程"></a>三、redis6.0之前为什么不使用多线程</h2><ol>
+<li>实现简单，不用考虑底层数据结构的线程安全性</li>
+<li>Redis的性能瓶颈不在cpu，主要再内存和网络。避免过多的上下文切换消耗</li>
+<li>避免同步机制的开销</li>
+</ol>
+<h2 id="四、redis6-0以后为何引入了多线程？"><a href="#四、redis6-0以后为何引入了多线程？" class="headerlink" title="四、redis6.0以后为何引入了多线程？"></a>四、redis6.0以后为何引入了多线程？</h2><ol>
+<li>提高网络IO读写性能，主要用在网络读写这类耗时操作</li>
+</ol>
+<h2 id="五、Memcached和Redis的区别"><a href="#五、Memcached和Redis的区别" class="headerlink" title="五、Memcached和Redis的区别"></a>五、Memcached和Redis的区别</h2><ol>
+<li>Redis单核，M多核</li>
+<li>Redis支持多种数据结构，M结构单一</li>
+<li>Redis支持数据持久化，M不支持</li>
+<li>Redis提供主从同步机制和cluster集群能力</li>
+<li>Redis使用单线程的多路IO复用，M使用多线程的非阻塞IO模型</li>
+</ol>
+<h2 id="Keys命令和Scan命令"><a href="#Keys命令和Scan命令" class="headerlink" title="Keys命令和Scan命令"></a>Keys命令和Scan命令</h2><p>keys命令会使得线程阻塞，直到执行完毕。</p>
+<p>scan采用渐进式遍历的方式解决keys可能带来的阻塞问题，但是需要多次scan实现keys命令</p>
+<h2 id="Redis基本数据结构"><a href="#Redis基本数据结构" class="headerlink" title="Redis基本数据结构"></a>Redis基本数据结构</h2><p>sortedSet  底层使用字典+跳表（/压缩列表）</p>
+<p>![image-20220304205320531](C:\Users\Lu  sir\AppData\Roaming\Typora\typora-user-images\image-20220304205320531.png)</p>
+<p><strong>SortedSet和List</strong>异同点</p>
+<p>相同点：</p>
+<ol>
+<li>都是有序的</li>
+<li>都可以获得某个范围内的元素</li>
+</ol>
+<p>不同点：</p>
+<ol>
+<li>List基于双向链表实现，获取两端元素快，中间慢</li>
+<li>SortedSet基于散列表和跳表实现，访问元素时间复杂度为OlogN</li>
+<li>List不能简单的调整某个元素的值，SortedSet可以（修改Score）</li>
+<li>SortedSet更耗内存</li>
+</ol>
+<h2 id="缓存过期"><a href="#缓存过期" class="headerlink" title="缓存过期"></a>缓存过期</h2><p>给缓存设置过期时间主要原因：</p>
+<p>内存是有限的，缓存中的数据不能一直保存。</p>
+<p>redis通过一个过期字典来保存数据的过期时间。键指向Redis数据库中的某个key，val为Long long类型，保存了该key的过期时间。</p>
+<h3 id="过期的删除策略"><a href="#过期的删除策略" class="headerlink" title="过期的删除策略"></a>过期的删除策略</h3><p>缓存更新</p>
+<ol>
+<li><p>惰性删除</p>
+<p>只有在你取出key的时候对数据进行过期检查。对CPU友好，但可能会造成太多过期的key没有被删除</p>
+</li>
+<li><p>定期删除</p>
+<p>每隔一段时间抽取一批key执行删除过期的key操作。redis底层限定删除操作执行的时长和频率来减少删除操作对CPU时间的影响。</p>
+</li>
+</ol>
+<p>定期删除对内存更友好，惰性删除对CPU更友好。REDIS采用两种相结合。</p>
+<h3 id="Redis内存淘汰机制"><a href="#Redis内存淘汰机制" class="headerlink" title="Redis内存淘汰机制"></a>Redis内存淘汰机制</h3><p>![image-20220304191057519](C:\Users\Lu  sir\AppData\Roaming\Typora\typora-user-images\image-20220304191057519.png)</p>
+<h2 id="Redis持久化机制"><a href="#Redis持久化机制" class="headerlink" title="Redis持久化机制"></a>Redis持久化机制</h2><h3 id="快照（RDB）"><a href="#快照（RDB）" class="headerlink" title="快照（RDB）"></a>快照（RDB）</h3><p>通过创建快照来获得存储在内存里面的数据在某个时间点上的副本。可以对快照进行备份，复制给其他服务器（主从结构）</p>
+<p>默认的持久化方式</p>
+<p>![image-20220304212041470](C:\Users\Lu  sir\AppData\Roaming\Typora\typora-user-images\image-20220304212041470.png)</p>
+<p>![image-20220304210455351](C:\Users\Lu  sir\AppData\Roaming\Typora\typora-user-images\image-20220304210455351.png)</p>
+<p>触发方式：</p>
+<ol>
+<li><p>手动触发：用户执行SAVE或BGSAVE命令。SAVE会阻塞客户端请求，BGSAVE异步进行快照操作</p>
+</li>
+<li><p>被动触发</p>
+<p>![image-20220304210648128](C:\Users\Lu  sir\AppData\Roaming\Typora\typora-user-images\image-20220304210648128.png)</p>
+</li>
+</ol>
+<p>优点</p>
+<ol>
+<li>因为使用了 快照数据  数据恢复远远快于AOF方式</li>
+<li>使用单独的进程来进行持久化，主线程不会阻塞。保证了Redis的高性能</li>
+</ol>
+<p>缺点</p>
+<ol>
+<li>数据无法坐到实时持久化。fork操作属于重量级，频繁执行成本太高</li>
+<li>存在版本Redis无法兼容RDB格式问题</li>
+</ol>
+<h3 id="只追加文件（AOF）"><a href="#只追加文件（AOF）" class="headerlink" title="只追加文件（AOF）"></a>只追加文件（AOF）</h3><p>持久化的实时性更好。每执行一条更改Redis中的数据的命令，Redis就将该命令写进AOf缓冲区，AOF缓冲区根据对应的策略向硬盘做同步操作。</p>
+<p>默认情况下30秒执行一次同步操作。防止缓冲区数据丢失，也可以主动要求缓冲区数据同步到硬盘。</p>
+<p>![image-20220304212101222](C:\Users\Lu  sir\AppData\Roaming\Typora\typora-user-images\image-20220304212101222.png)</p>
+<p>![image-20220304212144748](C:\Users\Lu  sir\AppData\Roaming\Typora\typora-user-images\image-20220304212144748.png)</p>
+<p>优点：</p>
+<ol>
+<li>AOF可以更好的保证数据不丢失，可以配置AOF每秒执行一次fsync操作。</li>
+<li>AOF以append-only写入，没有磁盘寻址的开销</li>
+</ol>
+<h2 id="RDB和AOF如何选择"><a href="#RDB和AOF如何选择" class="headerlink" title="RDB和AOF如何选择"></a>RDB和AOF如何选择</h2><ol>
+<li>数据不敏感，可以从其他地方得到，使用RDB</li>
+<li>数据重要且能承受几分钟的数据丢失，使用RDB</li>
+<li>用内存存数据，需要持久化，RDB和AOF都开启</li>
+<li>值用AOF  优先使用everysec的配置</li>
+</ol>
+<p>当RDB和AOF都开启时，优先使用AOF恢复数据，因为更完成</p>
+<h3 id="Redis4-0的混合持久化"><a href="#Redis4-0的混合持久化" class="headerlink" title="Redis4.0的混合持久化"></a>Redis4.0的混合持久化</h3><p>![image-20220304192219013](C:\Users\Lu  sir\AppData\Roaming\Typora\typora-user-images\image-20220304192219013.png)</p>
+<p>AOF重写可以产生一个新的AOF文件。这个新的AOF文件和原有的AOF文件所保存的数据库状态一样，但体积更小。</p>
+<h2 id="Redis事务特性"><a href="#Redis事务特性" class="headerlink" title="Redis事务特性"></a>Redis事务特性</h2><ol>
+<li>单独的隔离操作：事务中的所有命令会被序列化、按顺序执行，在执行的过程中不会被其他客户端发送来的命令打断</li>
+<li>没有隔离级别的概念：队列中的命令在事务没有被提交之前不会被实际执行</li>
+<li>不保证原子性：redis中的一个事务中如果存在命令执行失败，那么其他命令依然会被执行，没有回滚机制</li>
+</ol>
+<blockquote>
+<p> 在redis中，对于一个存在问题的命令，如果在入队的时候就已经出错，整个事务内的命令将都不会被执行（其后续的命令依然可以入队），如果这个错误命令在入队的时候并没有报错，而是在执行的时候出错了，那么redis默认跳过这个命令执行后续命令。也就是说，redis只实现了部分事务。</p>
+</blockquote>
+<p>redis不支持事务回滚，不满足原子性。但是单条命令是原子性的。</p>
+<p>redis事务提供了一种将多个命令打包的功能。然后再按顺序执行打包中的所有命令。并且不会被打断。</p>
+<ol>
+<li>redis不支持回滚</li>
+<li>一个事务中的命令出现错误则所有命令都不执行</li>
+<li>一个事务中出现运行错误，正确的命令会被执行</li>
+</ol>
+<h2 id="Redis常见部署方式"><a href="#Redis常见部署方式" class="headerlink" title="Redis常见部署方式"></a>Redis常见部署方式</h2><ol>
+<li>单机版。很少使用。存在的问题：内存容量有限、处理能力有限、无法高可用</li>
+<li>主从模式。主结点挂掉好，需要重新指定master，可用性不高</li>
+<li>哨兵模式。哨兵进程主动选举新的Master，但是每个结点存储的数据是一样的，浪费内存空间。需要自动容错容灾时使用。</li>
+<li>Redis 集群。海量数据+高并发+高可用。主结点的容量总和就是集群可缓存的数据容量。</li>
+</ol>
+<p>主从复制：</p>
+<p>多个数据库之间的数据同步。主库写，从库读。</p>
+<p>![image-20220304214921699](C:\Users\Lu  sir\AppData\Roaming\Typora\typora-user-images\image-20220304214921699.png)</p>
+<p>哨兵机制：</p>
+<p>![image-20220304215303880](C:\Users\Lu  sir\AppData\Roaming\Typora\typora-user-images\image-20220304215303880.png)</p>
+<p>Redis Cluster</p>
+<h2 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h2><p>大量请求的key不存在与缓存中，导致请求直接到了数据库，根本没有走缓存。数据库中也返回空数据。（黑客攻击）。数据库中没数据则缓存中也不会有数据，两次无用的查询。    </p>
+<p>解决方法：</p>
+<ol>
+<li><p>做好参数校验，不合法的参数直接抛出异常返回给客户端。</p>
+</li>
+<li><p>缓存和数据库都查不到某个key的数据就写一个到redis中去并设置时间（尽量短一点）</p>
+</li>
+<li><p>布隆过滤器</p>
+<p>把所有可能的请求都放在布隆过滤器中。先判断发来的请求是否再布隆过滤器中。不存在的话就直接返回参数错误信息给客户端。</p>
+<p>存在小概率会误判。布隆过滤器说某个元素不在，就一定不在。</p>
+</li>
+</ol>
+<h2 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h2><p>缓存在同一时间大面积的失效，后面的请求都直接落到了数据库上，造成数据库短时间内承受了大量请求。</p>
+<p>又或者是</p>
+<p>大量访问数据（热点缓存）在某一个时刻大面积失效，导致请求都落在了数据库上。</p>
+<p>解决方法：</p>
+<ol>
+<li>采用Redis集群，避免单机问题造成整个缓存服务器都没发用。</li>
+<li>限流，避免同时处理大量请求。</li>
+</ol>
+<p>针对热点缓存失效情况：</p>
+<ol>
+<li>设置不同的失效时间比如随机设置缓存的失效时间</li>
+<li>缓存永不失效。</li>
+</ol>
+<h2 id="缓存击穿"><a href="#缓存击穿" class="headerlink" title="缓存击穿"></a>缓存击穿</h2><p>大量的请求同时查询一个正好失效的key，就会导致大量的请求落到数据库。</p>
+<p><strong>缓存击穿是查询失效的key，缓存穿透是查询一个不存在的key</strong></p>
+<p>解决方案：</p>
+<p>加分布式锁，第一个请求可以拿到锁，拿到锁的线程查询到了数据之后设置缓存，其他的线程获取锁失败后会等待50ms后重新缓存数据，避免大量的数据落到数据库。</p>
+<h2 id="缓存预热"><a href="#缓存预热" class="headerlink" title="缓存预热"></a>缓存预热</h2><p>系统上线后，将相关的缓存直接加到缓存系统中。避免用户请求时，先查询数据库，再更新缓存。</p>
+<h2 id="缓存降级"><a href="#缓存降级" class="headerlink" title="缓存降级"></a>缓存降级</h2><p>访问量剧增、服务器出现问题，需要保证服务是可用的，即使是有损服务。可以自动降级也可以人工降级。</p>
+<p>目的是为了防止redis服务故障，导致数据库跟着一起发生雪崩问题。对于不重要的缓存数据，可以服务降级。例如Redis出现问题时，不去数据库而是直接将默认值返回给用户。</p>
+<h2 id="缓存和数据库的一致性"><a href="#缓存和数据库的一致性" class="headerlink" title="缓存和数据库的一致性"></a>缓存和数据库的一致性</h2><ol>
+<li>先删除缓存再更新数据库，过程中有读的操作将读操作放在缓存队列中，顺序性保证写请求后才会执行读请求。若删除缓存失败则缓存与数据库数据相同，若成功若更新数据库失败，数据库中是旧数据，缓存中空数据，数据也保证一致性。成功的话更加一致</li>
+<li>先更新数据库再删除缓存，后续请求时将数据重新写回缓存。更新后数据库到删除缓存中间数据不一致。</li>
+<li>异步更新缓存。将操作命令封装到消息队列中，让redis自己去消费更新消息。</li>
+</ol>
+<h2 id="Redis的线程模型"><a href="#Redis的线程模型" class="headerlink" title="Redis的线程模型"></a>Redis的线程模型</h2><p>Redis内部使用文件事件处理器，这个文件事件处理器是单线程的，所以Redis才是单线程的。</p>
+<p>它采用IO多路复用机制同时监听多个socket，根据socket上的事件来选择对应的事件处理器处理。</p>
+<p>包括：</p>
+<ol>
+<li>多个socket</li>
+<li>IO多路复用程序</li>
+<li>文件事件分派器</li>
+<li>事件处理器</li>
+</ol>
+<p>多个socket：</p>
+<ol>
+<li>并发产生不同的操作</li>
+<li>每个操作对应不同的文件事件</li>
+<li>IO多路复用程序监听多个socket，将socket放入队列中排队</li>
+<li>事件分派器每次从队列中取出一个事件，把事件交给对应的事件处理器处理。</li>
+</ol>
+<h2 id="Redis如何实现消息队列？"><a href="#Redis如何实现消息队列？" class="headerlink" title="Redis如何实现消息队列？"></a>Redis如何实现消息队列？</h2><p>一般使用List结构作为队列，rpush生产消息,lpop消费消息。</p>
+<ul>
+<li>list有个指令是blpop，再没有消息的时候，会阻塞直到有消息来。</li>
+<li>使用pub/sub主题订阅者模式，可以实现1：N的消息队列。</li>
+<li>再消费者下线的情况下，生产者的消息会丢失，得使用更加专业的消息队列。如rq</li>
+</ul>
+<p>redis如何实现延时队列：</p>
+<p>![image-20220305110327513](C:\Users\Lu  sir\AppData\Roaming\Typora\typora-user-images\image-20220305110327513.png)</p>
+<h2 id="Redis分布式锁"><a href="#Redis分布式锁" class="headerlink" title="Redis分布式锁"></a>Redis分布式锁</h2><p>![image-20220305123043127](C:\Users\Lu  sir\AppData\Roaming\Typora\typora-user-images\image-20220305123043127.png)</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:2914475618@qq.com">Lu sir</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://a2914475618.github.io/2022/03/04/Redis%E9%9D%A2%E7%BB%8F/">https://a2914475618.github.io/2022/03/04/Redis%E9%9D%A2%E7%BB%8F/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://a2914475618.github.io" target="_blank">一位可可爱爱的编橙爱好者</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/1.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/03/05/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E7%BB%8F/"><img class="prev-cover" src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/1.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">操作系统面经</div></div></a></div><div class="next-post pull-right"><a href="/2022/03/04/MySQL%E9%9D%A2%E7%BB%8F/"><img class="next-cover" src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/1.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">MySQL面经</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/Touxiang.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Lu sir</div><div class="author-info__description">如风的少年</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">65</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">58</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">13</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/a2914475618"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">欢迎来到爱的小屋，爱你们哟</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Redis%E9%9D%A2%E7%BB%8F"><span class="toc-number">1.</span> <span class="toc-text">Redis面经</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E4%BB%80%E4%B9%88%E6%98%AFRedis%EF%BC%9F"><span class="toc-number">1.1.</span> <span class="toc-text">一、什么是Redis？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81Redis%E5%8D%95%E7%BA%BF%E7%A8%8B%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.2.</span> <span class="toc-text">二、Redis单线程模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81redis6-0%E4%B9%8B%E5%89%8D%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E4%BD%BF%E7%94%A8%E5%A4%9A%E7%BA%BF%E7%A8%8B"><span class="toc-number">1.3.</span> <span class="toc-text">三、redis6.0之前为什么不使用多线程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81redis6-0%E4%BB%A5%E5%90%8E%E4%B8%BA%E4%BD%95%E5%BC%95%E5%85%A5%E4%BA%86%E5%A4%9A%E7%BA%BF%E7%A8%8B%EF%BC%9F"><span class="toc-number">1.4.</span> <span class="toc-text">四、redis6.0以后为何引入了多线程？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81Memcached%E5%92%8CRedis%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">1.5.</span> <span class="toc-text">五、Memcached和Redis的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Keys%E5%91%BD%E4%BB%A4%E5%92%8CScan%E5%91%BD%E4%BB%A4"><span class="toc-number">1.6.</span> <span class="toc-text">Keys命令和Scan命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Redis%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-number">1.7.</span> <span class="toc-text">Redis基本数据结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E8%BF%87%E6%9C%9F"><span class="toc-number">1.8.</span> <span class="toc-text">缓存过期</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%87%E6%9C%9F%E7%9A%84%E5%88%A0%E9%99%A4%E7%AD%96%E7%95%A5"><span class="toc-number">1.8.1.</span> <span class="toc-text">过期的删除策略</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Redis%E5%86%85%E5%AD%98%E6%B7%98%E6%B1%B0%E6%9C%BA%E5%88%B6"><span class="toc-number">1.8.2.</span> <span class="toc-text">Redis内存淘汰机制</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Redis%E6%8C%81%E4%B9%85%E5%8C%96%E6%9C%BA%E5%88%B6"><span class="toc-number">1.9.</span> <span class="toc-text">Redis持久化机制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BF%AB%E7%85%A7%EF%BC%88RDB%EF%BC%89"><span class="toc-number">1.9.1.</span> <span class="toc-text">快照（RDB）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%AA%E8%BF%BD%E5%8A%A0%E6%96%87%E4%BB%B6%EF%BC%88AOF%EF%BC%89"><span class="toc-number">1.9.2.</span> <span class="toc-text">只追加文件（AOF）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RDB%E5%92%8CAOF%E5%A6%82%E4%BD%95%E9%80%89%E6%8B%A9"><span class="toc-number">1.10.</span> <span class="toc-text">RDB和AOF如何选择</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Redis4-0%E7%9A%84%E6%B7%B7%E5%90%88%E6%8C%81%E4%B9%85%E5%8C%96"><span class="toc-number">1.10.1.</span> <span class="toc-text">Redis4.0的混合持久化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Redis%E4%BA%8B%E5%8A%A1%E7%89%B9%E6%80%A7"><span class="toc-number">1.11.</span> <span class="toc-text">Redis事务特性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Redis%E5%B8%B8%E8%A7%81%E9%83%A8%E7%BD%B2%E6%96%B9%E5%BC%8F"><span class="toc-number">1.12.</span> <span class="toc-text">Redis常见部署方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F"><span class="toc-number">1.13.</span> <span class="toc-text">缓存穿透</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9"><span class="toc-number">1.14.</span> <span class="toc-text">缓存雪崩</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF"><span class="toc-number">1.15.</span> <span class="toc-text">缓存击穿</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E9%A2%84%E7%83%AD"><span class="toc-number">1.16.</span> <span class="toc-text">缓存预热</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E9%99%8D%E7%BA%A7"><span class="toc-number">1.17.</span> <span class="toc-text">缓存降级</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E5%92%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E4%B8%80%E8%87%B4%E6%80%A7"><span class="toc-number">1.18.</span> <span class="toc-text">缓存和数据库的一致性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Redis%E7%9A%84%E7%BA%BF%E7%A8%8B%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.19.</span> <span class="toc-text">Redis的线程模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Redis%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%EF%BC%9F"><span class="toc-number">1.20.</span> <span class="toc-text">Redis如何实现消息队列？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81"><span class="toc-number">1.21.</span> <span class="toc-text">Redis分布式锁</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/03/10/Java%E5%B9%B6%E5%8F%91/" title="Java并发"><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java并发"/></a><div class="content"><a class="title" href="/2022/03/10/Java%E5%B9%B6%E5%8F%91/" title="Java并发">Java并发</a><time datetime="2022-03-10T04:33:25.000Z" title="发表于 2022-03-10 12:33:25">2022-03-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/03/07/Java%E5%AE%B9%E5%99%A8/" title="Java容器"><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java容器"/></a><div class="content"><a class="title" href="/2022/03/07/Java%E5%AE%B9%E5%99%A8/" title="Java容器">Java容器</a><time datetime="2022-03-07T11:22:26.000Z" title="发表于 2022-03-07 19:22:26">2022-03-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/03/07/Java%E9%9D%A2%E7%BB%8F-0/" title="Java核心知识"><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java核心知识"/></a><div class="content"><a class="title" href="/2022/03/07/Java%E9%9D%A2%E7%BB%8F-0/" title="Java核心知识">Java核心知识</a><time datetime="2022-03-07T03:08:27.000Z" title="发表于 2022-03-07 11:08:27">2022-03-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/03/06/Kafka%E9%9D%A2%E7%BB%8F/" title="Kafka面经"><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Kafka面经"/></a><div class="content"><a class="title" href="/2022/03/06/Kafka%E9%9D%A2%E7%BB%8F/" title="Kafka面经">Kafka面经</a><time datetime="2022-03-06T10:42:57.000Z" title="发表于 2022-03-06 18:42:57">2022-03-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/03/05/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E7%BB%8F/" title="操作系统面经"><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="操作系统面经"/></a><div class="content"><a class="title" href="/2022/03/05/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E7%BB%8F/" title="操作系统面经">操作系统面经</a><time datetime="2022-03-05T06:30:03.000Z" title="发表于 2022-03-05 14:30:03">2022-03-05</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By Lu sir</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">我的肩上是风，风上是闪烁的星群</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'pc3JDCREMGoF3S3e4YzeC6kX-gzGzoHsz',
+      appKey: '01uhcP5vYPOKkVzxt5chIypp',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'en',
+      recordIP: false,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: false,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script src="js/jquery.min.js"></script><script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/gh/xiabo2/CDN@latest/fishes.js"></script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-heart.min.js" async="async" mobile="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/haruto.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body></html>

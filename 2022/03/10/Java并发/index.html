@@ -1,0 +1,318 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Java并发 | 一位可可爱爱的编橙爱好者</title><meta name="keywords" content="成长记录"><meta name="author" content="Lu sir,2914475618@qq.com"><meta name="copyright" content="Lu sir"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Java并发一、Java线程池核心参数与工作流程使用线程池的好处 降低资源消耗。通过重复利用已经创建的线程降低线程创建和销毁造成的消耗 提高响应速度。任务到达时，不需要等待线程的创建能立即执行 对线程的管理。线程无限制的创建。消耗系统资源，对线程统一的管理和监控  工作流程![image-20220310124016436](C:\Users\Lu  sir\AppData\Roaming\Typ">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java并发">
+<meta property="og:url" content="https://a2914475618.github.io/2022/03/10/Java%E5%B9%B6%E5%8F%91/index.html">
+<meta property="og:site_name" content="一位可可爱爱的编橙爱好者">
+<meta property="og:description" content="Java并发一、Java线程池核心参数与工作流程使用线程池的好处 降低资源消耗。通过重复利用已经创建的线程降低线程创建和销毁造成的消耗 提高响应速度。任务到达时，不需要等待线程的创建能立即执行 对线程的管理。线程无限制的创建。消耗系统资源，对线程统一的管理和监控  工作流程![image-20220310124016436](C:\Users\Lu  sir\AppData\Roaming\Typ">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/1.jpg">
+<meta property="article:published_time" content="2022-03-10T04:33:25.000Z">
+<meta property="article:modified_time" content="2022-03-10T08:52:51.716Z">
+<meta property="article:author" content="Lu sir">
+<meta property="article:tag" content="成长记录">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/1.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://a2914475618.github.io/2022/03/10/Java%E5%B9%B6%E5%8F%91/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-03-10 16:52:51'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><link rel="stylesheet" href="css/footer.css"><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="一位可可爱爱的编橙爱好者" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/Touxiang.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">65</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">58</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">13</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fas fa-comments"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/1.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">一位可可爱爱的编橙爱好者</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fas fa-comments"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Java并发</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-03-10T04:33:25.000Z" title="发表于 2022-03-10 12:33:25">2022-03-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-03-10T08:52:51.716Z" title="更新于 2022-03-10 16:52:51">2022-03-10</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>7分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Java并发"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="Java并发"><a href="#Java并发" class="headerlink" title="Java并发"></a>Java并发</h1><h2 id="一、Java线程池核心参数与工作流程"><a href="#一、Java线程池核心参数与工作流程" class="headerlink" title="一、Java线程池核心参数与工作流程"></a>一、Java线程池核心参数与工作流程</h2><h3 id="使用线程池的好处"><a href="#使用线程池的好处" class="headerlink" title="使用线程池的好处"></a>使用线程池的好处</h3><ol>
+<li>降低资源消耗。通过重复利用已经创建的线程降低线程创建和销毁造成的消耗</li>
+<li>提高响应速度。任务到达时，不需要等待线程的创建能立即执行</li>
+<li>对线程的管理。线程无限制的创建。消耗系统资源，对线程统一的管理和监控</li>
+</ol>
+<h3 id="工作流程"><a href="#工作流程" class="headerlink" title="工作流程"></a>工作流程</h3><p>![image-20220310124016436](C:\Users\Lu  sir\AppData\Roaming\Typora\typora-user-images\image-20220310124016436.png)</p>
+<ol>
+<li>线程池执行submit/execute时向线程池添加任务</li>
+<li>当任何小于核心线程数时，则创建新线程</li>
+<li>当大于了核心线程数时，判断阻塞队列是否已经满了，若没有满，则把线程任务添加到队列中</li>
+<li>若已经满了，则判断是否大于了最大的线程数，若大于了最大的线程数，则进行饱和策略否则就创建新线程</li>
+</ol>
+<h3 id="线程池的核心参数"><a href="#线程池的核心参数" class="headerlink" title="线程池的核心参数"></a>线程池的核心参数</h3><ol>
+<li>corePoolSize:核心线程大小。线程池运行，核心线程就不会停止。</li>
+<li>maximumPoolSize::线程池中最大的线程数量</li>
+<li>keepAliveTime:非核心线程空闲后，保持存活的时间</li>
+<li>workQuere：阻塞队列，用于存储等待运行的任务</li>
+<li>threadFactory:线程工厂。新建线程。每当线程池创建一个新的线程时都是通过线程工厂方法来完成的。</li>
+<li>RejectedExecutionHandler:拒绝策略处理新任务<ol>
+<li>AbortPolicy：默认策略，直接抛出RejectedExecutionException</li>
+<li>Discardpolicy：不处理，直接丢弃</li>
+<li>DiscardOldestPolicy：将等待队列队首的任务丢弃，执行当前任务</li>
+<li>CallerRunsPolicy：由线程之外的线程直接调用run执行</li>
+</ol>
+</li>
+</ol>
+<h3 id="线程池的类型"><a href="#线程池的类型" class="headerlink" title="线程池的类型"></a>线程池的类型</h3><ol>
+<li>FixedThreadPool。固定的线程数的线程池。</li>
+<li>SingleThreadExecutor。只有一个线程的线程池</li>
+<li>CachedThreadPool。根据需要创建新线程的线程池。如果主线程提交的任务高于线程处理任务的速度时，CachedThreadPool会不断创建新的线程。极端情况下会耗尽CPU的资源</li>
+<li>ScheduledThreadPoolExecutor。在给定的延迟后执行任务，或者定期执行任务。</li>
+</ol>
+<h3 id="合理配置线程池参数"><a href="#合理配置线程池参数" class="headerlink" title="合理配置线程池参数"></a>合理配置线程池参数</h3><p>看我们的业务是IO密集型还是CPU密集型</p>
+<ol>
+<li>CPU密集型：任务需要大量的计算，没有阻塞，CPU一直全速运行。N+1</li>
+<li>IO密集型：任务需要大量的IO，即大量的阻塞。故需要多配置线程数。2*N</li>
+</ol>
+<h2 id="二、Volatile底层原理"><a href="#二、Volatile底层原理" class="headerlink" title="二、Volatile底层原理"></a>二、Volatile底层原理</h2><p>volatile是轻量级的同步机制，volatile保证变量对所有线程的可见性，不保证原子性</p>
+<ol>
+<li>对volatile变量进行写操作时，JVM会向处理器发送一条LOCK前缀的命令，将该命令所在缓存行数据写回到系统内存</li>
+<li>由于缓存一致性协议，每个处理器通过嗅探在总线上传播的数据来检查自己的缓存是不是过期了，当处理器发现自己缓存行对应的内存地址被修改，就会把当前处理器的缓存行设置为无效状态，重新从系统内存中把数据读到处理器缓存中</li>
+</ol>
+<p>缓存一致性协议：CPU写数据时，发现操作的变量是共享变量，会发出信号通过其他CPU将该变量的缓存行设置为无效，从内存中重新读取</p>
+<p>作用：</p>
+<ol>
+<li><p>保证对共享变量的可见性</p>
+</li>
+<li><p>禁止指令重排序</p>
+<p>指令重排序是JVM为了优化指令，提高效率，不影响单线程程序结果的前提下进行的。</p>
+<p>对一个Volatile字段进行写操作，JAVA内存模型将在写操作后插入写屏障命令，把之前的写入都刷新到内存</p>
+</li>
+</ol>
+<h2 id="三、Synchronized"><a href="#三、Synchronized" class="headerlink" title="三、Synchronized"></a>三、Synchronized</h2><p>用法：</p>
+<ol>
+<li>修饰普通方法，锁定的是该对象实例</li>
+<li>修饰静态方法，锁定的是类对象，也就是给该类上锁  同等于静态代码块</li>
+<li>修饰代码块：指定加锁对象就给对象加锁，指定加锁类就是对该类加锁</li>
+</ol>
+<h3 id="底层原理："><a href="#底层原理：" class="headerlink" title="底层原理："></a>底层原理：</h3><ol>
+<li>synchronized修饰同步代码块是通过监视器锁，其中monitorenter执行同步代码块的开始位置，monitorexit指令则指明同步代码块的结束位置。当minotor被持有后，将处于锁定状态。monitor对象存放在每个java对象头中</li>
+<li>内部包含一个计数器，计数器为0则可以获取成功，获取后计数器置为1。释放锁时也要将锁计数器置为0</li>
+<li>synchronized修饰的方法并没有monitor相关指令，而是使用的是ACC_SYNCHRONIZED标识，表明为一个同步方法，JVM通过该标识来判断方法是否声明为一个同步方法，从而执行相应的异步调用</li>
+</ol>
+<p>synchronized和Lock的区别？</p>
+<ol>
+<li>synchronized可以给类、方法、代码块加锁，而Lock只能给代码块加锁</li>
+<li>synchronized不需要手动获取锁和释放锁。Lock需要自己加锁和释放锁，使用不当会造成死锁</li>
+<li>通过Lock可以直到有没有成功获取到锁，而synchronized并不知道</li>
+</ol>
+<h3 id="Synchronized和ReentrantLock的区别？"><a href="#Synchronized和ReentrantLock的区别？" class="headerlink" title="Synchronized和ReentrantLock的区别？"></a>Synchronized和ReentrantLock的区别？</h3><ol>
+<li>ReentrantLockLock需要显式的获取锁和释放锁</li>
+<li>都支持可重入的</li>
+<li>Synchronized是非公平锁，可能带来饥饿问题，ReentrantLock可以设置为公平锁，默认不公平</li>
+<li>ReentrantLock等待获取锁是可中断的，线程可以放弃获取锁，synchronized是无限期等待下去</li>
+<li>ReentrantLock可设置超时获取锁。在指定的时间内还没有获取到锁，则返回</li>
+<li>tryLock方法可以尝试非阻塞的获取锁，如果能获取就返回true，否则为false</li>
+</ol>
+<h3 id="synchronized锁升级原理"><a href="#synchronized锁升级原理" class="headerlink" title="synchronized锁升级原理"></a>synchronized锁升级原理</h3><ol>
+<li>在锁对象的对象头中有一个threadid字段，第一次访问为空,JVM让其持有偏向锁，将threadid设置为其线程Id</li>
+<li>再次进入时判断threadid是否与其线程id一致</li>
+<li>若一致则直接使用该对象</li>
+<li>若不一致则升级为轻量锁，通过自旋循坏来获取锁，执行一定次数后，若还没获取到该对象</li>
+<li>就升级为重量级锁，构成了synchronized的锁升级</li>
+</ol>
+<h3 id="锁优化"><a href="#锁优化" class="headerlink" title="锁优化"></a>锁优化</h3><ol>
+<li>锁消除：在JIT编译时，对运行上下文进行扫描，去除不可能存在竞争的锁。</li>
+<li>锁粗化：通过扩大锁的范围，避免反复加锁和释放锁。例如在循环体中加锁</li>
+<li>自旋锁和自适应锁：共享数据的锁定状态持续时间短，切换线程不值得，通过让线程循环等待锁的释放。当自旋一定次数时，就用传统方式去挂起线程。</li>
+<li>自适应锁也就是自旋的次数不固定，根据前一次在该锁的自旋时间和拥有者的状态来决定次数</li>
+</ol>
+<h3 id="引入偏向锁和轻量级锁目的"><a href="#引入偏向锁和轻量级锁目的" class="headerlink" title="引入偏向锁和轻量级锁目的"></a>引入偏向锁和轻量级锁目的</h3><p>重量级锁底层依赖于系统的同步函数来实现，在 linux 中使用 pthread_mutex_t（互斥锁）来实现。</p>
+<p>这些底层的同步函数操作会涉及到：操作系统用户态和内核态的切换、进程的上下文切换，而这些操作都是比较耗时的，因此重量级锁操作的开销比较大。</p>
+<p>在很多情况下，可能获取锁时只有一个线程，或者是多个线程交替获取锁，在这种情况下，使用重量级锁就不划算了，因此引入了偏向锁和轻量级锁来降低没有并发竞争时的锁开销。</p>
+<h3 id="CAS原理及实现"><a href="#CAS原理及实现" class="headerlink" title="CAS原理及实现"></a>CAS原理及实现</h3><p>Compare and swap 即比较和交换。具体的实现在Atomic包下的类</p>
+<p>CAS是一种无锁的非阻塞算法的实现</p>
+<ul>
+<li><p>CAS 包含了 3 个操作数：</p>
+<p>需要读写的内存值 V</p>
+<p>旧的预期值 A</p>
+<p>要修改的更新值 B</p>
+</li>
+<li><p>当且仅当 V 的值等于 A 时，CAS 通过原子方式用新值 B 来更新 V 的 值，否则不会执行任何操作（他的功能是判断内存某个位置的值是否为预期值，如果是则更改为新的值，这个过程是原子的。）</p>
+</li>
+</ul>
+<p>缺陷：</p>
+<ol>
+<li><p>ABA问题</p>
+<p>通过AtomicStampedReference解决，带有标记的原子引用类，通过控制变量值的版本保证正确性</p>
+</li>
+<li><p>循环时间开销</p>
+</li>
+<li><p>只能保证一个变量的原子操作。硬件造成，每次只能对一个赋值</p>
+<ol>
+<li>使用互斥锁</li>
+<li>Java从1.5开始JDK提供了AtomicReference类来保证引用对象之间的原子性，可以把多个变量放在 一个对象里来进行CAS操作。</li>
+</ol>
+</li>
+</ol>
+<h2 id="四、ThreadLocal"><a href="#四、ThreadLocal" class="headerlink" title="四、ThreadLocal"></a>四、ThreadLocal</h2><p>ThreadLocal，即线程本地变量。如果你创建了一个ThreadLocal变量，那么访问这个变量的每个线程都会有这个变量的一个本地拷贝，多个线程操作这个变量的时候，实际是操作自己本地内存里面的变量，从而起到线程隔离的作用，避免了线程安全问题。</p>
+<ol>
+<li>每一个线程都有属于自己的一个threadLocalMap对象，key就是threadlocal本身，value就是threadlocal对应的泛型值</li>
+<li>每个线程都往自己的threadlocalMap中存，实现了线程隔离</li>
+</ol>
+<p>内存泄漏：</p>
+<ol>
+<li>每个Thread都有⼀个ThreadLocalMap的内部属性，map的key是ThreaLocal，定义为弱引用，value是 强引用类型。</li>
+<li>GC的时候会自动回收key，而value的回收取决于Thread对象的生命周期。</li>
+<li>一般会通过线 程池的方式复用Thread对象节省资源，这也就导致了Thread对象的生命周期比较长，这样便一直存在一 条强引用链的关系：Thread –&gt; ThreadLocalMap–&gt;Entry–&gt;Value</li>
+<li>随着任务的执行，value就有可能 越来越多且无法释放，最终导致内存泄漏。</li>
+</ol>
+<p>解决方法：使用完threadlocal后，及时调用remove方法释放内存空间</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:2914475618@qq.com">Lu sir</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://a2914475618.github.io/2022/03/10/Java%E5%B9%B6%E5%8F%91/">https://a2914475618.github.io/2022/03/10/Java%E5%B9%B6%E5%8F%91/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://a2914475618.github.io" target="_blank">一位可可爱爱的编橙爱好者</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/1.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2022/03/07/Java%E5%AE%B9%E5%99%A8/"><img class="next-cover" src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/1.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Java容器</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/Touxiang.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Lu sir</div><div class="author-info__description">如风的少年</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">65</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">58</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">13</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/a2914475618"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">欢迎来到爱的小屋，爱你们哟</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Java%E5%B9%B6%E5%8F%91"><span class="toc-number">1.</span> <span class="toc-text">Java并发</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81Java%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%A0%B8%E5%BF%83%E5%8F%82%E6%95%B0%E4%B8%8E%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="toc-number">1.1.</span> <span class="toc-text">一、Java线程池核心参数与工作流程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E5%A5%BD%E5%A4%84"><span class="toc-number">1.1.1.</span> <span class="toc-text">使用线程池的好处</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="toc-number">1.1.2.</span> <span class="toc-text">工作流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E6%A0%B8%E5%BF%83%E5%8F%82%E6%95%B0"><span class="toc-number">1.1.3.</span> <span class="toc-text">线程池的核心参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.1.4.</span> <span class="toc-text">线程池的类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%88%E7%90%86%E9%85%8D%E7%BD%AE%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%8F%82%E6%95%B0"><span class="toc-number">1.1.5.</span> <span class="toc-text">合理配置线程池参数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81Volatile%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86"><span class="toc-number">1.2.</span> <span class="toc-text">二、Volatile底层原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81Synchronized"><span class="toc-number">1.3.</span> <span class="toc-text">三、Synchronized</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%EF%BC%9A"><span class="toc-number">1.3.1.</span> <span class="toc-text">底层原理：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Synchronized%E5%92%8CReentrantLock%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-number">1.3.2.</span> <span class="toc-text">Synchronized和ReentrantLock的区别？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#synchronized%E9%94%81%E5%8D%87%E7%BA%A7%E5%8E%9F%E7%90%86"><span class="toc-number">1.3.3.</span> <span class="toc-text">synchronized锁升级原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%94%81%E4%BC%98%E5%8C%96"><span class="toc-number">1.3.4.</span> <span class="toc-text">锁优化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E5%85%A5%E5%81%8F%E5%90%91%E9%94%81%E5%92%8C%E8%BD%BB%E9%87%8F%E7%BA%A7%E9%94%81%E7%9B%AE%E7%9A%84"><span class="toc-number">1.3.5.</span> <span class="toc-text">引入偏向锁和轻量级锁目的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CAS%E5%8E%9F%E7%90%86%E5%8F%8A%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.3.6.</span> <span class="toc-text">CAS原理及实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81ThreadLocal"><span class="toc-number">1.4.</span> <span class="toc-text">四、ThreadLocal</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/03/10/Java%E5%B9%B6%E5%8F%91/" title="Java并发"><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java并发"/></a><div class="content"><a class="title" href="/2022/03/10/Java%E5%B9%B6%E5%8F%91/" title="Java并发">Java并发</a><time datetime="2022-03-10T04:33:25.000Z" title="发表于 2022-03-10 12:33:25">2022-03-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/03/07/Java%E5%AE%B9%E5%99%A8/" title="Java容器"><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java容器"/></a><div class="content"><a class="title" href="/2022/03/07/Java%E5%AE%B9%E5%99%A8/" title="Java容器">Java容器</a><time datetime="2022-03-07T11:22:26.000Z" title="发表于 2022-03-07 19:22:26">2022-03-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/03/07/Java%E9%9D%A2%E7%BB%8F-0/" title="Java核心知识"><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java核心知识"/></a><div class="content"><a class="title" href="/2022/03/07/Java%E9%9D%A2%E7%BB%8F-0/" title="Java核心知识">Java核心知识</a><time datetime="2022-03-07T03:08:27.000Z" title="发表于 2022-03-07 11:08:27">2022-03-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/03/06/Kafka%E9%9D%A2%E7%BB%8F/" title="Kafka面经"><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Kafka面经"/></a><div class="content"><a class="title" href="/2022/03/06/Kafka%E9%9D%A2%E7%BB%8F/" title="Kafka面经">Kafka面经</a><time datetime="2022-03-06T10:42:57.000Z" title="发表于 2022-03-06 18:42:57">2022-03-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/03/05/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E7%BB%8F/" title="操作系统面经"><img src="https://cdn.jsdelivr.net/gh/a2914475618/github-jsdelivr-@main/img/1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="操作系统面经"/></a><div class="content"><a class="title" href="/2022/03/05/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E7%BB%8F/" title="操作系统面经">操作系统面经</a><time datetime="2022-03-05T06:30:03.000Z" title="发表于 2022-03-05 14:30:03">2022-03-05</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By Lu sir</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">我的肩上是风，风上是闪烁的星群</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'pc3JDCREMGoF3S3e4YzeC6kX-gzGzoHsz',
+      appKey: '01uhcP5vYPOKkVzxt5chIypp',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'en',
+      recordIP: false,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: false,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script src="js/jquery.min.js"></script><script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/gh/xiabo2/CDN@latest/fishes.js"></script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-heart.min.js" async="async" mobile="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/haruto.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body></html>
